@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.User;
 import com.cybage.util.DbUtil;
 
 public class UserDaoImpl implements UserDao {
@@ -76,6 +77,52 @@ public class UserDaoImpl implements UserDao {
 				courseList.add(course);
 			}
 			return courseList;
+		}
+//-----------------------------User Registration--------------------------------
+		public int registerUser(User registerUser)  throws SQLException  {
+			Connection connection = DbUtil.getCon();
+			String sql = "insert into user(full_name, user_name, user_password, user_role, user_security_question, user_security_answer)"+"values( ? , ? , ? , ?, ? , ?)";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			registerUser.setUserId((int)Math.random());
+//			ps.setInt(1, registerUser.getUserId());
+			ps.setString(1, registerUser.getFullName());
+			ps.setString(2, registerUser.getUserName());
+			ps.setString(3, registerUser.getPassword());
+			ps.setString(4, "user");
+			System.out.println(registerUser);
+			ps.setString(5, registerUser.getUserSecurityQuestion());
+			ps.setString(6, registerUser.getUserSecurityAnswer());
+			  return ps.executeUpdate();     //throw an exception if result set is less then 0
+			
+		
+		
+			
+		}
+
+		public List<Course> findCourses(int categoryId) throws Exception {
+			Connection con = DbUtil.getCon();
+
+			String sql = "select course_id,course_name,course_price,course_duration,course_author,course_description,image_url,total_sub_course from course where category_id = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1,categoryId);
+			ResultSet rs = ps.executeQuery();
+			
+			
+			List<Course> courses = new ArrayList<Course>();
+			while (rs.next()) {
+				Course course = new Course();
+				course.setCourseId(rs.getInt(1));
+				course.setCourseName(rs.getString(2));
+				course.setCoursePrice(rs.getInt(3));
+				course.setCourseDuration(rs.getInt(4));
+				course.setCourseAuthor(rs.getString(5));
+				course.setCourseDescription(rs.getString(6));
+				course.setImageUrl(rs.getString(7));
+				course.setTotalSubCourse(rs.getInt(8));
+
+				courses.add(course);
+			}
+			return courses;
 		}
 
 

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@page isELIgnored="false" %>	
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +23,7 @@
 	href="<%=request.getContextPath()%>/webjars/bootstrap/4.5.3/css/bootstrap.css"
 	rel="stylesheet">
 
-<!--  custom css here -->
+<!----------------------  custom css here ---------------------------->
 
 </head>
 <style>
@@ -153,10 +155,10 @@ body {
 			<ul class="navbar-nav mr-auto ">
 				
 				<li class="nav-item">
-					<button   class="btn btn-outline-primary ">
-						DROP DOWN
+					<button   class="btn btn-outline-primary " >
+						<%=request.getRemoteUser() %>
 					</button>
-				</li>
+				</li> 
 			</ul>
 		</div>
 	</nav>

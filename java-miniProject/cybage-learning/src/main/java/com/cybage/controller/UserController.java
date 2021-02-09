@@ -2,6 +2,7 @@ package com.cybage.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ import com.cybage.dao.UserDaoImpl;
 import com.cybage.service.UserService;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.User;
 import com.cybage.service.UserServiceImpl;
 
 @ServletSecurity(value = @HttpConstraint(rolesAllowed = {"user"}))
@@ -37,15 +39,14 @@ public class UserController extends HttpServlet {
 			throws ServletException, IOException {
 
 		PrintWriter pw = response.getWriter();
-
 		String path = request.getPathInfo();
 
 		if (path.equals("/list")) {
 			try {
 				List<Category> categories = userService.findCategory();
-				request.setAttribute("categories", categories);
+				request.setAttribute("categoryList", categories);
 
-				request.getRequestDispatcher("/index.jsp").forward(request, response);
+				request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 
 			} catch (Exception e) {
 				System.out.println("error occurred: " + e.getMessage());
@@ -54,6 +55,12 @@ public class UserController extends HttpServlet {
 		
 		if(path.equals("/search")) {
 			String search_string = request.getParameter("search");
+		System.out.println(search_string);
+			if(search_string == null)
+			{
+				request.getRequestDispatcher("/list").forward(request, response);
+			}
+			else {
 			List<Category> categoryList = new ArrayList<Category>();
 			List<Course> courseList = new ArrayList<Course>();
 			try {
@@ -67,8 +74,43 @@ public class UserController extends HttpServlet {
 			request.setAttribute("categoryList",categoryList);	
 			request.setAttribute("courseList", courseList);
 			
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
+			}
+		}
+		//---------------------------------------registration-----------------------------------------------------
+		if (path.equals("/registration")) {
+			User registerUser = new User();
+			String fullName = request.getParameter("fullName");
+			String username = request.getParameter("userName");
+			String password = request.getParameter("userPassword");
+			String securityQuestion = request.getParameter("security1");
+			String securityAnswer = request.getParameter("securityAnswer");
+
+			User user = new User(fullName, username, password,securityQuestion,securityAnswer);
 			
+			try {
+				int success = userService.registerUser(user);
+				response.sendRedirect("index.jsp");
+
+			} catch (Exception e) {
+				System.out.println("error occurred: " + e.getMessage());
+			}
+		}
+		
+//		---------------------------Course----------------------
+		if (path.equals("/course")) {
+			System.out.println("inside course method....");
+			int cat_id = (Integer.parseInt(request.getParameter("id")));
+			System.out.println(cat_id);
+			try {
+				List<Course> courses = userService.findCourses(cat_id);
+				request.setAttribute("courseList", courses);
+
+				request.getRequestDispatcher("/user/user-courses.jsp").forward(request, response);
+
+			} catch (Exception e) {
+				System.out.println("error occurred: " + e.getMessage());
+			}
 		}
 		}
 		
@@ -78,13 +120,13 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	PrintWriter pw = response.getWriter();
 
 	String path = request.getPathInfo();
-
+//-------------------------------------------display category and course list-------------------------------------------
 	if (path.equals("/list")) {
 		try {
 			List<Category> categories = userService.findCategory();
-			request.setAttribute("categories", categories);
+			request.setAttribute("categoryList", categories);
 
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 
 		} catch (Exception e) {
 			System.out.println("error occurred: " + e.getMessage());
@@ -102,10 +144,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		request.setAttribute("categories",categoryList);	
+		request.setAttribute("categoryList",categoryList);	
 		request.setAttribute("courseList", courseList);
 		
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
+		request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 	}
 	
 	if (path.equals("/open")) {
@@ -118,5 +160,23 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			System.out.println("error occurred: " + e.getMessage());
 		}
 	}
-}
+	//---------------------------------------registration-----------------------------------------------------
+			if (path.equals("/registration")) {
+				String fullName = request.getParameter("fullName");
+				String username = request.getParameter("userName");
+				String password = request.getParameter("userPassword");
+				String securityQuestion = request.getParameter("security1");
+				String securityAnswer = request.getParameter("securityAnswer");
+
+				User user = new User(fullName, username, password,securityQuestion,securityAnswer);
+				
+				try {
+					int success = userService.registerUser(user);
+					response.sendRedirect("/index.jsp");
+
+				} catch (Exception e) {
+					System.out.println("error occurred: " + e.getMessage());
+				}
+			}
+			}
 }

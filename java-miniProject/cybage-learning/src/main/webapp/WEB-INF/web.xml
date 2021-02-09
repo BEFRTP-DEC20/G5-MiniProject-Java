@@ -10,19 +10,51 @@
 		<description></description>
 		<servlet-class>com.cybage.controller.UserController</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>VisitorController</servlet-name>
+		<display-name>VisitorController</display-name>
+		<description></description>
+		<servlet-class>com.cybage.controller.VisitorController</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AppController</servlet-name>
+		<display-name>AppController</display-name>
+		<description></description>
+		<servlet-class>com.cybage.controller.AppController</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>UserController</servlet-name>
 		<url-pattern>/UserController/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>VisitorController</servlet-name>
+		<url-pattern>/VisitorController/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AppController</servlet-name>
+		<url-pattern>/AppController</url-pattern>
+	</servlet-mapping>
 
-	<security-constraint>
+	<!-- <security-constraint>
 		<web-resource-collection>
-			<web-resource-name>search</web-resource-name>
-			<url-pattern>/UserController/open</url-pattern>
+			<web-resource-name>cybage-learning</web-resource-name>
+			<url-pattern>/user/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<description>Let only user use this application</description>
 			<role-name>user</role-name>
+		</auth-constraint>
+	</security-constraint> -->
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>cybage-learning</web-resource-name>
+			<url-pattern>/AppController</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Let only user use this application</description>
+			<role-name>user</role-name>
+			<role-name>admin</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<login-config>
