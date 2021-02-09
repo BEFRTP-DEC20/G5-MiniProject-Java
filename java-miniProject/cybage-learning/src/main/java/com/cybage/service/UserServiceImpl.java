@@ -7,6 +7,7 @@ import com.cybage.dao.UserDao;
 import com.cybage.dao.UserDaoImpl;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.User;
 
 public class UserServiceImpl implements UserService {
 	private UserDao userDao;
@@ -30,4 +31,17 @@ public class UserServiceImpl implements UserService {
 		
 		return userDao.searchByCourse(searchString);
 	}
+
+
+	public int registerUser(User registerUser) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.registerUser(registerUser);
+	}
+
+	public List<Course> findCourses(int categoryId) throws Exception {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.findCourses(categoryId);
+	}
+
+	
 }

@@ -144,7 +144,7 @@ body {
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
 			<form class="form-inline my-2 my-lg-0"
-				action="<%=request.getContextPath()%>/UserController/search"
+				action="<%=request.getContextPath()%>/VisitorController/search"
 				method="post">
 				<input class="form-control mr-sm-2" type="search"
 					placeholder="Search" aria-label="Search" name="search">
@@ -153,11 +153,15 @@ body {
 			<ul class="navbar-nav mr-auto ">
 				
 				<li class="nav-item">
-					<button href="#myModal"  data-toggle="modal" class="btn btn-outline-primary ">
+					<!-- <button href="#myModal"  data-toggle="modal" class="btn btn-outline-primary ">
 						<a  data-href="login.jsp"
-							class="openBtn ">Log In</a>
-					</button>
+							class="openBtn " href="/AppController">Log In</a>
+					</button> -->
 				
+				<a href="<%=request.getContextPath()%>/AppController" class="btn btn-outline-primary">Login</a>
+				<a href="registration.jsp"><button class="btn btn-outline-info ">
+						Register
+					</button></a>
 
 					<div id="myModal" class="modal fade">
 						<div class="modal-dialog modal-login">
@@ -172,7 +176,8 @@ body {
 									<button type="button" class="close" data-dismiss="modal"
 										aria-hidden="true">&times;</button>
 								</div>
-								<div class="modal-body"></div>
+								<div class="modal-body">
+								</div>
 								<div class="modal-footer">
 									<a href="<%=request.getContextPath()%>/UserController/search">Forgot
 										Password?</a>

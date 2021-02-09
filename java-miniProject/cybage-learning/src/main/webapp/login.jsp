@@ -12,3 +12,5 @@
 			class="btn btn-primary btn-lg btn-block login-btn">Login</button>
 	</div>
 </form>
+
+<jsp:include page="registration.jsp"></jsp:include>

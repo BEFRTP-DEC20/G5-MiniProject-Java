@@ -2,20 +2,29 @@ package com.cybage.model;
 
 public class User {
 	private int userId;
-	private String fullName, userName, password;
-	public User(int userId, String fullName, String userName, String password) {
-		super();
-		this.userId = userId;
-		this.fullName = fullName;
-		this.userName = userName;
-		this.password = password;
-	}
+	private String fullName, userName, password, role,userSecurityQuestion, userSecurityAnswer;
 	
-	public User(String fullName, String userName, String password) {
+	
+	
+	public User() {
 		super();
-	    this.fullName = fullName;
-		this.userName = userName;
-		this.password = password;
+		this.fullName = null;
+		this.userName = null;
+		this.password = null;
+		this.userSecurityQuestion = null;
+		this.userSecurityAnswer = null;
+	}
+
+
+	public User(String fullName2, String username2, String password2, String securityQuestion, String securityAnswer) {
+		super();
+		this.userId=-1;
+		this.fullName = fullName2;
+		this.userName = username2;
+		this.password = password2;
+		this.role = "user";
+		this.userSecurityQuestion = securityQuestion;
+		this.userSecurityAnswer = securityAnswer;
 	}
 
 	public int getUserId() {
@@ -50,11 +59,38 @@ public class User {
 		this.password = password;
 	}
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getUserSecurityQuestion() {
+		return userSecurityQuestion;
+	}
+
+	public void setUserSecurityQuestion(String userSecurityQuestion) {
+		this.userSecurityQuestion = userSecurityQuestion;
+	}
+
+	public String getUserSecurityAnswer() {
+		return userSecurityAnswer;
+	}
+
+	public void setUserSecurityAnswer(String userSecurityAnswer) {
+		this.userSecurityAnswer = userSecurityAnswer;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", fullName=" + fullName + ", userName=" + userName + ", password=" + password
-				+ "]";
+				+ ", role=" + role + ", userSecurityQuestion=" + userSecurityQuestion + ", userSecurityAnswer="
+				+ userSecurityAnswer + "]";
 	}
+
+	
 	
 	
 }
