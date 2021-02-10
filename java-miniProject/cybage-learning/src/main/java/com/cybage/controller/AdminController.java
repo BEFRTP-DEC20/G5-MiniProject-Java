@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,10 +34,9 @@ public class AdminController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, UserException, IOException{
+			throws ServletException, IOException{
 		
 		String path = request.getPathInfo();
-		HttpSession session = request.getSession();
 		
 		//For adding a category.
 		if (path.equals("/addCategory")) {
@@ -56,6 +54,10 @@ public class AdminController extends HttpServlet {
 			} catch (SQLException e) {
 //				log.error("exception occurred... " + e.getLocalizedMessage());
 				System.out.println(e.getLocalizedMessage());
+			}
+			catch (UserException u) {
+//				log.error("exception occurred... " + e.getLocalizedMessage());
+				System.out.println(u.getLocalizedMessage());
 			}
 		}
 		
@@ -91,6 +93,9 @@ public class AdminController extends HttpServlet {
 					System.out.println(e.getLocalizedMessage());
 				} catch(NumberFormatException e) {
 					System.out.println(e.getLocalizedMessage());
+				} catch (UserException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		
@@ -111,6 +116,9 @@ public class AdminController extends HttpServlet {
 					} catch (SQLException e) {
 //						log.error("exception occurred... " + e.getLocalizedMessage());
 						System.out.println(e.getLocalizedMessage());
+					} catch (UserException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 		
@@ -124,7 +132,7 @@ public class AdminController extends HttpServlet {
 					int categoryId = Integer.parseInt(request.getParameter("cid"));
 					String courseName = request.getParameter("courseName");
 					int coursePrice = Integer.parseInt(request.getParameter("coursePrice"));
-					String courseDuration = request.getParameter("courseDuration");
+					int courseDuration = Integer.parseInt(request.getParameter("courseDuration"));
 					String courseAuthor = request.getParameter("courseAuthor");
 					String courseDescription = request.getParameter("courseDescription");
 					int totalSubCourse = Integer.parseInt(request.getParameter("totalSubCourse"));
@@ -140,6 +148,9 @@ public class AdminController extends HttpServlet {
 					} catch (SQLException e) {
 //						log.error("exception occurred... " + e.getLocalizedMessage());
 						System.out.println(e.getLocalizedMessage());
+					} catch (UserException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 				
@@ -164,12 +175,12 @@ public class AdminController extends HttpServlet {
 					int courseId = Integer.parseInt(request.getParameter("courseId"));
 					String courseName = request.getParameter("courseName");
 					int coursePrice = Integer.parseInt(request.getParameter("coursePrice"));
-					String courseDuration = request.getParameter("courseDuration");
+					int courseDuration = Integer.parseInt(request.getParameter("courseDuration"));
 					String courseAuthor = request.getParameter("courseAuthor");
 					String courseDescription = request.getParameter("courseDescription");
 					int totalSubCourse = Integer.parseInt(request.getParameter("totalSubCourse"));
 					String imageUrl = request.getParameter("imageUrl");
-					Course course = new Course(courseName, courseAuthor, courseDescription, imageUrl, courseId , courseDuration, coursePrice, totalSubCourse);
+					Course course = new Course(courseId , courseName, courseAuthor, courseDescription, imageUrl, courseDuration, coursePrice, totalSubCourse);
 					try {
 						int addCount = adminService.updateCourse(course);
 						if (addCount <= 0) {
@@ -180,6 +191,9 @@ public class AdminController extends HttpServlet {
 					} catch (SQLException e) {
 //						log.error("exception occurred... " + e.getLocalizedMessage());
 						System.out.println(e.getLocalizedMessage());
+					} catch (UserException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				} 
 				
@@ -198,6 +212,9 @@ public class AdminController extends HttpServlet {
 							System.out.println(e.getLocalizedMessage());
 						} catch(NumberFormatException e) {
 							System.out.println(e.getLocalizedMessage());
+						} catch (UserException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}
 	}

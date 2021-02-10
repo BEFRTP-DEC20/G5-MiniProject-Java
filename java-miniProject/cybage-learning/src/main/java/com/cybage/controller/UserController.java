@@ -2,9 +2,7 @@ package com.cybage.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Console;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -38,7 +36,6 @@ public class UserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		PrintWriter pw = response.getWriter();
 		String path = request.getPathInfo();
 
 		if (path.equals("/list")) {
@@ -79,7 +76,6 @@ public class UserController extends HttpServlet {
 		}
 		//---------------------------------------registration-----------------------------------------------------
 		if (path.equals("/registration")) {
-			User registerUser = new User();
 			String fullName = request.getParameter("fullName");
 			String username = request.getParameter("userName");
 			String password = request.getParameter("userPassword");
@@ -90,7 +86,8 @@ public class UserController extends HttpServlet {
 			
 			try {
 				int success = userService.registerUser(user);
-				response.sendRedirect("index.jsp");
+				if(success==1)
+					response.sendRedirect("index.jsp");
 
 			} catch (Exception e) {
 				System.out.println("error occurred: " + e.getMessage());
@@ -117,7 +114,6 @@ public class UserController extends HttpServlet {
 	
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-	PrintWriter pw = response.getWriter();
 
 	String path = request.getPathInfo();
 //-------------------------------------------display category and course list-------------------------------------------
@@ -149,17 +145,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		
 		request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 	}
-	
-	if (path.equals("/open")) {
-		try {
-			
-
-			request.getRequestDispatcher("/footer.jsp").forward(request, response);
-
-		} catch (Exception e) {
-			System.out.println("error occurred: " + e.getMessage());
-		}
-	}
 	//---------------------------------------registration-----------------------------------------------------
 			if (path.equals("/registration")) {
 				String fullName = request.getParameter("fullName");
@@ -172,7 +157,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 				
 				try {
 					int success = userService.registerUser(user);
-					response.sendRedirect("/index.jsp");
+					if(success==1)
+						response.sendRedirect("/index.jsp");
 
 				} catch (Exception e) {
 					System.out.println("error occurred: " + e.getMessage());
