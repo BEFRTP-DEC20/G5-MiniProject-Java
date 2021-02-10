@@ -7,6 +7,8 @@ import com.cybage.dao.UserDao;
 import com.cybage.dao.UserDaoImpl;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.CurrentVideo;
+import com.cybage.model.SubCourse;
 import com.cybage.model.User;
 
 public class UserServiceImpl implements UserService {
@@ -46,6 +48,21 @@ public class UserServiceImpl implements UserService {
 	public List<Course> findEnrolledCourses(String userName) throws SQLException {
 		UserDao userDao = new UserDaoImpl();
 		return userDao.findEnrolledCourses(userName);
+	}
+
+	public List<SubCourse> findSubCourse() throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.findSubCourse() ;
+	}
+
+	public int getCurrentVideo(int courseid) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.getCurrentVideo( courseid);
+	}
+
+	public int updateCurrentVideo(CurrentVideo currentVideo) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.updateCurrentVideo(currentVideo);
 	}
 
 	

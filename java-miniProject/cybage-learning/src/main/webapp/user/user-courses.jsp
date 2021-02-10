@@ -20,6 +20,25 @@
 <div class="contrainer-fluid">
 <div class="row">
 
+<%if((request.getAttribute("enrolledList"))!=null) {
+ out.print("<h1>ENROLLED COURSES</h1>");
+		List<Course> course = (List) request.getAttribute("enrolledList");
+		for (Course c : course) {
+			out.print("<div class='col-md-6  col-sm-12'>");
+			out.print("<div class='card' >");
+			out.print("<img class='card-img-top' src='" + c.getImageUrl() + "'>");
+			out.print("<div class='card-body'>");
+			out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>'");
+			out.print("<p class='card-text'>"+c.getCourseDescription()+"</p>");
+			out.print(
+					"<a href='/UserController/start-course?id="+c.getCourseId()+"&amp;vid=0' class='btn btn-primary'>Continue Courses(ADD THE VIDEO PAGE LINK)</a>");
+			out.print("</div>");
+			out.print("</div>");
+			out.print("</div>");
+		}
+	}
+	
+%>
 
 <%if((request.getAttribute("courseList"))!=null) {
 		List<Course> course = (List) request.getAttribute("courseList");
@@ -29,9 +48,10 @@
 			out.print("<img class='card-img-top' src='" + c.getImageUrl() + "'>");
 			out.print("<div class='card-body'>");
 			out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>'");
-			
+			out.print("<p class='card-text'>ABOUT COURSE:<br>"+c.getCourseDescription()+"</p>");
+			out.print("<p class='card-text'>COURSE PRICE: "+c.getCoursePrice()+"&#8377</p>");
 			out.print(
-					"<a href='courses.jsp?id="+c.getCourseId()+"' class='btn btn-primary'>Start Courses</a>");
+					"<a href='UserController/start-course?id="+c.getCourseId()+"&amp;vid=0' class='btn btn-primary'>Start Courses</a>");
 			out.print("</div>");
 			out.print("</div>");
 			out.print("</div>");
