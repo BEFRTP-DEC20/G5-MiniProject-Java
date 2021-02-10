@@ -4,9 +4,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>logged out</title>
 </head>
 <body>
-
+	<%
+		session.invalidate();
+	%>
+	
+	<jsp:include page="index.jsp"></jsp:include>
 </body>
 </html>

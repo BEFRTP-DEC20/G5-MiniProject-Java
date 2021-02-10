@@ -21,6 +21,7 @@ import com.cybage.model.Category;
 import com.cybage.model.Course;
 import com.cybage.model.User;
 import com.cybage.service.UserServiceImpl;
+import com.mysql.cj.Session;
 
 @ServletSecurity(value = @HttpConstraint(rolesAllowed = {"user"}))
 public class UserController extends HttpServlet {
@@ -43,6 +44,7 @@ public class UserController extends HttpServlet {
 
 		if (path.equals("/list")) {
 			try {
+//				
 				List<Category> categories = userService.findCategory();
 				request.setAttribute("categoryList", categories);
 
@@ -160,7 +162,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			System.out.println("error occurred: " + e.getMessage());
 		}
 	}
-	//---------------------------------------registration-----------------------------------------------------
+	//---------------------------------------user registration-----------------------------------------------------
 			if (path.equals("/registration")) {
 				String fullName = request.getParameter("fullName");
 				String username = request.getParameter("userName");
@@ -178,5 +180,18 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 					System.out.println("error occurred: " + e.getMessage());
 				}
 			}
-			}
+//------------------------------user profile----------------------------------------
+			if(path.equals("/profile")) {
+				try {
+					
+					String fullName = request.getParameter("fullName");
+					String userName = request.getParameter("userName");
+					String password = request.getParameter("password");
+					
+				}catch(Exception e) {
+					System.out.println("error occurred: " + e.getMessage());
+				}
+			}		
+		}
+
 }
