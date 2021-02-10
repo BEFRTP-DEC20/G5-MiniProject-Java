@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.CurrentVideo;
+import com.cybage.model.SubCourse;
 import com.cybage.model.User;
 
 public interface UserService {
@@ -15,4 +17,7 @@ public interface UserService {
 	public int registerUser(User registerUser) throws SQLException;
 	public List<Course> findCourses(int categoryId) throws Exception;
 	public List<Course> findEnrolledCourses(String userName) throws SQLException;
+	public List<SubCourse> findSubCourse(int courseid) throws SQLException;
+	public int getCurrentVideo(int courseid) throws SQLException;
+	public int updateCurrentVideo(CurrentVideo currentVideo) throws SQLException;
 }

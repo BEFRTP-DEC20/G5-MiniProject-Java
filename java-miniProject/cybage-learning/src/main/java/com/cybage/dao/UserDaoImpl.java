@@ -9,12 +9,13 @@ import java.util.ArrayList;
 
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.CurrentVideo;
+import com.cybage.model.SubCourse;
 import com.cybage.model.User;
 import com.cybage.util.DbUtil;
 
 public class UserDaoImpl implements UserDao {
-	
-	
+
 	public List<Category> findCategory() throws Exception {
 		Connection con = DbUtil.getCon();
 
@@ -34,144 +35,192 @@ public class UserDaoImpl implements UserDao {
 		return categories;
 	}
 
-	//-----------------search category-----------------------------------------------------------
-		public List<Category> searchByCategory(String searchString) throws SQLException {
-			
-			Connection connection = DbUtil.getCon();
-			String sql = "select * from category where category_name LIKE ?";
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, "%" + searchString + "%");
-			ResultSet rs = ps.executeQuery();       //throw an exception if result set is less then 0
-			List<Category> categoryList = new ArrayList<Category>();
-		
-			while(rs.next()) {
-				Category category = new Category();
-				category.setCategoryId(rs.getInt(1));
-				category.setCategoryName(rs.getString(2));
-				category.setImageUrl(rs.getString(3));
-				categoryList.add(category);
-			}
-			return categoryList;
-			
+	// -----------------search
+	// category-----------------------------------------------------------
+	public List<Category> searchByCategory(String searchString) throws SQLException {
+
+		Connection connection = DbUtil.getCon();
+		String sql = "select * from category where category_name LIKE ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setString(1, "%" + searchString + "%");
+		ResultSet rs = ps.executeQuery(); // throw an exception if result set is less then 0
+		List<Category> categoryList = new ArrayList<Category>();
+
+		while (rs.next()) {
+			Category category = new Category();
+			category.setCategoryId(rs.getInt(1));
+			category.setCategoryName(rs.getString(2));
+			category.setImageUrl(rs.getString(3));
+			categoryList.add(category);
 		}
-		
-		
-	//-----------------------------search course--------------------------------------------------------
-		public List<Course> searchByCourse(String searchString) throws SQLException {
-			Connection connection = DbUtil.getCon();
-			String sql = "select * from course where course_name LIKE ?";
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, "%" + searchString + "%");
-			ResultSet rs = ps.executeQuery();     //throw an exception if result set is less then 0
-			List<Course> courseList = new ArrayList<Course>();
-		
-			while(rs.next()) {
-				Course course = new Course();
-				course.setCourseId(rs.getInt(1));
-				course.setCourseName(rs.getString(2));
-				course.setCoursePrice(rs.getInt(3));
-				course.setCourseDuration(rs.getInt(4));
-				course.setCourseAuthor(rs.getString(5));
-				course.setCourseDescription(rs.getString(6));
-				course.setImageUrl(rs.getString(7));
-				
-				courseList.add(course);
-			}
-			return courseList;
+		return categoryList;
+
+	}
+
+	// -----------------------------search
+	// course--------------------------------------------------------
+	public List<Course> searchByCourse(String searchString) throws SQLException {
+		Connection connection = DbUtil.getCon();
+		String sql = "select * from course where course_name LIKE ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setString(1, "%" + searchString + "%");
+		ResultSet rs = ps.executeQuery(); // throw an exception if result set is less then 0
+		List<Course> courseList = new ArrayList<Course>();
+
+		while (rs.next()) {
+			Course course = new Course();
+			course.setCourseId(rs.getInt(1));
+			course.setCourseName(rs.getString(2));
+			course.setCoursePrice(rs.getInt(3));
+			course.setCourseDuration(rs.getInt(4));
+			course.setCourseAuthor(rs.getString(5));
+			course.setCourseDescription(rs.getString(6));
+			course.setImageUrl(rs.getString(7));
+
+			courseList.add(course);
 		}
+		return courseList;
+	}
+
 //-----------------------------User Registration--------------------------------
-		public int registerUser(User registerUser)  throws SQLException  {
-			Connection connection = DbUtil.getCon();
-			String sql = "insert into user(full_name, user_name, user_password, user_role, user_security_question, user_security_answer)"+"values( ? , ? , ? , ?, ? , ?)";
-			PreparedStatement ps = connection.prepareStatement(sql);
-			registerUser.setUserId((int)Math.random());
+	public int registerUser(User registerUser) throws SQLException {
+		Connection connection = DbUtil.getCon();
+		String sql = "insert into user(full_name, user_name, user_password, user_role, user_security_question, user_security_answer)"
+				+ "values( ? , ? , ? , ?, ? , ?)";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		registerUser.setUserId((int) Math.random());
 //			ps.setInt(1, registerUser.getUserId());
-			ps.setString(1, registerUser.getFullName());
-			ps.setString(2, registerUser.getUserName());
-			ps.setString(3, registerUser.getPassword());
-			ps.setString(4, "user");
-			System.out.println(registerUser);
-			ps.setString(5, registerUser.getUserSecurityQuestion());
-			ps.setString(6, registerUser.getUserSecurityAnswer());
-			  return ps.executeUpdate();     //throw an exception if result set is less then 0
-			
-		
-		
-			
+		ps.setString(1, registerUser.getFullName());
+		ps.setString(2, registerUser.getUserName());
+		ps.setString(3, registerUser.getPassword());
+		ps.setString(4, "user");
+		System.out.println(registerUser);
+		ps.setString(5, registerUser.getUserSecurityQuestion());
+		ps.setString(6, registerUser.getUserSecurityAnswer());
+		return ps.executeUpdate(); // throw an exception if result set is less then 0
+
+	}
+
+//--------------------------------------FIND ALL COURSES OF CATEGORY-------------------------------
+	public List<Course> findCourses(int categoryId) throws Exception {
+		Connection con = DbUtil.getCon();
+
+		String sql = "select course_id,course_name,course_price,course_duration,course_author,course_description,image_url,total_sub_course from course where category_id = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, categoryId);
+		ResultSet rs = ps.executeQuery();
+
+		List<Course> courses = new ArrayList<Course>();
+		while (rs.next()) {
+			Course course = new Course();
+			course.setCourseId(rs.getInt(1));
+			course.setCourseName(rs.getString(2));
+			course.setCoursePrice(rs.getInt(3));
+			course.setCourseDuration(rs.getInt(4));
+			course.setCourseAuthor(rs.getString(5));
+			course.setCourseDescription(rs.getString(6));
+			course.setImageUrl(rs.getString(7));
+			course.setTotalSubCourse(rs.getInt(8));
+
+			courses.add(course);
 		}
+		return courses;
+	}
 
-		public List<Course> findCourses(int categoryId) throws Exception {
-			Connection con = DbUtil.getCon();
-
-			String sql = "select course_id,course_name,course_price,course_duration,course_author,course_description,image_url,total_sub_course from course where category_id = ?";
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1,categoryId);
-			ResultSet rs = ps.executeQuery();
-			
-			
-			List<Course> courses = new ArrayList<Course>();
-			while (rs.next()) {
-				Course course = new Course();
-				course.setCourseId(rs.getInt(1));
-				course.setCourseName(rs.getString(2));
-				course.setCoursePrice(rs.getInt(3));
-				course.setCourseDuration(rs.getInt(4));
-				course.setCourseAuthor(rs.getString(5));
-				course.setCourseDescription(rs.getString(6));
-				course.setImageUrl(rs.getString(7));
-				course.setTotalSubCourse(rs.getInt(8));
-
-				courses.add(course);
-			}
-			return courses;
-		}
 //---------------------Find User ID by UserName----------------------------------
-		public int findUserId(String userName)
-		{
-			int user_id = 0;
-			try {
-				Connection con = DbUtil.getCon();
-				String sql2 = "select user_id from user where user_name = ?";
-				PreparedStatement ps;
-				ps = con.prepareStatement(sql2);
-				ps.setString(1,userName);
-				ResultSet rs = ps.executeQuery();
-				while(rs.next())
-				{
-					user_id=rs.getInt(1);
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return user_id;
-		}
-//---------------------------ENROLLED COURSES--------------------------------------------
-		public List<Course> findEnrolledCourses(String userName) throws SQLException {
+	public int findUserId(String userName) {
+		int user_id = 0;
+		try {
 			Connection con = DbUtil.getCon();
-			int userId = findUserId(userName);
-			String sql = "select * from course left join enrolled_course on course.course_id = enrolled_course.course_id where user_id = ?";
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1,userId);
+			String sql2 = "select user_id from user where user_name = ?";
+			PreparedStatement ps;
+			ps = con.prepareStatement(sql2);
+			ps.setString(1, userName);
 			ResultSet rs = ps.executeQuery();
-			
-			
-			List<Course> courses = new ArrayList<Course>();
 			while (rs.next()) {
-				Course course = new Course();
-				course.setCourseId(rs.getInt(1));
-				course.setCourseName(rs.getString(2));
-				course.setCoursePrice(rs.getInt(3));
-				course.setCourseDuration(rs.getInt(4));
-				course.setCourseAuthor(rs.getString(5));
-				course.setCourseDescription(rs.getString(6));
-				course.setImageUrl(rs.getString(7));
-				course.setTotalSubCourse(rs.getInt(8));
-
-				courses.add(course);
+				user_id = rs.getInt(1);
 			}
-			return courses;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return user_id;
+	}
 
+//---------------------------ENROLLED COURSES---------------------------------------------------------------
+	public List<Course> findEnrolledCourses(String userName) throws SQLException {
+		Connection con = DbUtil.getCon();
+		int userId = findUserId(userName);
+		String sql = "select * from course left join enrolled_course on course.course_id = enrolled_course.course_id where user_id = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, userId);
+		ResultSet rs = ps.executeQuery();
+
+		List<Course> courses = new ArrayList<Course>();
+		while (rs.next()) {
+			Course course = new Course();
+			course.setCourseId(rs.getInt(1));
+			course.setCourseName(rs.getString(2));
+			course.setCoursePrice(rs.getInt(3));
+			course.setCourseDuration(rs.getInt(4));
+			course.setCourseAuthor(rs.getString(5));
+			course.setCourseDescription(rs.getString(6));
+			course.setImageUrl(rs.getString(7));
+			course.setTotalSubCourse(rs.getInt(8));
+
+			courses.add(course);
+		}
+		return courses;
+	}
+
+	public List<SubCourse> findSubCourse(int courseid) throws SQLException {
+		Connection con = DbUtil.getCon();
+
+		String sql = "select sub_course_id, sub_course_name, sub_course_duration, sub_course_description, video_url, video_sequence, course_id from sub_course where course_id = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, courseid);
+		ResultSet rs = ps.executeQuery();
+
+		List<SubCourse> subCourses = new ArrayList<SubCourse>();
+		while (rs.next()) {
+			SubCourse subCourse = new SubCourse();
+
+			subCourse.setSubCourseId(rs.getInt(1));
+			subCourse.setSubCourseName(rs.getString(2));
+			subCourse.setSubCourseDuration(rs.getInt(3));
+			subCourse.setSubCourseDescription(rs.getString(4));
+			subCourse.setVideoUrl(rs.getString(5));
+			subCourse.setVideoSequence(rs.getInt(6));
+			subCourse.setCourseId(rs.getInt(7));
+
+			subCourses.add(subCourse);
+
+		}
+		return subCourses;
+	}
+
+	public int getCurrentVideo(int courseid) throws SQLException {
+		Connection con = DbUtil.getCon();
+
+		String sql = "select current_video from enrolled_course where course_id = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, courseid);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		return rs.getInt(1);
+	}
+
+	public int updateCurrentVideo(CurrentVideo currentVideo) throws SQLException {
+		String sql = "update enrolled_course set current_video = ? where user_id = ? and course_id = ? ";
+
+		Connection con = DbUtil.getCon();
+		PreparedStatement ps = con.prepareStatement(sql);
+
+		ps.setInt(1, currentVideo.getCurrentVideoInDb());
+		ps.setInt(2, findUserId(currentVideo.getUsername()));
+		ps.setInt(3, currentVideo.getCourseId());
+		System.out.println("in dao" + currentVideo.getCurrentVideoInDb());
+		return ps.executeUpdate();
+	}
 
 }

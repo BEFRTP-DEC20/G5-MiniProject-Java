@@ -17,6 +17,7 @@ import com.cybage.dao.AdminDaoImpl;
 import com.cybage.exception.UserException;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.SubCourse;
 import com.cybage.service.AdminService;
 import com.cybage.service.AdminServiceImpl;
 
@@ -256,6 +257,9 @@ public class AdminController extends HttpServlet {
 					} catch (SQLException e) {
 //						log.error("exception occurred... " + e.getLocalizedMessage());
 						System.out.println(e.getLocalizedMessage());
+					} catch (UserException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 				
@@ -274,6 +278,9 @@ public class AdminController extends HttpServlet {
 							System.out.println(e.getLocalizedMessage());
 						} catch(NumberFormatException e) {
 							System.out.println(e.getLocalizedMessage());
+						} catch (UserException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}
 				
@@ -300,6 +307,9 @@ public class AdminController extends HttpServlet {
 					} catch (SQLException e) {
 //						log.error("exception occurred... " + e.getLocalizedMessage());
 						System.out.println(e.getLocalizedMessage());
+					} catch (UserException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				} 
 	}

@@ -114,6 +114,66 @@ public class Course {
 				+ totalSubCourse + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + categoryId;
+		result = prime * result + ((courseAuthor == null) ? 0 : courseAuthor.hashCode());
+		result = prime * result + ((courseDescription == null) ? 0 : courseDescription.hashCode());
+		result = prime * result + courseDuration;
+		result = prime * result + courseId;
+		result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
+		result = prime * result + coursePrice;
+		result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
+		result = prime * result + totalSubCourse;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Course other = (Course) obj;
+		if (categoryId != other.categoryId)
+			return false;
+		if (courseAuthor == null) {
+			if (other.courseAuthor != null)
+				return false;
+		} else if (!courseAuthor.equals(other.courseAuthor))
+			return false;
+		if (courseDescription == null) {
+			if (other.courseDescription != null)
+				return false;
+		} else if (!courseDescription.equals(other.courseDescription))
+			return false;
+		if (courseDuration != other.courseDuration)
+			return false;
+		if (courseId != other.courseId)
+			return false;
+		if (courseName == null) {
+			if (other.courseName != null)
+				return false;
+		} else if (!courseName.equals(other.courseName))
+			return false;
+		if (coursePrice != other.coursePrice)
+			return false;
+		if (imageUrl == null) {
+			if (other.imageUrl != null)
+				return false;
+		} else if (!imageUrl.equals(other.imageUrl))
+			return false;
+		if (totalSubCourse != other.totalSubCourse)
+			return false;
+		return true;
+	}
+	
+	
+
 	
 	
 	
