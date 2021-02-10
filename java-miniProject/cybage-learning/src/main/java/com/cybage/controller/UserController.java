@@ -41,10 +41,12 @@ public class UserController extends HttpServlet {
 
 		if (path.equals("/list")) {
 			try {
-//				
+
+				String userName = request.getRemoteUser();
+				List<Course> enrolledList = userService.findEnrolledCourses(userName);
 				List<Category> categories = userService.findCategory();
 				request.setAttribute("categoryList", categories);
-
+				request.setAttribute("enrolledList",enrolledList);
 				request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 
 			} catch (Exception e) {
@@ -177,18 +179,22 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 					System.out.println("error occurred: " + e.getMessage());
 				}
 			}
+
+			
 //------------------------------user profile----------------------------------------
 			if(path.equals("/profile")) {
 				try {
-					
+
 					String fullName = request.getParameter("fullName");
 					String userName = request.getParameter("userName");
 					String password = request.getParameter("password");
-					
+
 				}catch(Exception e) {
 					System.out.println("error occurred: " + e.getMessage());
 				}
-			}		
-		}
+			}
+			}
+
+
 
 }

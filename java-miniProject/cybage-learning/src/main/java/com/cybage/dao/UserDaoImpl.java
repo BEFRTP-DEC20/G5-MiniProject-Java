@@ -125,6 +125,53 @@ public class UserDaoImpl implements UserDao {
 			}
 			return courses;
 		}
+//---------------------Find User ID by UserName----------------------------------
+		public int findUserId(String userName)
+		{
+			int user_id = 0;
+			try {
+				Connection con = DbUtil.getCon();
+				String sql2 = "select user_id from user where user_name = ?";
+				PreparedStatement ps;
+				ps = con.prepareStatement(sql2);
+				ps.setString(1,userName);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next())
+				{
+					user_id=rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return user_id;
+		}
+//---------------------------ENROLLED COURSES--------------------------------------------
+		public List<Course> findEnrolledCourses(String userName) throws SQLException {
+			Connection con = DbUtil.getCon();
+			int userId = findUserId(userName);
+			String sql = "select * from course left join enrolled_course on course.course_id = enrolled_course.course_id where user_id = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1,userId);
+			ResultSet rs = ps.executeQuery();
+			
+			
+			List<Course> courses = new ArrayList<Course>();
+			while (rs.next()) {
+				Course course = new Course();
+				course.setCourseId(rs.getInt(1));
+				course.setCourseName(rs.getString(2));
+				course.setCoursePrice(rs.getInt(3));
+				course.setCourseDuration(rs.getInt(4));
+				course.setCourseAuthor(rs.getString(5));
+				course.setCourseDescription(rs.getString(6));
+				course.setImageUrl(rs.getString(7));
+				course.setTotalSubCourse(rs.getInt(8));
+
+				courses.add(course);
+			}
+			return courses;
+		}
 
 
 }
