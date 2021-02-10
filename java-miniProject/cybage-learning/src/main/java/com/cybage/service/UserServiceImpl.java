@@ -43,5 +43,10 @@ public class UserServiceImpl implements UserService {
 		return userDao.findCourses(categoryId);
 	}
 
+	public List<Course> findEnrolledCourses(String userName) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.findEnrolledCourses(userName);
+	}
+
 	
 }

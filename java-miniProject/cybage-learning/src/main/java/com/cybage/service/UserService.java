@@ -14,4 +14,5 @@ public interface UserService {
 	public List<Course> searchByCourse(String searchString) throws SQLException;
 	public int registerUser(User registerUser) throws SQLException;
 	public List<Course> findCourses(int categoryId) throws Exception;
+	public List<Course> findEnrolledCourses(String userName) throws SQLException;
 }
