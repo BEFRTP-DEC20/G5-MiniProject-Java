@@ -7,8 +7,10 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="<%=request.getContextPath()%>/webjars/bootstrap/4.5.3/css/bootstrap.css" rel="stylesheet">
+
 
 <!--  custom css here -->
 

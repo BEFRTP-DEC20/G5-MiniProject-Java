@@ -1,15 +1,15 @@
 package com.cybage.model;
 
 public class Course {
-	String courseName, courseAuthor, courseDescription, imageUrl, courseDuration;
-	int courseId, categoryId, coursePrice, totalSubCourse;
+	String courseName, courseAuthor, courseDescription, imageUrl;
+	int courseId, categoryId, coursePrice, totalSubCourse, courseDuration;
 	
 	public Course() {
 		super();
 	}
 	
-	public Course(String courseName, String courseAuthor, String courseDescription, String imageUrl, int courseId,
-			String courseDuration, int coursePrice, int totalSubCourse) {
+	public Course( int courseId, String courseName, String courseAuthor, String courseDescription, String imageUrl,
+			int courseDuration, int coursePrice, int totalSubCourse) {
 		super();
 		this.courseName = courseName;
 		this.courseAuthor = courseAuthor;
@@ -22,7 +22,7 @@ public class Course {
 	}
 	
 	public Course(String courseName, String courseAuthor, String courseDescription, String imageUrl, 
-			 String courseDuration, int coursePrice,int totalSubCourse, int categoryId) {
+			int courseDuration, int coursePrice,int totalSubCourse, int categoryId) {
 		super();
 		this.courseName = courseName;
 		this.courseAuthor = courseAuthor;
@@ -82,11 +82,11 @@ public class Course {
 		this.categoryId = categoryId;
 	}
 
-	public String getCourseDuration() {
+	public int getCourseDuration() {
 		return courseDuration;
 	}
 
-	public void setCourseDuration(String courseDuration) {
+	public void setCourseDuration(int courseDuration) {
 		this.courseDuration = courseDuration;
 	}
 

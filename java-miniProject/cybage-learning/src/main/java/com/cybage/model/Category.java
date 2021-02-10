@@ -8,7 +8,12 @@ public class Category {
 	public Category() {
 		super();
 	}
-
+	
+	public Category( String categoryName, String imageUrl) {
+		super();
+		this.categoryName = categoryName;
+		this.imageUrl = imageUrl;
+	}
 	
 	
 	public Category(int categoryId, String categoryName, String imageUrl) {

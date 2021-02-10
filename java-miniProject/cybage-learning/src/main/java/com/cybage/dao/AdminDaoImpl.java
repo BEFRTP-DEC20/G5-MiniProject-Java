@@ -86,7 +86,7 @@ public class AdminDaoImpl implements AdminDao{
 			course.setCourseId(rs.getInt(1));
 			course.setCourseName(rs.getString(2));
 			course.setCoursePrice(rs.getInt(3));
-			course.setCourseDuration(rs.getString(4));
+			course.setCourseDuration(rs.getInt(4));
 			course.setCourseAuthor(rs.getString(5));
 			course.setCourseDescription(rs.getString(6));
 			course.setImageUrl(rs.getString(7));
@@ -102,7 +102,7 @@ public class AdminDaoImpl implements AdminDao{
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1,course.getCourseName());
 		ps.setInt(2,course.getCoursePrice());
-		ps.setString(3,course.getCourseDuration());
+		ps.setInt(3,course.getCourseDuration());
 		ps.setString(4,course.getCourseAuthor());
 		ps.setString(5,course.getCourseDescription());
 		ps.setInt(6,course.getTotalSubCourse());
@@ -117,7 +117,7 @@ public class AdminDaoImpl implements AdminDao{
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1,course.getCourseName());
 		ps.setInt(2,course.getCoursePrice());
-		ps.setString(3,course.getCourseDuration());
+		ps.setInt(3,course.getCourseDuration());
 		ps.setString(4,course.getCourseAuthor());
 		ps.setString(5,course.getCourseDescription());
 		ps.setInt(6,course.getTotalSubCourse());
