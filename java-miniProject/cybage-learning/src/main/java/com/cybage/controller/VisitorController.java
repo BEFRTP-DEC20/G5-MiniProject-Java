@@ -18,9 +18,7 @@ import com.cybage.model.User;
 import com.cybage.service.UserService;
 import com.cybage.service.UserServiceImpl;
 
-/**
- * Servlet implementation class RegularController
- */
+
 public class VisitorController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
