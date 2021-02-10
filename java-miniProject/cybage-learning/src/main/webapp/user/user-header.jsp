@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@page isELIgnored="false" %>	
+<%@page isELIgnored="false"%>
 
 <!DOCTYPE html>
 <html>
@@ -9,20 +9,9 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-<link
-	href="<%=request.getContextPath()%>/webjars/bootstrap/4.5.3/css/bootstrap.css"
-	rel="stylesheet">
-
+<link href="<%=request.getContextPath()%>/webjars/bootstrap/4.5.3/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" integrity="sha512-EaaldggZt4DPKMYBa143vxXQqLq5LE29DG/0OoVenoyxDrAScYrcYcHIuxYO9YNTIQMgD8c8gIUU8FQw7WpXSQ==" crossorigin="anonymous" />
 <!----------------------  custom css here ---------------------------->
 
 </head>
@@ -31,94 +20,6 @@ body {
 	font-family: 'Varela Round', sans-serif;
 }
 
-.modal-login {
-	color: #636363;
-	width: 350px;
-}
-
-.modal-login .modal-content {
-	padding: 20px;
-	border-radius: 5px;
-	border: none;
-}
-
-.modal-login .modal-header {
-	border-bottom: none;
-	position: relative;
-	justify-content: center;
-}
-
-.modal-login h4 {
-	text-align: center;
-	font-size: 26px;
-	margin: 30px 0 -15px;
-}
-
-.modal-login .form-control:focus {
-	border-color: #70c5c0;
-}
-
-.modal-login .form-control, .modal-login .btn {
-	min-height: 40px;
-	border-radius: 3px;
-}
-
-.modal-login .close {
-	position: absolute;
-	top: -5px;
-	right: -5px;
-}
-
-.modal-login .modal-footer {
-	background: #ecf0f1;
-	border-color: #dee4e7;
-	text-align: center;
-	justify-content: center;
-	margin: 0 -20px -20px;
-	border-radius: 5px;
-	font-size: 13px;
-}
-
-.modal-login .avatar {
-	position: absolute;
-	margin: 0 auto;
-	left: 0;
-	right: 0;
-	top: -70px;
-	width: 95px;
-	height: 95px;
-	border-radius: 50%;
-	z-index: 9;
-	background: #60c7c1;
-	padding: 15px;
-	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-}
-
-.modal-login .avatar img {
-	width: 100%;
-}
-
-.modal-login.modal-dialog {
-	margin-top: 80px;
-}
-
-.modal-login .btn, .modal-login .btn:active {
-	color: #fff;
-	border-radius: 4px;
-	background: #60c7c1 !important;
-	text-decoration: none;
-	transition: all 0.4s;
-	line-height: normal;
-	border: none;
-}
-
-.txt-none{
-	text-decoration: none;
-}
-.modal-login .btn:hover, .modal-login .btn:focus {
-	background: #45aba6 !important;
-	outline: none;
-}
 </style>
 
 <script>
@@ -143,25 +44,36 @@ body {
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-
+		<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+			<div>
 			<form class="form-inline my-2 my-lg-0"
 				action="<%=request.getContextPath()%>/UserController/search"
 				method="post">
 				<input class="form-control mr-sm-2" type="search"
 					placeholder="Search" aria-label="Search" name="search">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				<button class="btn btn-outline-dark my-2 my-sm-0 fa fa-search" aria-hidden="true" type="submit"></button>
 			</form>
+			</div>
+<!------------------------------drop down----------------------->
+			<div>
 			<ul class="navbar-nav mr-auto ">
-				
 				<li class="nav-item">
-					<button   class="btn btn-outline-primary " >
-						<%=request.getRemoteUser() %>
-					</button>
-				</li> 
+					<div class="dropdown">
+						<button class="btn btn-warning dropdown-toggle" type="button"
+							id="dropdownMenuButton" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="true"><%=request.getRemoteUser() %></button>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item fa fa-user" aria-hidden="true" href="<%= request.getContextPath()%>/user/user-profile.jsp"  > Profile</a> <hr>
+							<a class="dropdown-item fa fa-sign-out" aria-hidden="true" href="<%= request.getContextPath()%>/logout.jsp"> Logout</a> 
+						</div>
+					</div>
+
+				</li>
 			</ul>
+			</div>
 		</div>
 	</nav>
 	<!----------------------------------------- Modal HTML ------------------------------------------------------->
 
 	</div>
+	<!-- data-toggle="modal" data-target="#exampleModal" -->

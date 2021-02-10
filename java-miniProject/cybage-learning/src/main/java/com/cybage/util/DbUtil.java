@@ -25,7 +25,7 @@ public class DbUtil {
 			System.out.println(dbUrl + dbUser + dbPassword);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); //put logger
 		}
 	}
 	

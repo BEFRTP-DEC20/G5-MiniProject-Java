@@ -36,6 +36,7 @@ public class UserDaoImpl implements UserDao {
 
 	//-----------------search category-----------------------------------------------------------
 		public List<Category> searchByCategory(String searchString) throws SQLException {
+			
 			Connection connection = DbUtil.getCon();
 			String sql = "select * from category where category_name LIKE ?";
 			PreparedStatement ps = connection.prepareStatement(sql);

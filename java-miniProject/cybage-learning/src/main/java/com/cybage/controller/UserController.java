@@ -19,6 +19,7 @@ import com.cybage.model.Category;
 import com.cybage.model.Course;
 import com.cybage.model.User;
 import com.cybage.service.UserServiceImpl;
+import com.mysql.cj.Session;
 
 @ServletSecurity(value = @HttpConstraint(rolesAllowed = {"user"}))
 public class UserController extends HttpServlet {
@@ -40,6 +41,7 @@ public class UserController extends HttpServlet {
 
 		if (path.equals("/list")) {
 			try {
+
 				String userName = request.getRemoteUser();
 				List<Course> enrolledList = userService.findEnrolledCourses(userName);
 				List<Category> categories = userService.findCategory();
@@ -147,7 +149,18 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		
 		request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 	}
-	//---------------------------------------registration-----------------------------------------------------
+
+	if (path.equals("/open")) {
+		try {
+			
+
+			request.getRequestDispatcher("/footer.jsp").forward(request, response);
+
+		} catch (Exception e) {
+			System.out.println("error occurred: " + e.getMessage());
+		}
+	}
+	//---------------------------------------user registration-----------------------------------------------------
 			if (path.equals("/registration")) {
 				String fullName = request.getParameter("fullName");
 				String username = request.getParameter("userName");
@@ -166,6 +179,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 					System.out.println("error occurred: " + e.getMessage());
 				}
 			}
+
 			
 //------------------------------user profile----------------------------------------
 			if(path.equals("/profile")) {
@@ -180,6 +194,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 				}
 			}
 			}
+
 
 
 }

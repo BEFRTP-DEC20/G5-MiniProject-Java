@@ -101,11 +101,6 @@
 
 
 
-	<!--To apply bootstrap on the html written above -->
-	<link rel="stylesheet"
-		href="webjars/bootstrap/4.5.3/css/bootstrap.min.css">
-	<script src="webjars/bootstrap/4.5.3s/js/bootstrap.min.js"></script>
-
 </body>
 
 <jsp:include page="footer.jsp"></jsp:include>
