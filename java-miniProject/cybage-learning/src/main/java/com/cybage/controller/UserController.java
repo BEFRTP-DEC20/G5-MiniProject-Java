@@ -138,7 +138,7 @@ public class UserController extends HttpServlet {
 			String username = request.getRemoteUser();
 			List<SubCourse> subcourses = null;
 			try {
-				subcourses = userService.findSubCourse();
+				subcourses = userService.findSubCourse(courseid);
 
 				int current_videoInDb = userService.getCurrentVideo(courseid);
 				System.out.println("currentVideo:" + currentVideo);

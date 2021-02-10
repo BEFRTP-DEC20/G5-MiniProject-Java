@@ -173,11 +173,12 @@ public class UserDaoImpl implements UserDao {
 		return courses;
 	}
 
-	public List<SubCourse> findSubCourse() throws SQLException {
+	public List<SubCourse> findSubCourse(int courseid) throws SQLException {
 		Connection con = DbUtil.getCon();
 
-		String sql = "select sub_course_id, sub_course_name, sub_course_duration, sub_course_description, video_url, video_sequence, course_id from sub_course";
+		String sql = "select sub_course_id, sub_course_name, sub_course_duration, sub_course_description, video_url, video_sequence, course_id from sub_course where course_id = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, courseid);
 		ResultSet rs = ps.executeQuery();
 
 		List<SubCourse> subCourses = new ArrayList<SubCourse>();

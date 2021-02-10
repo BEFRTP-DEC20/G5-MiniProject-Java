@@ -28,10 +28,10 @@
 			out.print("<div class='card' >");
 			out.print("<img class='card-img-top' src='" + c.getImageUrl() + "'>");
 			out.print("<div class='card-body'>");
-			out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>'");
+			out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>");
 			out.print("<p class='card-text'>"+c.getCourseDescription()+"</p>");
 			out.print(
-					"<a href='UserController/start-course?id="+c.getCourseId()+"&amp;vid=0' class='btn btn-primary'>Continue Courses(ADD THE VIDEO PAGE LINK)</a>");
+					"<a href='UserController/start-course?id="+c.getCourseId()+"&amp;vid=0' class='btn btn-primary'>Continue to Course</a>");
 			out.print("</div>");
 			out.print("</div>");
 			out.print("</div>");
@@ -50,7 +50,7 @@
 			out.print("<div class='card' >");
 			out.print("<img class='card-img-top' src='" + c.getImageUrl() + "'>");
 			out.print("<div class='card-body'>");
-			out.print("<h3 class='card-title'>'" + c.getCategoryName() + "'</h3>'");
+			out.print("<h3 class='card-title'>'" + c.getCategoryName() + "'</h3>");
 			
 			out.print(
 					"<a href='UserController/course?id="+c.getCategoryId()+"' class='btn btn-primary'>View Courses</a>");

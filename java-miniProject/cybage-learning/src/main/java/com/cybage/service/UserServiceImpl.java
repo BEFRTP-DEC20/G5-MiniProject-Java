@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
 		return userDao.findEnrolledCourses(userName);
 	}
 
-	public List<SubCourse> findSubCourse() throws SQLException {
+	public List<SubCourse> findSubCourse(int userid) throws SQLException {
 		UserDao userDao = new UserDaoImpl();
-		return userDao.findSubCourse() ;
+		return userDao.findSubCourse(userid) ;
 	}
 
 	public int getCurrentVideo(int courseid) throws SQLException {
