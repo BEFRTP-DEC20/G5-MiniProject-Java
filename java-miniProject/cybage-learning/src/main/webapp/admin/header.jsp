@@ -1,7 +1,6 @@
 <html lang="en">
 <head>
-<title>Index Page</title>
-<h2>Hello Neeraj(Header)</h2>
+<title>Admin Header</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet"

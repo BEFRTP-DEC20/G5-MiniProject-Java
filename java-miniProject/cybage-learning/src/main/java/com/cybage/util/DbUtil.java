@@ -15,7 +15,7 @@ public class DbUtil {
 	
 	static {		
 		try {
-			FileReader reader = new FileReader("D:\\java-miniProject\\G5-MiniProject-Java\\java-miniProject\\cybage-learning\\src\\main\\java\\com\\cybage\\util\\db.properties");
+			FileReader reader = new FileReader("D:\\dbdev.properties");
 			Properties props = new Properties();
 			
 			props.load(reader);
