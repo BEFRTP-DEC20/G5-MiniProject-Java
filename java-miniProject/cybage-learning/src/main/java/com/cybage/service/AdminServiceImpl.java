@@ -54,4 +54,21 @@ public class AdminServiceImpl implements AdminService{
 	public int deleteCourse(int courseId) throws SQLException{
 		return adminDao.deleteCourse(courseId);
 	}
+
+	// for subCourse
+	public List<SubCourse> listSubCourse(int courseId) throws SQLException {
+		List<SubCourse> newList = adminDao.listSubCourse(courseId);
+		Collections.reverse(newList);
+		return newList;
+	}
+	public int addSubCourse(SubCourse subcourse) throws SQLException{
+		return adminDao.addSubCourse(subcourse);
+	}
+	public int deleteSubCourse(int subcourseId) throws SQLException{
+		return adminDao.deleteSubCourse(subcourseId);
+	}
+	public int updateSubCourse(SubCourse subcourse) throws SQLException{
+		return adminDao.updateSubCourse(subcourse);
+	}
+	
 }
