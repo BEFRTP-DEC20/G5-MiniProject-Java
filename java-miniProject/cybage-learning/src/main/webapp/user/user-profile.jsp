@@ -23,7 +23,7 @@
 			</div>
 			<div class="form-group">
 				<label>New Password</label>
-				<input type="password" class="form-control" name="newPassword" value="null">
+				<input type="password" class="form-control" name="newPassword" value="">
 			</div>
 			<div class="form-group">
 			<%if(user.isIs_prime_user()==false) 

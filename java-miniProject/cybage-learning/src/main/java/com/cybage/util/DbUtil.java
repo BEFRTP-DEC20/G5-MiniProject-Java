@@ -15,7 +15,7 @@ public class DbUtil {
 	
 	static {		
 		try {
-			FileReader reader = new FileReader("D:\\dbdev.properties");
+			FileReader reader = new FileReader("D:\\testdb.properties");
 			Properties props = new Properties();
 			
 			props.load(reader);
@@ -42,5 +42,9 @@ public class DbUtil {
 		ds.setMaxOpenPreparedStatements(100);		
 		
 		return ds.getConnection(); 
+	}
+
+	public static int executeQuery(String query) throws SQLException {
+		return getCon().createStatement().executeUpdate(query);
 	}
 }

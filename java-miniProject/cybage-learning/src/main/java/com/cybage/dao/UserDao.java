@@ -9,6 +9,7 @@ import com.cybage.model.Course;
 import com.cybage.model.PrimeUser;
 
 import com.cybage.model.CurrentVideo;
+import com.cybage.model.EnrolledCourse;
 import com.cybage.model.SubCourse;
 
 
@@ -27,6 +28,11 @@ public interface UserDao {
 	public List<SubCourse> findSubCourse(int userid) throws SQLException;
 	public int getCurrentVideo(int courseid) throws SQLException;
 	public int updateCurrentVideo(CurrentVideo currentVideo) throws SQLException;
+	public List<Course> findEnrolledCoursesByCategory(String userName, int cat_id) throws SQLException;
+	public boolean isPrime(String userName);
+	public int enroll(EnrolledCourse ec) throws SQLException;
+	public int findUserId(String userName);
+
 	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException;
 	public List<String> gererateCertificate(int courseid, String username) throws SQLException;
 }

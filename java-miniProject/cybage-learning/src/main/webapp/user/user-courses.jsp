@@ -51,6 +51,7 @@
 	<%
 		if ((request.getAttribute("courseList")) != null) {
 		List<Course> course = (List) request.getAttribute("courseList");
+		String prime = request.getAttribute("isPrime").toString();
 		for (Course c : course) {
 			out.print("<div class='col-md-3  col-sm-3'>");
 			out.print("<div class='card' >");

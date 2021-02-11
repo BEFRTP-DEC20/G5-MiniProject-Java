@@ -73,6 +73,9 @@ a.btn:hover {
 	opacity: 0;
 	animation: show 0.35s forwards ease-in-out 0.5s;
 }
+.jumbotron {
+	background-color: 60c7c1;
+}
 
 @
 keyframes progress {from { width:0;

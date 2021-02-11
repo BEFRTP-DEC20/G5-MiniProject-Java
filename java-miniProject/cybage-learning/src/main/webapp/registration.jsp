@@ -38,9 +38,7 @@
 			<form method=post action="VisitorController/registration">
 				<div class="form-group">
 					<input type="text" class="form-control" name="fullName"
-						placeholder="Full Name" pattern="[A-Za-z]{3}"
-						title="name should contain atleast 3 character"
-						required="required">
+						placeholder="Full Name"  title = "name should contain atleast 3 character" required="required">
 				</div>
 				<div class="form-group">
 					<input type="text" class="form-control" name="userName"
@@ -82,10 +80,11 @@
 				</div>
 				<br>
 				<div class="form-group">
-					<label>PRIME USER: </label> <input type="radio"
-						class="form-control" value=true name="primeUser"> <label>REGULAR
-						USER: </label> <input type="radio" class="form-control" value=false
-						name="primeUser">
+				<label>DO YOU WANT TO BE A PRIME USER: </label>
+				<label>PRIME USER: </label>
+				<input type='radio' class='form-control' value='true' name='primeUser'>
+				<label>Regular USER: </label>
+				<input type='radio' class='form-control' value='false' name='primeUser'  checked>
 				</div>
 				<div class="justify-content-center form-group">
 
