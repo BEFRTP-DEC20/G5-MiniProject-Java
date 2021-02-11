@@ -15,7 +15,6 @@ import com.cybage.dao.UserDaoImpl;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
 import com.cybage.model.PrimeUser;
-import com.cybage.model.User;
 import com.cybage.service.UserService;
 import com.cybage.service.UserServiceImpl;
 

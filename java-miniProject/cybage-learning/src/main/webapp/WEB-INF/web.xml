@@ -4,7 +4,7 @@
 
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
-	
+
 	<servlet>
 		<servlet-name>UserController</servlet-name>
 		<display-name>UserController</display-name>
@@ -45,17 +45,7 @@
 		<servlet-name>AppController</servlet-name>
 		<url-pattern>/AppController</url-pattern>
 	</servlet-mapping>
-
-	<!-- <security-constraint>
-		<web-resource-collection>
-			<web-resource-name>cybage-learning</web-resource-name>
-			<url-pattern>/user/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<description>Let only user use this application</description>
-			<role-name>user</role-name>
-		</auth-constraint>
-	</security-constraint> -->
+	
 	
 	<security-constraint>
 		<web-resource-collection>

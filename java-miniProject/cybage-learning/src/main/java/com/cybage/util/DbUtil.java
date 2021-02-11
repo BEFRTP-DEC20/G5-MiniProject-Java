@@ -15,7 +15,7 @@ public class DbUtil {
 	
 	static {		
 		try {
-			FileReader reader = new FileReader("D:\\dbdev.properties");
+			FileReader reader = new FileReader("D:\\testdb.properties");
 			Properties props = new Properties();
 			
 			props.load(reader);
