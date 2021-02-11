@@ -183,6 +183,44 @@ public class UserController extends HttpServlet {
 				System.out.println("Error in Subcourse");
 			}
 		}
+
+		if (path.equals("/get-certificate")) {
+			System.out.println("Into get certifcate method");
+			int courseid = Integer.parseInt(request.getParameter("id"));
+			System.out.println("course id:" + courseid);
+
+			String username = request.getRemoteUser();
+			System.out.println("username :" + username);
+
+			List<String> certificateData = null;
+
+			// 1. update data in enrolled user set course_completed as 1.
+			int status = 0;
+			try {
+				status = userService.updateCourseCompleteStatus(courseid, username);
+
+				// 2. fetch user full_name, course_name, and category name
+				if (status > 0) {
+					certificateData = userService.gererateCertificate(username, courseid);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("Status:" + status);
+
+			for (String data : certificateData) {
+				System.out.println(data);
+			}
+			if(status>0) {
+				response.sendRedirect(request.getContextPath() + "/user/certificate.jsp");
+			}
+			else {
+				// show error page
+			}
+				
+		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

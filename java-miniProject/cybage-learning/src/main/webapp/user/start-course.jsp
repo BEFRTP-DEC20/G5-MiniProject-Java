@@ -50,9 +50,9 @@
 							<video id="myVideo" class="center"
 								ontimeupdate="currentVideoTime(this)" width="90%" height="90%"
 								controls>
-								<%-- <source src='<%=request.getContextPath()+request.getAttribute("subcourse_url")%>'
-									type='video/mp4' /> --%>
-								<source src='../videos/1.mp4' type='video/mp4' />
+								<source
+									src='<%=request.getContextPath() +"/"+ session.getAttribute("subcourse_url")%>'
+									type='video/mp4' />
 								Your browser does not support HTML5 video.
 							</video>
 						</div>
@@ -66,15 +66,10 @@
 							<a
 								href="<%=request.getContextPath()%>/UserController/start-course?vid=<%=next_video%>&amp;id=<%=course_id%>"
 								class="btn btn-warning nextvideo videobuttons <%=next_video > videoCount_int ? "disabled" : ""%>">NEXT</a>
-							<%-- <a
-								href="<%=request.getContextPath()%>/UserController/start-course?vid=<%=prev_video%>&amp;id=<%=request.getAttribute("course_id") %>"
-								class='btn <%=prev_video < 1 ? "disabled" : ""%>'>prev</a>  --%>
-							<%-- <a
-								href="https://google.co.in/"
-								class='btn nextvideo <%=next_video > videoCount_int ? "disabled" : ""%>'>Next</a> --%>
 
-							<a class="btn btn-warning videobuttons certficate-btn" href="#"> Get
-								certificate</a>
+							<a class="btn btn-warning videobuttons certficate-btn"
+								href="<%=request.getContextPath()%>/UserController/get-certificate?id=<%=course_id%>">
+								Get certificate</a>
 						</div>
 
 					</div>
@@ -90,5 +85,4 @@
 	</div>
 </div>
 
-<!--  working   -->
 <jsp:include page="user-footer.jsp"></jsp:include>

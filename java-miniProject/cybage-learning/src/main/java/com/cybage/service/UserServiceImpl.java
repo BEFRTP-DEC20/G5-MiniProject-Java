@@ -65,5 +65,15 @@ public class UserServiceImpl implements UserService {
 		return userDao.updateCurrentVideo(currentVideo);
 	}
 
+	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.updateCourseCompleteStatus(courseid,username);
+	}
+
+	public List<String> gererateCertificate(String username, int courseid) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.gererateCertificate(courseid,username);
+	}
+
 	
 }
