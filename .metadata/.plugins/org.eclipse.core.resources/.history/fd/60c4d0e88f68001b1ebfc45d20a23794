@@ -1,0 +1,7 @@
+package com.cybage.model;
+
+public class Category {
+  private int categoryId;
+  private String categoryName, imageUrl;
+  
+}

@@ -1,0 +1,20 @@
+package com.cybage.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.cybage.model.Category;
+import com.cybage.model.Course;
+
+public interface AdminDao  {
+	public int addCategory(Category category) throws SQLException;
+	public Category getCategoryById(int catId) throws SQLException;
+	public List<Category> listCategory() throws SQLException;
+	public int deleteCategory(int catId) throws SQLException;
+	public int updateCategory(Category category) throws SQLException;
+	
+	public int addCourse(Course course) throws SQLException;
+	public int updateCourse(Course course) throws SQLException;
+//	public int deleteCourse(int catId) throws SQLException;
+	public List<Course> listCourse(int catogoryId) throws SQLException;
+}

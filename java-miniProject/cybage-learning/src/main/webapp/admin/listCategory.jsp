@@ -13,6 +13,7 @@
 	margin-bottom: 5%;
 	margin-left: 5%;
 	margin-right: 5%;
+	box-shadow: 0 6px 10px 0 rgba(0 , 0 , 0 , 0.8);
 }
 
 .btn {
@@ -65,7 +66,7 @@
 </div>
 	<div class="row">
 		<!-- Add a category card. -->
-		<div class="col-lg-4 col-sm-12">
+		<div class="col-lg-4 col-sm-6">
 			<div class="card">
 				<img class="card-img-top "
 					src="https://cdn2.iconfinder.com/data/icons/multimedia-sound-7/48/Add_category-_playlist-512.png">
@@ -116,7 +117,7 @@
 		<!-- Dynamic cards for listing all the categories -->
 
 		<c:forEach var="c" items="${cat}">
-			<div class="col-lg-4 col-sm-12">
+			<div class="col-lg-4 col-sm-6">
 				<div class="card">
 					<img class="card-img-top " src="${c.getImageUrl()}">
 					<div class="card-body">

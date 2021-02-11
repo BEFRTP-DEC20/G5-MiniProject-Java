@@ -1,0 +1,22 @@
+package com.cybage.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.cybage.model.Category;
+
+public interface AdminService {
+
+	public int addCategory(Category category) throws SQLException;
+	public int updateCategory(Category category) throws SQLException;
+	public int deleteCategory(int catId) throws SQLException;
+	public Category getCategoryById(int catId) throws SQLException;
+	public List<Category> listCategory() throws SQLException;
+	
+	public int addCourse(Course course) throws SQLException;
+	public int updateCourse(Course course) throws SQLException;
+	public int deleteCourse(int catId) throws SQLException;
+	public Course getCourseById(int catId) throws SQLException;
+	public List<Course> listCourse() throws SQLException;
+
+}

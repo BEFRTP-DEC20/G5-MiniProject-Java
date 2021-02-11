@@ -1,0 +1,75 @@
+package com.cybage.model;
+
+public class SubCourse {
+	  int subCourseId, subCourseDuration , courseId, subCvidSeq;
+	  String subCourseName , subCourseDesc , subCvidUrl ;
+	
+	public SubCourse() {
+		super();
+	}
+	
+	public SubCourse(int subCourseId, int subCourseDuration, int courseId, String subCourseName, String subCourseDesc,
+			String subCvidUrl, int subCvidSeq) {
+		super();
+		this.subCourseId = subCourseId;
+		this.subCourseDuration = subCourseDuration;
+		this.courseId = courseId;
+		this.subCourseName = subCourseName;
+		this.subCourseDesc = subCourseDesc;
+		this.subCvidUrl = subCvidUrl;
+		this.subCvidSeq = subCvidSeq;
+	}
+ 
+	
+public int getSubCourseId() {
+		return subCourseId;
+	}
+	public void setSubCourseId(int subCourseId) {
+		this.subCourseId = subCourseId;
+	}
+	public int getSubCourseDuration() {
+		return subCourseDuration;
+	}
+	public void setSubCourseDuration(int subCourseDuration) {
+		this.subCourseDuration = subCourseDuration;
+	}
+	public int getCourseId() {
+		return courseId;
+	}
+	public void setCourseId(int courseId) {
+		this.courseId = courseId;
+	}
+	
+	
+	public String getSubCourseName() {
+		return subCourseName;
+	}
+	public void setSubCourseName(String subCourseName) {
+		this.subCourseName = subCourseName;
+	}
+	public String getSubCourseDesc() {
+		return subCourseDesc;
+	}
+	public void setSubCourseDesc(String subCourseDesc) {
+		this.subCourseDesc = subCourseDesc;
+	}
+	public String getSubCvidUrl() {
+		return subCvidUrl;
+	}
+	public void setSubCvidUrl(String subCvidUrl) {
+		this.subCvidUrl = subCvidUrl;
+	}
+	public int getSubCvidSeq() {
+		return subCvidSeq;
+	}
+	public void setSubCvidSeq(int subCvidSeq) {
+		this.subCvidSeq = subCvidSeq;
+	}
+
+public String toString() {
+	return "SubCourse [subCourseId=" + subCourseId + ", subCourseDuration=" + subCourseDuration + ", courseId="
+			+ courseId + ", subCourseName=" + subCourseName + ", subCourseDesc=" + subCourseDesc + ", subCvidUrl="
+			+ subCvidUrl + ", subCvidSeq=" + subCvidSeq + "]";
+}
+
+}

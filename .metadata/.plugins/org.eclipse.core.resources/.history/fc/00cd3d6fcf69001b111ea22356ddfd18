@@ -1,0 +1,12 @@
+package com.cybage.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.cybage.model.Category;
+
+public interface AdminDao  {
+	public int addCategory(Category category) throws SQLException;
+	public Category getCategoryById(int catId) throws SQLException;
+	public List<Category> listCategory() throws SQLException
+}

@@ -1,5 +1,4 @@
 package com.cybage.model;
-import java.util.Random;
 public class EnrolledCourse {
 	int enrollmentId, coursePrice, currentVideo, courseId, userId; 
 	String purchaseDate, certificateUrl;

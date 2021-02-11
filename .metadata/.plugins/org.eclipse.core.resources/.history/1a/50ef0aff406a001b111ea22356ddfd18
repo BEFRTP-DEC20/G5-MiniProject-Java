@@ -1,0 +1,6 @@
+package com.cybage.model;
+
+public class Course {
+	String courseName, courseAuthor;
+	int courseDuration, coursePrice; 
+}

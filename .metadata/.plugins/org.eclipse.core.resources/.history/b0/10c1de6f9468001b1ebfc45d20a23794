@@ -1,0 +1,10 @@
+package com.cybage.service;
+
+import com.cybage.model.Category;
+
+public interface AdminService {
+
+	int addCategory(Category category);
+	
+
+}

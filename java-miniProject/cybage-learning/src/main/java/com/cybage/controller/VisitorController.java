@@ -30,7 +30,19 @@ public class VisitorController extends HttpServlet {
   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = request.getPathInfo();
+		
+		if (path.equals("/")) {
+			try {
+				List<Category> categoryList = userService.findCategory();
+				request.setAttribute("categoryList", categoryList);
 
+				request.getRequestDispatcher("list").forward(request, response);
+
+			} catch (Exception e) {
+				System.out.println("error occurred: " + e.getMessage());
+			}
+		}
+		
 		if (path.equals("/list")) {
 			try {
 				List<Category> categoryList = userService.findCategory();
