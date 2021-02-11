@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.cybage.model.Category;
 import com.cybage.model.Course;
@@ -303,6 +304,41 @@ public class UserDaoImpl implements UserDao {
 		System.out.println("in dao" + currentVideo.getCurrentVideoInDb());
 		return ps.executeUpdate();
 
+	}
+
+	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException {
+		String sql = "update enrolled_course set course_complete = 1 where user_id = ? and course_id = ? ";
+
+		Connection con = DbUtil.getCon();
+		PreparedStatement ps = con.prepareStatement(sql);
+
+		ps.setInt(1, findUserId(username));
+		ps.setInt(2, courseid);
+		return ps.executeUpdate();
+	}
+
+	public List<String>  gererateCertificate(int courseid, String username) throws SQLException {
+		String sqlFullName = "select full_name from user where user_id = ?";
+
+		Connection con = DbUtil.getCon();
+		PreparedStatement ps = con.prepareStatement(sqlFullName);
+		ps.setInt(1, findUserId(username));
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		String fullName =  rs.getString(1);
+		
+		String sqlCourseDetails = "select course_name, category_name from course INNER JOIN category On category.category_id = course.category_id INNER JOIN enrolled_course ON course.course_id = enrolled_course.course_id where enrolled_course.course_complete =1 and enrolled_course.user_id = ? and enrolled_course.course_id = ?";
+		
+		ps = con.prepareStatement(sqlCourseDetails);
+		ps.setInt(1, findUserId(username));
+		ps.setInt(2, courseid);
+		ResultSet rs1 = ps.executeQuery();
+		rs1.next();
+		String courseName =  rs1.getString(1);
+		String categoryName =  rs1.getString(2);
+		
+		ps.close();
+		return Arrays.asList(fullName,categoryName,courseName);
 	}
 
 }

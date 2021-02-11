@@ -51,9 +51,9 @@
 							<video id="myVideo" class="center"
 								ontimeupdate="currentVideoTime(this)" width="90%" height="90%"
 								controls>
-								<%-- <source src='<%=request.getContextPath()+request.getAttribute("subcourse_url")%>'
-									type='video/mp4' /> --%>
-								<source src='../videos/1.mp4' type='video/mp4' />
+								<source
+									src='<%=request.getContextPath() +"/"+ session.getAttribute("subcourse_url")%>'
+									type='video/mp4' />
 								Your browser does not support HTML5 video.
 							</video>
 						</div>
@@ -104,5 +104,4 @@
 	</div>
 </div>
 
-<!--  working   -->
 <jsp:include page="user-footer.jsp"></jsp:include>

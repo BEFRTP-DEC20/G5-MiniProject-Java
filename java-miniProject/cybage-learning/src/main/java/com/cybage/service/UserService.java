@@ -11,7 +11,6 @@ import com.cybage.model.PrimeUser;
 import com.cybage.model.CurrentVideo;
 import com.cybage.model.SubCourse;
 
-import com.cybage.model.User;
 
 public interface UserService {
 	
@@ -28,5 +27,6 @@ public interface UserService {
 	public List<SubCourse> findSubCourse(int courseid) throws SQLException;
 	public int getCurrentVideo(int courseid) throws SQLException;
 	public int updateCurrentVideo(CurrentVideo currentVideo) throws SQLException;
-
+	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException;
+	public List<String> gererateCertificate(String username, int courseid) throws SQLException;
 }
