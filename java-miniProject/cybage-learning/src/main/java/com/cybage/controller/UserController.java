@@ -21,14 +21,11 @@ import com.cybage.model.Course;
 
 import com.cybage.model.PrimeUser;
 
-
 import com.cybage.model.CurrentVideo;
 import com.cybage.model.EnrolledCourse;
 import com.cybage.model.SubCourse;
 
-import com.cybage.model.User;
 import com.cybage.service.UserServiceImpl;
-import com.mysql.cj.Session;
 
 @ServletSecurity(value = @HttpConstraint(rolesAllowed = { "user" }))
 public class UserController extends HttpServlet {
@@ -52,11 +49,11 @@ public class UserController extends HttpServlet {
 //----------------------------HOME USER LIST--------------------------------------
 		if (path.equals("/list")) {
 			try {
-				
+
 				String userName = request.getRemoteUser();
 				List<Course> enrolledList = userService.findEnrolledCourses(userName);
 				List<Category> categories = userService.findCategory();
-				boolean isPrime  = userService.isPrime(userName);
+				boolean isPrime = userService.isPrime(userName);
 				request.setAttribute("categoryList", categories);
 				request.setAttribute("enrolledList", enrolledList);
 				request.setAttribute("isPrime", isPrime);
@@ -70,7 +67,7 @@ public class UserController extends HttpServlet {
 		if (path.equals("/search")) {
 			String userName = request.getRemoteUser();
 			String search_string = request.getParameter("search");
-			boolean isPrime  = userService.isPrime(userName);
+			boolean isPrime = userService.isPrime(userName);
 			System.out.println(search_string);
 			if (search_string == null) {
 				request.setAttribute("isPrime", isPrime);
@@ -89,12 +86,11 @@ public class UserController extends HttpServlet {
 				request.setAttribute("categoryList", categoryList);
 				request.setAttribute("courseList", courseList);
 				request.setAttribute("isPrime", isPrime);
-				
+
 				request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 			}
 		}
 
-		
 //-------------------------------------Course--------------------------------------------
 
 		if (path.equals("/course")) {
@@ -104,7 +100,7 @@ public class UserController extends HttpServlet {
 			System.out.println(cat_id);
 			try {
 				List<Course> courses = userService.findCourses(cat_id);
-				List<Course> enrolledList = userService.findEnrolledCoursesByCategory(userName,cat_id);
+				List<Course> enrolledList = userService.findEnrolledCoursesByCategory(userName, cat_id);
 				boolean isPrime = userService.isPrime(userName);
 				if (courses.removeAll(enrolledList)) {
 					System.out.println(courses);
@@ -112,14 +108,13 @@ public class UserController extends HttpServlet {
 				}
 				request.setAttribute("courseList", courses);
 				request.setAttribute("enrolledList", enrolledList);
-				request.setAttribute("isPrime",isPrime);
+				request.setAttribute("isPrime", isPrime);
 				request.getRequestDispatcher("/user/user-courses.jsp").forward(request, response);
 
 			} catch (Exception e) {
 				System.out.println("error occurred: " + e.getMessage());
 			}
 		}
-
 
 		// -----------------------START COURSE------------------------------------------
 
@@ -181,53 +176,54 @@ public class UserController extends HttpServlet {
 			}
 
 		}
-		//------------------------------user profile----------------------------------------
-		if(path.equals("/profileDisplay")) {
+		// ------------------------------user
+		// profile----------------------------------------
+		if (path.equals("/profileDisplay")) {
 			try {
-				String userName= request.getRemoteUser();
+				String userName = request.getRemoteUser();
 				System.out.println("in profile display");
-				
+
 				PrimeUser user = userService.displayProfile(userName);
-				if(user == null) {
+				if (user == null) {
 					throw new UserException("could not find user");
 				}
 				request.setAttribute("user", user);
 				System.out.println(user.isIs_prime_user());
-				request.setAttribute("isPrime",user.isIs_prime_user());
+				request.setAttribute("isPrime", user.isIs_prime_user());
 				System.out.println(user);
-				request.getRequestDispatcher("/user/user-profile.jsp").forward(request, response);	
+				request.getRequestDispatcher("/user/user-profile.jsp").forward(request, response);
 			}
-			
-			catch(Exception e) {
+
+			catch (Exception e) {
 				System.out.println("error occurred: " + e.getMessage());
 			}
 		}
-		
-		if(path.equals("/enroll-course") ) {
+
+		if (path.equals("/enroll-course")) {
 			int courseId = Integer.parseInt(request.getParameter("id"));
-			String userName= request.getRemoteUser();
-			
+			String userName = request.getRemoteUser();
+
 			int userId = userService.findUserId(userName);
 			Date dt = new java.util.Date();
 
-			java.text.SimpleDateFormat sdf = 
-			     new java.text.SimpleDateFormat("yyyy-MM-dd");
+			java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 
 			String purchaseDate = sdf.format(dt);
 			int coursePrice = Integer.parseInt(request.getParameter("price"));
-			
+
 			EnrolledCourse enrolledCourse = new EnrolledCourse(courseId, userId, coursePrice, purchaseDate);
 			try {
 				int success = userService.enroll(enrolledCourse);
-				
-				response.sendRedirect(request.getContextPath()+"/UserController/start-course?id="+courseId+"&vid=0");
+
+				response.sendRedirect(
+						request.getContextPath() + "/UserController/start-course?id=" + courseId + "&vid=0");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-if (path.equals("/get-certificate")) {
+
+		if (path.equals("/get-certificate")) {
 			System.out.println("Into get certifcate method");
 			int courseid = Integer.parseInt(request.getParameter("id"));
 			System.out.println("course id:" + courseid);
@@ -242,10 +238,8 @@ if (path.equals("/get-certificate")) {
 			try {
 				status = userService.updateCourseCompleteStatus(courseid, username);
 
-				// 2. fetch user full_name, course_name, and category name
-				if (status > 0) {
-					certificateData = userService.gererateCertificate(username, courseid);
-				}
+				// 2. fetch user full_name, category_name and course_name,
+				certificateData = userService.gererateCertificate(username, courseid);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -255,13 +249,20 @@ if (path.equals("/get-certificate")) {
 			for (String data : certificateData) {
 				System.out.println(data);
 			}
-			if(status>0) {
-				response.sendRedirect(request.getContextPath() + "/user/certificate.jsp");
-			}
-			else {
+			request.setAttribute("full_name", certificateData.get(0));
+			request.setAttribute("category_name", certificateData.get(1));
+			request.setAttribute("course_name", certificateData.get(2));
+
+			System.out.println("in usercontroller:" + certificateData.get(0));
+			System.out.println("in usercontroller:" + certificateData.get(1));
+			System.out.println("in usercontroller:" + certificateData.get(2));
+
+			if (status > 0) {
+				request.getRequestDispatcher("/user/certificate.jsp").forward(request, response);
+			} else {
 				// show error page
 			}
-				
+
 		}
 	}
 
@@ -299,28 +300,18 @@ if (path.equals("/get-certificate")) {
 			request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 		}
 
-
-	
-	
-			
-
-		
 //---------------------------Update Profile---------------------------------------------------
-		if(path.equals("/updateProfile"))
-		{
+		if (path.equals("/updateProfile")) {
 			try {
 				PrimeUser user = new PrimeUser();
 				user.setFullName(request.getParameter("fullName"));
 				user.setUserName(request.getRemoteUser());
 				user.setPassword(request.getParameter("oldPassword").toString());
-				
-				if((request.getParameter("newPassword").toString()).equals(""))
-				{
+
+				if ((request.getParameter("newPassword").toString()).equals("")) {
 					System.out.println(user.getPassword());
-					
-				}
-				else
-				{
+
+				} else {
 					System.out.println("new password updated");
 					user.setPassword(request.getParameter("newPassword"));
 				}
@@ -328,25 +319,18 @@ if (path.equals("/get-certificate")) {
 				System.out.println(user.getUserName());
 				System.out.println(user.getPassword());
 				System.out.println(request.getParameter("primeUser"));
-				if(request.getParameter("primeUser").equals("true"))
-				{
+				if (request.getParameter("primeUser").equals("true")) {
 					user.setIs_prime_user(true);
-				}
-				else
-				{
+				} else {
 					user.setIs_prime_user(false);
-					
+
 				}
 				userService.updateProfile(user);
 				request.getRequestDispatcher("/UserController/list").forward(request, response);
-			}catch(Exception e)
-			{
+			} catch (Exception e) {
 				System.out.println("error occurred: " + e.getMessage());
 			}
 		}
 	}
 
-
-	}
-
-
+}
