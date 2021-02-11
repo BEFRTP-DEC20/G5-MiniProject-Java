@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.List;
 import java.io.IOException;
 import java.sql.SQLException;
-
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.HttpConstraint;
@@ -23,6 +23,7 @@ import com.cybage.model.PrimeUser;
 
 
 import com.cybage.model.CurrentVideo;
+import com.cybage.model.EnrolledCourse;
 import com.cybage.model.SubCourse;
 
 import com.cybage.model.User;
@@ -51,12 +52,14 @@ public class UserController extends HttpServlet {
 //----------------------------HOME USER LIST--------------------------------------
 		if (path.equals("/list")) {
 			try {
-
+				
 				String userName = request.getRemoteUser();
 				List<Course> enrolledList = userService.findEnrolledCourses(userName);
 				List<Category> categories = userService.findCategory();
+				boolean isPrime  = userService.isPrime(userName);
 				request.setAttribute("categoryList", categories);
 				request.setAttribute("enrolledList", enrolledList);
+				request.setAttribute("isPrime", isPrime);
 				request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 
 			} catch (Exception e) {
@@ -65,9 +68,12 @@ public class UserController extends HttpServlet {
 		}
 
 		if (path.equals("/search")) {
+			String userName = request.getRemoteUser();
 			String search_string = request.getParameter("search");
+			boolean isPrime  = userService.isPrime(userName);
 			System.out.println(search_string);
 			if (search_string == null) {
+				request.setAttribute("isPrime", isPrime);
 				request.getRequestDispatcher("/list").forward(request, response);
 			} else {
 				List<Category> categoryList = new ArrayList<Category>();
@@ -82,7 +88,8 @@ public class UserController extends HttpServlet {
 				}
 				request.setAttribute("categoryList", categoryList);
 				request.setAttribute("courseList", courseList);
-
+				request.setAttribute("isPrime", isPrime);
+				
 				request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 			}
 		}
@@ -97,14 +104,15 @@ public class UserController extends HttpServlet {
 			System.out.println(cat_id);
 			try {
 				List<Course> courses = userService.findCourses(cat_id);
-				List<Course> enrolledList = userService.findEnrolledCourses(userName);
-
+				List<Course> enrolledList = userService.findEnrolledCoursesByCategory(userName,cat_id);
+				boolean isPrime = userService.isPrime(userName);
 				if (courses.removeAll(enrolledList)) {
 					System.out.println(courses);
 					System.out.println(enrolledList);
 				}
 				request.setAttribute("courseList", courses);
 				request.setAttribute("enrolledList", enrolledList);
+				request.setAttribute("isPrime",isPrime);
 				request.getRequestDispatcher("/user/user-courses.jsp").forward(request, response);
 
 			} catch (Exception e) {
@@ -195,6 +203,29 @@ public class UserController extends HttpServlet {
 			}
 		}
 		
+		if(path.equals("/enroll-course") ) {
+			int courseId = Integer.parseInt(request.getParameter("id"));
+			String userName= request.getRemoteUser();
+			
+			int userId = userService.findUserId(userName);
+			Date dt = new java.util.Date();
+
+			java.text.SimpleDateFormat sdf = 
+			     new java.text.SimpleDateFormat("yyyy-MM-dd");
+
+			String purchaseDate = sdf.format(dt);
+			int coursePrice = Integer.parseInt(request.getParameter("price"));
+			
+			EnrolledCourse enrolledCourse = new EnrolledCourse(courseId, userId, coursePrice, purchaseDate);
+			try {
+				int success = userService.enroll(enrolledCourse);
+				
+				response.sendRedirect(request.getContextPath()+"/UserController/start-course?id="+courseId+"&vid=0");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 
@@ -245,9 +276,9 @@ public class UserController extends HttpServlet {
 				PrimeUser user = new PrimeUser();
 				user.setFullName(request.getParameter("fullName"));
 				user.setUserName(request.getRemoteUser());
-				user.setPassword("old password: "+request.getParameter("newPassword"));
+				user.setPassword(request.getParameter("oldPassword").toString());
 				
-				if((request.getParameter("newPassword")).equals("null"))
+				if((request.getParameter("newPassword").toString()).equals(""))
 				{
 					System.out.println(user.getPassword());
 					
@@ -271,7 +302,7 @@ public class UserController extends HttpServlet {
 					
 				}
 				userService.updateProfile(user);
-				request.getRequestDispatcher("/list").forward(request, response);
+				request.getRequestDispatcher("/UserController/list").forward(request, response);
 			}catch(Exception e)
 			{
 				System.out.println("error occurred: " + e.getMessage());

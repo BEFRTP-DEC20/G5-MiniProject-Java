@@ -6,13 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.Date;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
 
 import com.cybage.model.PrimeUser;
 
 import com.cybage.model.CurrentVideo;
+import com.cybage.model.EnrolledCourse;
 import com.cybage.model.SubCourse;
 
 import com.cybage.model.User;
@@ -113,7 +114,7 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-//-----------------------------------------------------------------------------
+//-------------------------------FIND ALL COURSES----------------------------------------------
 	public List<Course> findCourses(int categoryId) throws Exception {
 		Connection con = DbUtil.getCon();
 
@@ -238,7 +239,7 @@ public class UserDaoImpl implements UserDao {
 		boolean user_prime = false;
 		try {
 			Connection con = DbUtil.getCon();
-			String sql2 = "select is_user_prime from user where user_name = ?";
+			String sql2 = "select is_prime_user from user where user_name = ?";
 			PreparedStatement ps;
 			ps = con.prepareStatement(sql2);
 			ps.setString(1, userName);
@@ -303,6 +304,52 @@ public class UserDaoImpl implements UserDao {
 		System.out.println("in dao" + currentVideo.getCurrentVideoInDb());
 		return ps.executeUpdate();
 
+	}
+
+
+	public List<Course> findEnrolledCoursesByCategory(String userName, int cat_id) throws SQLException {
+		Connection con = DbUtil.getCon();
+		int userId = findUserId(userName);
+		String sql = "select * from course left join enrolled_course on course.course_id = enrolled_course.course_id where user_id = ? and category_id = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, userId);
+		ps.setInt(2, cat_id);
+		ResultSet rs = ps.executeQuery();
+
+		List<Course> courses = new ArrayList<Course>();
+		while (rs.next()) {
+			Course course = new Course();
+			course.setCourseId(rs.getInt(1));
+			course.setCourseName(rs.getString(2));
+			course.setCoursePrice(rs.getInt(3));
+			course.setCourseDuration(rs.getInt(4));
+			course.setCourseAuthor(rs.getString(5));
+			course.setCourseDescription(rs.getString(6));
+			course.setImageUrl(rs.getString(7));
+			course.setTotalSubCourse(rs.getInt(8));
+
+			courses.add(course);
+		}
+		return courses;
+	}
+
+//--------------------------------------Enroll Course--------------------------------------------
+	public int enroll(EnrolledCourse ec) throws SQLException {
+		Connection con = DbUtil.getCon();
+		String sql = "insert into enrolled_course values(? , ? , ? , ? , ? , ? , ? , ? )";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, ec.getEnrollmentId());
+		ps.setString(2,ec.getPurchaseDate());
+		ps.setInt(3,ec.getCoursePrice());
+		ps.setInt(4, ec.getCurrentVideo());
+		ps.setBoolean(5,ec.isCourseComplete());
+		ps.setInt(6, ec.getCourseId());
+		ps.setInt(7, ec.getUserId());
+		ps.setString(8, ec.getCertificateUrl());
+		
+		
+		return ps.executeUpdate(); 
+		
 	}
 
 }
