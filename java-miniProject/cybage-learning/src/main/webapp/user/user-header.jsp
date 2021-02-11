@@ -3,7 +3,7 @@
 <%@page isELIgnored="false"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +20,8 @@
 	crossorigin="anonymous" />
 <!----------------------  custom css here ---------------------------->
 <link rel="stylesheet" href="scss/start-course.css">
+<link rel="stylesheet" href="scss/footer.css">
+<link rel="stylesheet" href="user/scss/footer.css" />
 </head>
 <style>
 body {
@@ -39,7 +41,7 @@ body {
 
 		<div class="collapse navbar-collapse justify-content-between"
 			id="navbarSupportedContent">
-			<div class="search">
+			<div >
 				<form class="form-inline my-2 my-lg-0"
 					action="<%=request.getContextPath()%>/UserController/search"
 					method="post">
