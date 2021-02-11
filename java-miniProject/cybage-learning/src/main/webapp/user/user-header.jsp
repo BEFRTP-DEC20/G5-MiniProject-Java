@@ -20,6 +20,8 @@
 	crossorigin="anonymous" />
 <!----------------------  custom css here ---------------------------->
 <link rel="stylesheet" href="scss/start-course.css">
+<link rel="stylesheet" href="scss/footer.css">
+<link rel="stylesheet" href="user/scss/footer.css" />
 </head>
 <style>
 body {
@@ -28,7 +30,7 @@ body {
 </style>
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-warning ">
+	<nav class="navbar navbar-expand-lg navbar-light bg-warning  ">
 		<a class="navbar-brand" href="#">Cybage Learning</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
@@ -39,7 +41,7 @@ body {
 
 		<div class="collapse navbar-collapse justify-content-between"
 			id="navbarSupportedContent">
-			<div class="search">
+			<div >
 				<form class="form-inline my-2 my-lg-0"
 					action="<%=request.getContextPath()%>/UserController/search"
 					method="post">

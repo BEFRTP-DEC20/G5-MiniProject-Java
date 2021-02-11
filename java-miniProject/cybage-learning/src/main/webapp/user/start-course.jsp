@@ -2,8 +2,6 @@
 <%@page isELIgnored="false"%>
 
 <jsp:include page="user-header.jsp"></jsp:include>
-
-<h1 class="text-warning">Course</h1>
 <%
 	Object currentVideo = session.getAttribute("current_video");
 	Object videoCount = session.getAttribute("video_count");
@@ -24,8 +22,8 @@
 <c:out value="${videoCount_int}"></c:out>
 <%-- ${(videoCount > 0) ? "some text when true" : "some text when false"} --%>
 <div class="container-fluid course-container">
-	<div class="row">
-		<div class="col-sm-8 title">
+	<div class="row h3">
+		<div class="col-sm-8 title ">
 			<%=currentVideo + ". " + session.getAttribute("subcourse_title")%>
 		</div>
 
@@ -104,4 +102,4 @@
 	</div>
 </div>
 
-<jsp:include page="user-footer.jsp"></jsp:include>
+<jsp:include page="../footer.jsp"></jsp:include>

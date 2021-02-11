@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insert title here</title>
+<title>Cybage E-Learning</title>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 
@@ -15,7 +15,8 @@
 <link
 	href="<%=request.getContextPath()%>/webjars/bootstrap/4.5.3/css/bootstrap.css"
 	rel="stylesheet">
-
+	
+<link rel="stylesheet" href="user/scss/footer.css" />
 
 <!--  custom css here -->
 
@@ -26,18 +27,6 @@ body {
 }
 </style>
 
-<script>
-	$(document).ready(function() {
-		$('.openBtn').on('click', function() {
-			var dataURL = $(this).attr('data-href');
-			$('.modal-body').load(dataURL, function() {
-				$('#myModal').modal({
-					show : true
-				});
-			});
-		});
-	});
-</script>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-warning ">
 		<a class="navbar-brand" href="#">Cybage Learning</a>
