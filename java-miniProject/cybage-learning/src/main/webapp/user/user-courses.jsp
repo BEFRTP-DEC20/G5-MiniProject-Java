@@ -16,6 +16,34 @@
 	margin-right: 5%;
 }
 </style>
+<%
+				if ((request.getAttribute("completedList")) != null) {
+					out.print("<hr>");
+					out.print("<h1>Completed Courses</h1>");
+					out.print("<hr>");
+				    out.print("<div class='contrainer-fluid'>");
+				    out.print("<div class='row text-center'>");
+					List<Course> course = (List) request.getAttribute("completedList");
+					for (Course c : course) {
+						out.print("<div class='col-md-3  col-sm-3'>");
+						out.print("<div class='card' >");
+						out.print("<img class='card-img-top' src='" + c.getImageUrl() + "'>");
+						out.print("<div class='card-body'>");
+						out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>");
+						out.print("<p class='card-text'>" + c.getCourseDescription() + "</p>");
+						out.print("<div class='text-center'>");
+						out.print("<a href='UserController/start-course?id=" + c.getCourseId()
+								+ "&amp;vid=0' class='btn btn-warning '>Generate Certificate(LINK)</a>");
+						out.print("</div>");
+						out.print("</div>");
+						out.print("</div>");
+						out.print("</div>");
+						
+					}
+					out.print("</div>");
+					out.print("</div>");
+				}
+			%>
 	<hr>
 	<h1>Enrolled Courses</h1>
 	<hr>
