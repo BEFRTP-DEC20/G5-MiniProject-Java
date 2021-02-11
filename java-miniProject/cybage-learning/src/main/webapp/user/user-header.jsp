@@ -29,7 +29,7 @@ body {
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-warning ">
-		<a class="navbar-brand" href="#">Cybage Learning</a>
+		<a class="navbar-brand" href="<%=request.getContextPath()%>/UserController/list">Cybage Learning</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -61,8 +61,6 @@ body {
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
 							<a class="dropdown-item fa fa-user" aria-hidden="true" href="<%=request.getContextPath()%>/UserController/profileDisplay"> Profile</a> <hr>
 							<a class="dropdown-item fa fa-sign-out" aria-hidden="true" href="<%= request.getContextPath()%>/logout.jsp"> Logout</a> 
-
-
 						</div>
 
 					</li>

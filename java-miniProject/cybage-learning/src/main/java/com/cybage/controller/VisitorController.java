@@ -68,7 +68,8 @@ public class VisitorController extends HttpServlet {
 			String password = request.getParameter("userPassword");
 			String securityQuestion = request.getParameter("security1");
 			String securityAnswer = request.getParameter("securityAnswer");
-			String isPrime = request.getParameter("PrimeUser");
+			String isPrime = request.getParameter("primeUser");
+			System.out.println(isPrime);
 			Boolean isUserPrime = false;
 			if(isPrime.equals("true"))
 			{
@@ -79,7 +80,7 @@ public class VisitorController extends HttpServlet {
 			try {
 				int success = userService.registerUser(user);
 				if(success==1)
-					response.sendRedirect("index.jsp");
+					response.sendRedirect(request.getContextPath()+"/VisitorController/list");
 
 			} catch (Exception e) {
 				System.out.println("error occurred: " + e.getMessage());

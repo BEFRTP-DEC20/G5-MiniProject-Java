@@ -11,6 +11,7 @@ import com.cybage.model.Course;
 import com.cybage.model.PrimeUser;
 
 import com.cybage.model.CurrentVideo;
+import com.cybage.model.EnrolledCourse;
 import com.cybage.model.SubCourse;
 
 import com.cybage.model.User;
@@ -83,6 +84,26 @@ public class UserServiceImpl implements UserService {
 		return userDao.updateCurrentVideo(currentVideo);
 	}
 
+	public List<Course> findEnrolledCoursesByCategory(String userName, int cat_id) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.findEnrolledCoursesByCategory(userName,cat_id);
+	}
+
+	public boolean isPrime(String userName) {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.isPrime(userName);
+	}
+
+	public int enroll(EnrolledCourse ec) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.enroll(ec);
+	}
+
+	public int findUserId(String userName) {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.findUserId(userName);
+	}
+
 	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException {
 		UserDao userDao = new UserDaoImpl();
 		return userDao.updateCourseCompleteStatus(courseid,username);
@@ -93,5 +114,4 @@ public class UserServiceImpl implements UserService {
 		return userDao.gererateCertificate(courseid,username);
 	}
 
-	
 }
