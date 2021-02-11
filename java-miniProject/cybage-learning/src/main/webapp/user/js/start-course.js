@@ -1,7 +1,7 @@
 var vid = document.getElementById("myVideo");
 var isVideoCompleted = false;
 $(document).ready(function() {
-	$(".search").hide();
+//	$(".search").hide();
 	$(".certficate-btn").hide();
 	$(".nextvideo").on("click", function(e) {
 		if (isVideoCompleted === false)
