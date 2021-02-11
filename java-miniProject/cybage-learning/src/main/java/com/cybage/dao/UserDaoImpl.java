@@ -252,7 +252,7 @@ public class UserDaoImpl implements UserDao {
 		}
 		return user_prime;
 
-
+	}
 
 	public List<SubCourse> findSubCourse(int courseid) throws SQLException {
 		Connection con = DbUtil.getCon();

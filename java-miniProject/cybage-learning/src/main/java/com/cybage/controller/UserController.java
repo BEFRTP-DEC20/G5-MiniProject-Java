@@ -20,7 +20,7 @@ import com.cybage.model.Category;
 import com.cybage.model.Course;
 
 import com.cybage.model.PrimeUser;
-import com.cybage.model.RegularUser;
+
 
 import com.cybage.model.CurrentVideo;
 import com.cybage.model.SubCourse;
@@ -173,6 +173,29 @@ public class UserController extends HttpServlet {
 			}
 
 		}
+		//------------------------------user profile----------------------------------------
+		if(path.equals("/profileDisplay")) {
+			try {
+				String userName= request.getRemoteUser();
+				System.out.println("in profile display");
+				
+				PrimeUser user = userService.displayProfile(userName);
+				if(user == null) {
+					throw new UserException("could not find user");
+				}
+				request.setAttribute("user", user);
+				System.out.println(user.isIs_prime_user());
+				request.setAttribute("isPrime",user.isIs_prime_user());
+				System.out.println(user);
+				request.getRequestDispatcher("/user/user-profile.jsp").forward(request, response);	
+			}
+			
+			catch(Exception e) {
+				System.out.println("error occurred: " + e.getMessage());
+			}
+		}
+		
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -209,42 +232,11 @@ public class UserController extends HttpServlet {
 			request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 		}
 
-		if (path.equals("/open")) {
-			try {
 
-				request.getRequestDispatcher("/footer.jsp").forward(request, response);
-
-			} catch (Exception e) {
-				System.out.println("error occurred: " + e.getMessage());
-			}
-		}
-
-	}
+	
 	
 			
-//------------------------------user profile----------------------------------------
-			if(path.equals("/profileDisplay")) {
-				try {
-					String userName= request.getRemoteUser();
-					System.out.println("in profile display");
-					
-					PrimeUser user = userService.displayProfile(userName);
-					if(user == null) {
-						throw new UserException("could not find user");
-					}
-					request.setAttribute("user", user);
-					System.out.println(user.isIs_prime_user());
-					request.setAttribute("isPrime",user.isIs_prime_user());
-					System.out.println(user);
-					request.getRequestDispatcher("/user/user-profile.jsp").forward(request, response);	
-				}
-				
-				catch(Exception e) {
-					System.out.println("error occurred: " + e.getMessage());
-				}
-			}
-			
-			
+
 		
 //---------------------------Update Profile---------------------------------------------------
 		if(path.equals("/updateProfile"))
@@ -290,4 +282,4 @@ public class UserController extends HttpServlet {
 
 	}
 
-}
+

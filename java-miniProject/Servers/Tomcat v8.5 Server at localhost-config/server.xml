@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -136,7 +135,7 @@
              available for use by the Realm.  -->
         <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
       </Realm>
-      <Realm className="org.apache.catalina.realm.JDBCRealm" connectionName="root" connectionPassword="cybage@123" connectionURL="jdbc:mysql://localhost:3306/cybage_learning" driverName="com.mysql.jdbc.Driver" roleNameCol="user_role" userCredCol="user_password" userNameCol="user_name" userRoleTable="user" userTable="user"/>
+		<Realm className="org.apache.catalina.realm.JDBCRealm" connectionName="root" connectionPassword="cybage@123" connectionURL="jdbc:mysql://localhost:3306/cybage_learning" driverName="com.mysql.jdbc.Driver" roleNameCol="user_role" userCredCol="user_password" userNameCol="user_name" userRoleTable="user" userTable="user"/>
 
       <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
 
@@ -154,5 +153,4 @@
       <Context docBase="cybage-learning" path="/cybage-learning" reloadable="true" source="org.eclipse.jst.j2ee.server:cybage-learning"/></Host>
     </Engine>
   </Service>
-
 </Server>
