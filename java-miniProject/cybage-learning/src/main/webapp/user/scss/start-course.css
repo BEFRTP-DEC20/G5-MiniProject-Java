@@ -1,91 +1,108 @@
 .videobuttons {
-  margin-left: 5%;
-  width: 20%;
-  justify-content: space-around;
+	margin-left: 5%;
+	width: 20%;
+	justify-content: space-around;
 }
 
 a.btn {
-  font-weight: bold;
+	font-weight: bold;
+}
+#underline{
+	text-decoration: underline;
+}
+a.btn:hover {
+	transform: translateY(-5px);
+}
+.blockquote-custom {
+  position: relative;
+  font-size: 1.1rem;
 }
 
-a.btn:hover {
-  transform: translateY(-5px);
+.blockquote-custom-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -25px;
+  left: 50px;
 }
 
 .container-fluid {
-  padding: 2%;
+	padding: 2%;
 }
 
 .col {
-  padding: 2%;
+	padding: 2%;
 }
 
 .title {
-  font-size: 200%;
+	font-size: 200%;
 }
 
 .description {
-  font-size: 150%;
+	font-size: 150%;
 }
 
-.video,
-.description {
-  border-radius: 3%;
-  padding: 1px;
-  /* background: #d3d3d3; */
-/*   background:#999900; */
-  background: radial-gradient(#dfcab9,#685944);
+.video, .description {
+	border-radius: 2%;
+	/* padding: 1px; */
+	background: linear-gradient(to right, #ffc837,#f9d423 );
 }
-
+.blockquote{
+	background: white;
+	color:black;
+} 
 .center {
-  margin: 2% auto;
-  display: block;
+	margin: 2% auto;
+	display: block;
 }
+
 .progress-bar {
-  background: linear-gradient(
-    90deg,
-    rgba(222, 221, 245, 1) 0%,
-    rgba(151, 236, 231, 1) 0%,
-    rgba(95, 188, 198, 1) 28%,
-    rgba(14, 209, 230, 1) 62%
-  );
-  width: 0;
-  animation: progress 1.5s ease-in-out forwards;
+	background: linear-gradient(90deg, rgba(222, 221, 245, 1) 0%,
+		rgba(151, 236, 231, 1) 0%, rgba(95, 188, 198, 1) 28%,
+		rgba(14, 209, 230, 1) 62%);
+	width: 0;
+	animation: progress 1.5s ease-in-out forwards;
 }
 
 .p-title {
-  font-size: 150%;
-  opacity: 0;
-  animation: show 0.35s forwards ease-in-out 0.5s;
+	font-size: 150%;
+	opacity: 0;
+	animation: show 0.35s forwards ease-in-out 0.5s;
 }
 .jumbotron {
 	background-color: 60c7c1;
 }
 
-@keyframes progress {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 100%;
-  }
+@
+keyframes progress {from { width:0;
+	
 }
-@keyframes show {
-  from {
-    opacity: 0;
-  }
 
-  to {
-    opacity: 1;
-  }
+to {
+	width: 100%;
+}
+
+}
+@
+keyframes show {from { opacity:0;
+	
+}
+
+to {
+	opacity: 1;
+}
+
 }
 .card {
-  width: 30rem;
-  padding: 3%;
-  padding-top: 5%;
-  margin-top: 7%;
-  margin-bottom: 5%;
-  margin-left: 20%;
-  margin-right: 20%;
+	width: 30rem;
+	padding: 3%;
+	padding-top: 5%;
+	margin-top: 7%;
+	margin-bottom: 5%;
+	margin-left: 20%;
+	margin-right: 20%;
 }

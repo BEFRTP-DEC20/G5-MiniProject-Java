@@ -7,6 +7,10 @@ $(document).ready(function() {
 		if (isVideoCompleted === false)
 			e.preventDefault();
 	});
+
+	$(".certficate-btn").on("click", function(e) {
+		
+	});
 });
 
 function currentVideoTime(event) {
@@ -16,7 +20,7 @@ function currentVideoTime(event) {
 	}
 	if (event.currentTime / vid.duration > 0.9 && isVideoCompleted === true
 			&& $(".nextvideo").hasClass("disabled")) {
-		$(".progress-bar").css("max-width","100%");
+		$(".progress-bar").css("max-width", "100%");
 		$(".certficate-btn").show();
 
 	}

@@ -12,7 +12,6 @@ import com.cybage.model.CurrentVideo;
 import com.cybage.model.EnrolledCourse;
 import com.cybage.model.SubCourse;
 
-import com.cybage.model.User;
 
 public interface UserService {
 	
@@ -33,5 +32,8 @@ public interface UserService {
 	public boolean isPrime(String userName);
 	public int enroll(EnrolledCourse ec) throws SQLException;
 	public int findUserId(String userName);
+
+	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException;
+	public List<String> gererateCertificate(String username, int courseid) throws SQLException;
 
 }
