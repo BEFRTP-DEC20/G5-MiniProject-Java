@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cybage.dao.UserDao;
 import com.cybage.dao.UserDaoImpl;
+import com.cybage.exception.UserException;
 import com.cybage.service.UserService;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.PrimeUser;
+import com.cybage.model.RegularUser;
 import com.cybage.model.User;
 import com.cybage.service.UserServiceImpl;
 import com.mysql.cj.Session;
@@ -78,27 +81,8 @@ public class UserController extends HttpServlet {
 			request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 			}
 		}
-		//---------------------------------------registration-----------------------------------------------------
-		if (path.equals("/registration")) {
-			String fullName = request.getParameter("fullName");
-			String username = request.getParameter("userName");
-			String password = request.getParameter("userPassword");
-			String securityQuestion = request.getParameter("security1");
-			String securityAnswer = request.getParameter("securityAnswer");
-
-			User user = new User(fullName, username, password,securityQuestion,securityAnswer);
-			
-			try {
-				int success = userService.registerUser(user);
-				if(success==1)
-					response.sendRedirect("index.jsp");
-
-			} catch (Exception e) {
-				System.out.println("error occurred: " + e.getMessage());
-			}
-		}
 		
-//		---------------------------Course----------------------
+//-------------------------------------Course--------------------------------------------
 		if (path.equals("/course")) {
 			System.out.println("inside course method....");
 			int cat_id = (Integer.parseInt(request.getParameter("id")));
@@ -110,6 +94,24 @@ public class UserController extends HttpServlet {
 				request.getRequestDispatcher("/user/user-courses.jsp").forward(request, response);
 
 			} catch (Exception e) {
+				System.out.println("error occurred: " + e.getMessage());
+			}
+		}
+		if(path.equals("/profileDisplay")) {
+			try {
+				String userName= request.getRemoteUser();
+				System.out.println("in profile display");
+				User user = userService.displayProfile(userName);
+				System.out.println(user);
+				if(user == null) {
+					throw new UserException("could not find user");
+				}
+				request.setAttribute("user", user);
+				System.out.println("Attribute set: "+user);
+				request.getRequestDispatcher("/user/user-profile.jsp").forward(request, response);	
+			}
+			
+			catch(Exception e) {
 				System.out.println("error occurred: " + e.getMessage());
 			}
 		}
@@ -160,40 +162,72 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			System.out.println("error occurred: " + e.getMessage());
 		}
 	}
-	//---------------------------------------user registration-----------------------------------------------------
-			if (path.equals("/registration")) {
-				String fullName = request.getParameter("fullName");
-				String username = request.getParameter("userName");
-				String password = request.getParameter("userPassword");
-				String securityQuestion = request.getParameter("security1");
-				String securityAnswer = request.getParameter("securityAnswer");
-
-				User user = new User(fullName, username, password,securityQuestion,securityAnswer);
-				
-				try {
-					int success = userService.registerUser(user);
-					if(success==1)
-						response.sendRedirect("/index.jsp");
-
-				} catch (Exception e) {
-					System.out.println("error occurred: " + e.getMessage());
-				}
-			}
-
+	
 			
 //------------------------------user profile----------------------------------------
-			if(path.equals("/profile")) {
+			if(path.equals("/profileDisplay")) {
 				try {
-
-					String fullName = request.getParameter("fullName");
-					String userName = request.getParameter("userName");
-					String password = request.getParameter("password");
-
-				}catch(Exception e) {
+					String userName= request.getRemoteUser();
+					System.out.println("in profile display");
+					
+					PrimeUser user = userService.displayProfile(userName);
+					if(user == null) {
+						throw new UserException("could not find user");
+					}
+					request.setAttribute("user", user);
+					System.out.println(user.isIs_prime_user());
+					request.setAttribute("isPrime",user.isIs_prime_user());
+					System.out.println(user);
+					request.getRequestDispatcher("/user/user-profile.jsp").forward(request, response);	
+				}
+				
+				catch(Exception e) {
 					System.out.println("error occurred: " + e.getMessage());
 				}
 			}
+			
+			
+		
+//---------------------------Update Profile---------------------------------------------------
+		if(path.equals("/updateProfile"))
+		{
+			try {
+				PrimeUser user = new PrimeUser();
+				user.setFullName(request.getParameter("fullName"));
+				user.setUserName(request.getRemoteUser());
+				user.setPassword("old password: "+request.getParameter("newPassword"));
+				
+				if((request.getParameter("newPassword")).equals("null"))
+				{
+					System.out.println(user.getPassword());
+					
+				}
+				else
+				{
+					System.out.println("new password updated");
+					user.setPassword(request.getParameter("newPassword"));
+				}
+				System.out.println(user.getFullName());
+				System.out.println(user.getUserName());
+				System.out.println(user.getPassword());
+				System.out.println(request.getParameter("primeUser"));
+				if(request.getParameter("primeUser").equals("true"))
+				{
+					user.setIs_prime_user(true);
+				}
+				else
+				{
+					user.setIs_prime_user(false);
+					
+				}
+				userService.updateProfile(user);
+				request.getRequestDispatcher("/list").forward(request, response);
+			}catch(Exception e)
+			{
+				System.out.println("error occurred: " + e.getMessage());
 			}
+		}
+	}
 
 
 

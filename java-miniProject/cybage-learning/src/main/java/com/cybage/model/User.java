@@ -16,16 +16,23 @@ public class User {
 	}
 
 
-	public User(String fullName2, String username2, String password2, String securityQuestion, String securityAnswer) {
+	public User(String fullName, String username, String password, String securityQuestion, String securityAnswer) {
 		super();
 		this.userId=-1;
-		this.fullName = fullName2;
-		this.userName = username2;
-		this.password = password2;
+		this.fullName = fullName;
+		this.userName = username;
+		this.password = password;
 		this.role = "user";
 		this.userSecurityQuestion = securityQuestion;
 		this.userSecurityAnswer = securityAnswer;
 	}
+
+	public User(String fullName, String userName, String password) {
+		this.fullName = fullName;
+		this.userName = userName;
+		this.password = password;
+	}
+
 
 	public int getUserId() {
 		return userId;
