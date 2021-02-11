@@ -7,6 +7,13 @@ import com.cybage.dao.UserDao;
 import com.cybage.dao.UserDaoImpl;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+
+import com.cybage.model.PrimeUser;
+
+import com.cybage.model.CurrentVideo;
+import com.cybage.model.EnrolledCourse;
+import com.cybage.model.SubCourse;
+
 import com.cybage.model.User;
 
 public class UserServiceImpl implements UserService {
@@ -33,7 +40,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	public int registerUser(User registerUser) throws SQLException {
+	public int registerUser(PrimeUser registerUser) throws SQLException {
 		UserDao userDao = new UserDaoImpl();
 		return userDao.registerUser(registerUser);
 	}
@@ -48,5 +55,63 @@ public class UserServiceImpl implements UserService {
 		return userDao.findEnrolledCourses(userName);
 	}
 
+
+	public PrimeUser displayProfile(String userName) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.displayProfile(userName);
+	}
+
+	public int updateProfile(PrimeUser user) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.updateProfile(user);
+	}
+
 	
+	
+
+	public List<SubCourse> findSubCourse(int userid) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.findSubCourse(userid) ;
+	}
+
+	public int getCurrentVideo(int courseid) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.getCurrentVideo( courseid);
+	}
+
+	public int updateCurrentVideo(CurrentVideo currentVideo) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.updateCurrentVideo(currentVideo);
+	}
+
+	public List<Course> findEnrolledCoursesByCategory(String userName, int cat_id) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.findEnrolledCoursesByCategory(userName,cat_id);
+	}
+
+	public boolean isPrime(String userName) {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.isPrime(userName);
+	}
+
+	public int enroll(EnrolledCourse ec) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.enroll(ec);
+	}
+
+	public int findUserId(String userName) {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.findUserId(userName);
+	}
+
+	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.updateCourseCompleteStatus(courseid,username);
+	}
+
+	public List<String> gererateCertificate(String username, int courseid) throws SQLException {
+		UserDao userDao = new UserDaoImpl();
+		return userDao.gererateCertificate(courseid,username);
+	}
+
 }

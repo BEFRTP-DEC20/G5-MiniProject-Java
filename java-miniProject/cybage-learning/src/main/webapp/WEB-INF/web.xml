@@ -4,6 +4,7 @@
 
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
+	
 	<servlet>
 		<servlet-name>UserController</servlet-name>
 		<display-name>UserController</display-name>
