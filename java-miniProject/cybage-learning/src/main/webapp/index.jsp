@@ -110,10 +110,7 @@
 		if ((request.getAttribute("categoryList")) == null) {
 			out.print("<a class='btn btn-warning' href='" + request.getContextPath()
 					+ "/VisitorController/list'>Load Categories</a>");
-		}
-	}
-	
-		
+		}	
 %>
 </div>
 <%

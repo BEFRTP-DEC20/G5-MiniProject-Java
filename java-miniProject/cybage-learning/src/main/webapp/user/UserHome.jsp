@@ -3,12 +3,8 @@
 <%@page import="com.cybage.model.Category"%>
 <%@page import="com.cybage.model.Course"%>
 <%@page import="java.util.List"%>
+
 <body>
-	<!-- To import list and Category Model -->
-
-
-
-	<!--Inline CSS -->
 	<style>
 .card {
 	width: 18rem;
@@ -26,7 +22,6 @@
 </style>
 	<hr>
 	<h1>Enrolled Courses</h1>
-	<hr>
 	<div class="contrainer-fluid">
 		<div class="row text-center">
 
@@ -54,7 +49,7 @@
 	</div>
 	<hr>
 	<h1>Categories</h1>
-	<hr>
+
 	<div class="contrainer-fluid">
 		<div class="row text-center">
 

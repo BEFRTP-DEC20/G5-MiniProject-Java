@@ -18,7 +18,7 @@
 </style>
 	<hr>
 	<h1>Enrolled Courses</h1>
-	<hr>
+
 	<div class="contrainer-fluid">
 		<div class="row">
 
@@ -44,9 +44,9 @@
 			%>
 		</div>
 	</div>
-	<hr>
+		<hr>
 	<h1>Other Courses</h1>
-	<hr>
+
 
 	<%
 		if ((request.getAttribute("courseList")) != null) {
