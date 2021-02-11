@@ -50,7 +50,7 @@
 								ontimeupdate="currentVideoTime(this)" width="90%" height="90%"
 								controls>
 								<source
-									src='<%=request.getContextPath() +"/"+ session.getAttribute("subcourse_url")%>'
+									src='<%=request.getContextPath() + "/" + session.getAttribute("subcourse_url")%>'
 									type='video/mp4' />
 								Your browser does not support HTML5 video.
 							</video>
@@ -65,14 +65,9 @@
 							<a
 								href="<%=request.getContextPath()%>/UserController/start-course?vid=<%=next_video%>&amp;id=<%=course_id%>"
 								class="btn btn-dark nextvideo videobuttons <%=next_video > videoCount_int ? "disabled" : ""%>">NEXT</a>
-							<%-- <a
-								href="<%=request.getContextPath()%>/UserController/start-course?vid=<%=prev_video%>&amp;id=<%=request.getAttribute("course_id") %>"
-								class='btn <%=prev_video < 1 ? "disabled" : ""%>'>prev</a>  --%>
-							<%-- <a
-								href="https://google.co.in/"
-								class='btn nextvideo <%=next_video > videoCount_int ? "disabled" : ""%>'>Next</a> --%>
 
-							<a class="btn btn-warning videobuttons certficate-btn" href="#">
+							<a class="btn btn-warning videobuttons certficate-btn"
+								href='<%=request.getContextPath()%>/UserController/get-certificate?id=<%=course_id%>'>
 								Get certificate</a>
 						</div>
 
@@ -88,16 +83,11 @@
 						<div class="blockquote-custom-icon bg-info shadow-sm">
 							<i class="fa fa-quote-left text-white"></i>
 						</div>
-						<p id="underline">Course Description</p> <br />
+						<p id="underline">Course Description</p>
+						<br />
 						<p class="mb-0 mt-2 font-italic "><%=session.getAttribute("subcourse_desc")%></p>
 				</div>
 			</div>
-			<%-- <div class="col-sm-1"></div>
-			<div class="col-sm-3 description">
-				<div class="col-md-12">
-					Course Description <br />:<%=session.getAttribute("subcourse_desc")%>
-				</div>
-			</div> --%>
 		</div>
 	</div>
 </div>
