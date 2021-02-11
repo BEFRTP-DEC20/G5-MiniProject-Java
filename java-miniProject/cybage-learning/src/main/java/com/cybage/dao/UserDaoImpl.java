@@ -9,14 +9,20 @@ import java.util.ArrayList;
 
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+
 import com.cybage.model.PrimeUser;
-import com.cybage.model.RegularUser;
+
+import com.cybage.model.CurrentVideo;
+import com.cybage.model.SubCourse;
+
 import com.cybage.model.User;
 import com.cybage.util.DbUtil;
 
 public class UserDaoImpl implements UserDao {
 
+
 //----------------------------display category-----------------------------------------	
+
 	public List<Category> findCategory() throws Exception {
 		Connection con = DbUtil.getCon();
 
@@ -36,7 +42,9 @@ public class UserDaoImpl implements UserDao {
 		return categories;
 	}
 
+
 //------------------------------search category----------------------------------------
+
 	public List<Category> searchByCategory(String searchString) throws SQLException {
 
 		Connection connection = DbUtil.getCon();
@@ -57,7 +65,9 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+
 //-----------------------------search course--------------------------------------------------------
+
 	public List<Course> searchByCourse(String searchString) throws SQLException {
 		Connection connection = DbUtil.getCon();
 		String sql = "select * from course where course_name LIKE ?";
@@ -82,13 +92,14 @@ public class UserDaoImpl implements UserDao {
 	}
 
 //-----------------------------User Registration--------------------------------
+
 	public int registerUser(PrimeUser registerUser) throws SQLException {
 		Connection connection = DbUtil.getCon();
 		String sql = "insert into user(full_name, user_name, user_password, user_role, user_security_question, user_security_answer, is_prime_user)"
 				+ "values( ? , ? , ? , ?, ? , ? , ?)";
 		PreparedStatement ps = connection.prepareStatement(sql);
 		registerUser.setUserId((int) Math.random());
-//
+
 		ps.setString(1, registerUser.getFullName());
 		ps.setString(2, registerUser.getUserName());
 		ps.setString(3, registerUser.getPassword());
@@ -96,6 +107,7 @@ public class UserDaoImpl implements UserDao {
 		System.out.println(registerUser);
 		ps.setString(5, registerUser.getUserSecurityQuestion());
 		ps.setString(6, registerUser.getUserSecurityAnswer());
+
 		ps.setBoolean(7, registerUser.isIs_prime_user());
 		return ps.executeUpdate(); // throw an exception if result set is less then 0
 
@@ -239,6 +251,57 @@ public class UserDaoImpl implements UserDao {
 			e.printStackTrace();
 		}
 		return user_prime;
+
+
+
+	public List<SubCourse> findSubCourse(int courseid) throws SQLException {
+		Connection con = DbUtil.getCon();
+
+		String sql = "select sub_course_id, sub_course_name, sub_course_duration, sub_course_description, video_url, video_sequence, course_id from sub_course where course_id = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, courseid);
+		ResultSet rs = ps.executeQuery();
+
+		List<SubCourse> subCourses = new ArrayList<SubCourse>();
+		while (rs.next()) {
+			SubCourse subCourse = new SubCourse();
+
+			subCourse.setSubCourseId(rs.getInt(1));
+			subCourse.setSubCourseName(rs.getString(2));
+			subCourse.setSubCourseDuration(rs.getInt(3));
+			subCourse.setSubCourseDescription(rs.getString(4));
+			subCourse.setVideoUrl(rs.getString(5));
+			subCourse.setVideoSequence(rs.getInt(6));
+			subCourse.setCourseId(rs.getInt(7));
+
+			subCourses.add(subCourse);
+
+		}
+		return subCourses;
+	}
+
+	public int getCurrentVideo(int courseid) throws SQLException {
+		Connection con = DbUtil.getCon();
+
+		String sql = "select current_video from enrolled_course where course_id = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, courseid);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		return rs.getInt(1);
+	}
+
+	public int updateCurrentVideo(CurrentVideo currentVideo) throws SQLException {
+		String sql = "update enrolled_course set current_video = ? where user_id = ? and course_id = ? ";
+
+		Connection con = DbUtil.getCon();
+		PreparedStatement ps = con.prepareStatement(sql);
+
+		ps.setInt(1, currentVideo.getCurrentVideoInDb());
+		ps.setInt(2, findUserId(currentVideo.getUsername()));
+		ps.setInt(3, currentVideo.getCourseId());
+		System.out.println("in dao" + currentVideo.getCurrentVideoInDb());
+		return ps.executeUpdate();
 
 	}
 

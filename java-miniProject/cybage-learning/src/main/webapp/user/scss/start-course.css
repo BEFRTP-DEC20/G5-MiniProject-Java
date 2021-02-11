@@ -1,0 +1,88 @@
+.videobuttons {
+  margin-left: 5%;
+  width: 20%;
+  justify-content: space-around;
+}
+
+a.btn {
+  font-weight: bold;
+}
+
+a.btn:hover {
+  transform: translateY(-5px);
+}
+
+.container-fluid {
+  padding: 2%;
+}
+
+.col {
+  padding: 2%;
+}
+
+.title {
+  font-size: 200%;
+}
+
+.description {
+  font-size: 150%;
+}
+
+.video,
+.description {
+  border-radius: 3%;
+  padding: 1px;
+  /* background: #d3d3d3; */
+/*   background:#999900; */
+  background: radial-gradient(#dfcab9,#685944);
+}
+
+.center {
+  margin: 2% auto;
+  display: block;
+}
+.progress-bar {
+  background: linear-gradient(
+    90deg,
+    rgba(222, 221, 245, 1) 0%,
+    rgba(151, 236, 231, 1) 0%,
+    rgba(95, 188, 198, 1) 28%,
+    rgba(14, 209, 230, 1) 62%
+  );
+  width: 0;
+  animation: progress 1.5s ease-in-out forwards;
+}
+
+.p-title {
+  font-size: 150%;
+  opacity: 0;
+  animation: show 0.35s forwards ease-in-out 0.5s;
+}
+
+@keyframes progress {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+.card {
+  width: 30rem;
+  padding: 3%;
+  padding-top: 5%;
+  margin-top: 7%;
+  margin-bottom: 5%;
+  margin-left: 20%;
+  margin-right: 20%;
+}

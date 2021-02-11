@@ -2,7 +2,6 @@
 <%@page import="com.cybage.model.Course"%>
 <%@page import="com.cybage.model.Category"%>
 <%@page import="java.util.List"%>
-<body>
 	<!-- To import list and Category Model -->
 
 
@@ -101,6 +100,6 @@
 
 
 
-</body>
+
 
 <jsp:include page="footer.jsp"></jsp:include>

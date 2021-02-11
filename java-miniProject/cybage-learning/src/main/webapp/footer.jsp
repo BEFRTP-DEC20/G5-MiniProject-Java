@@ -5,5 +5,5 @@
 	<script src="<%= request.getContextPath()%>/webjars/bootstrap/4.5.3/js/bootstrap.js"></script>
 	
 </footer>
-
+</body>
 </html>

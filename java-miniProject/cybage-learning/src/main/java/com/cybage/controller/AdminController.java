@@ -17,6 +17,7 @@ import com.cybage.dao.AdminDaoImpl;
 import com.cybage.exception.UserException;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.SubCourse;
 import com.cybage.service.AdminService;
 import com.cybage.service.AdminServiceImpl;
 
@@ -217,6 +218,100 @@ public class AdminController extends HttpServlet {
 							e.printStackTrace();
 						}
 					}
+
+//For listing all the Subcourses on admin page.
+				if (path.equals("/listSubCourse")) {
+					System.out.println("Inside list of Subcourses");
+					try {
+						int courseId = Integer.parseInt(request.getParameter("coid"));
+						List<SubCourse> subcourses = adminService.listSubCourse(courseId);
+						request.setAttribute("subcourses", subcourses);
+						request.setAttribute("courseId", courseId);
+						
+						request.getRequestDispatcher("/admin/listSubCourse.jsp").forward(request, response);
+
+					} catch (Exception e) {
+						System.out.println("error occurred: " + e.getMessage());
+					}
+				}
+				//For Adding all the SubCourses
+				
+				if (path.equals("/addSubCourse")) {
+					System.out.println("inside subcourse add method....");
+					int courseId = Integer.parseInt(request.getParameter("coid"));
+					String subCourseName = request.getParameter("subCourseName");
+					int subCourseDuration = Integer.parseInt(request.getParameter("subCourseDuration"));
+					String subCourseDescription = request.getParameter("subCourseDescription");
+					String videoUrl = request.getParameter("videoUrl");
+					int videoSeq = Integer.parseInt(request.getParameter("videoSeq"));
+					
+					
+					SubCourse subCourse = new SubCourse(subCourseDuration, courseId, subCourseName, subCourseDescription, videoUrl, videoSeq);
+					try {
+						int addCount = adminService.addSubCourse(subCourse);
+						if (addCount <= 0) {
+							throw new UserException("Could not add course.");
+						}
+						request.getRequestDispatcher("listSubCourse").forward(request, response);
+
+					} catch (SQLException e) {
+//						log.error("exception occurred... " + e.getLocalizedMessage());
+						System.out.println(e.getLocalizedMessage());
+					} catch (UserException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				//For deleting Subcourse.
+				if (path.equals("/deleteSubCourse")) {
+					System.out.println("Inside delete SubCourse....");
+						try {
+							int subcourseId = Integer.parseInt(request.getParameter("scid"));
+							int del = adminService.deleteSubCourse(subcourseId);
+						    if(del < 0 ) {
+								throw new UserException("could not get given course.");
+							}	
+							request.getRequestDispatcher("listSubCourse").forward(request, response);
+						} catch (SQLException  e) {
+//							log.error("exception occurred... " + e.getLocalizedMessage());
+							System.out.println(e.getLocalizedMessage());
+						} catch(NumberFormatException e) {
+							System.out.println(e.getLocalizedMessage());
+						} catch (UserException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				
+
+				//For updating Subcourse.
+				if (path.equals("/updateSubCourse")) {
+					System.out.println("inside update method of Subcourse....");
+					int courseId = Integer.parseInt(request.getParameter("cid"));
+					int subCourseId = Integer.parseInt(request.getParameter("subcourseId"));
+					String subCourseName = (request.getParameter("scname"));
+					int subCourseDuration = Integer.parseInt(request.getParameter("scduration"));
+					String subCourseDescription =request.getParameter("scdescription");
+					String videoUrl = request.getParameter("scvideourl");
+					int videoSequence = Integer.parseInt(request.getParameter("scvideoseq"));
+					
+					SubCourse subcourse = new SubCourse(subCourseId, subCourseDuration, courseId, subCourseName, subCourseDescription, videoUrl, videoSequence);
+					try {
+						int addCount = adminService.updateSubCourse(subcourse);
+						if (addCount <= 0) {
+							throw new UserException("Could not update sub course.");
+						}
+						request.getRequestDispatcher("listSubCourse").forward(request, response);
+
+					} catch (SQLException e) {
+//						log.error("exception occurred... " + e.getLocalizedMessage());
+						System.out.println(e.getLocalizedMessage());
+					} catch (UserException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

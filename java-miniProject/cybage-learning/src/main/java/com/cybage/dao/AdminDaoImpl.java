@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.SubCourse;
 import com.cybage.util.DbUtil;
 
 
@@ -131,6 +132,66 @@ public class AdminDaoImpl implements AdminDao{
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, courseId);
+		return ps.executeUpdate();
+	}
+
+//List Subcourses
+	
+	public List<SubCourse> listSubCourse(int courseId) throws SQLException{
+		String sql = "select sub_course_id, sub_course_name, sub_course_duration, sub_course_description, video_url, video_sequence, course_id from sub_course where course_id =?";
+		Connection con = DbUtil.getCon();
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, courseId);
+	
+		ResultSet rs = ps.executeQuery();
+
+		List<SubCourse> subcourses = new ArrayList<SubCourse>();
+		while (rs.next()) {
+			SubCourse subcourse = new SubCourse();
+			subcourse.setSubCourseId(rs.getInt(1));
+			subcourse.setSubCourseName(rs.getString(2));
+			subcourse.setSubCourseDuration(rs.getInt(3));
+			subcourse.setSubCourseDescription(rs.getString(4));
+			subcourse.setVideoUrl(rs.getString(5));
+			subcourse.setVideoSequence(rs.getInt(6));
+			subcourse.setCourseId(courseId);
+			subcourses.add(subcourse);
+		}
+		return subcourses;
+	}
+	
+	public int addSubCourse(SubCourse subcourse) throws SQLException{
+		String sql = "insert into sub_course(sub_course_name, sub_course_duration, sub_course_description, video_url, video_sequence, course_id) values(?, ?, ?, ?, ?, ?)";
+		Connection con = DbUtil.getCon();
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1,subcourse.getSubCourseName());
+		ps.setInt(2,subcourse.getSubCourseDuration());
+		ps.setString(3,subcourse.getSubCourseDescription());
+		ps.setString(4,subcourse.getVideoUrl());
+		ps.setInt(5,subcourse.getVideoSequence());
+		ps.setInt(6,subcourse.getCourseId());
+	
+		return ps.executeUpdate();
+	}
+	
+	public int deleteSubCourse(int subcourseId) throws SQLException{
+		String sql = "delete from sub_course where sub_course_id = ?";
+		Connection con = DbUtil.getCon();
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, subcourseId);
+		return ps.executeUpdate();
+	}
+	public int updateSubCourse(SubCourse subcourse) throws SQLException{
+		String sql = "update sub_course set sub_course_name = ? , sub_course_duration = ?, sub_course_description = ?, video_url = ?, video_sequence = ? where sub_course_id = ?";
+		Connection con = DbUtil.getCon();
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1,subcourse.getSubCourseName());
+		ps.setInt(2,subcourse.getSubCourseDuration());
+		ps.setString(3,subcourse.getSubCourseDescription());
+		ps.setString(4,subcourse.getVideoUrl());
+		ps.setInt(5,subcourse.getVideoSequence());
+		ps.setInt(6,subcourse.getSubCourseId());
+		
 		return ps.executeUpdate();
 	}
 }
