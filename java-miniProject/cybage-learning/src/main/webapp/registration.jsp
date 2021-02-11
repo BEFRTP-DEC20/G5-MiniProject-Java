@@ -78,21 +78,31 @@
 
 
 		<div class="col-md-6 login-form-2 bg-warning">
-		<h1>Register</h1>
-                    <hr>
+			<h1>Register</h1>
+			<hr>
 			<form method=post action="VisitorController/registration">
 				<div class="form-group">
-					<input type="text" class="form-control" name="fullName" placeholder="Full Name" required="required">
+					<input type="text" class="form-control" name="fullName"
+						placeholder="Full Name" pattern="[A-Za-z]{3}" title = "name should contain atleast 3 character" required="required">
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" name="userName" placeholder="Username" required="required">
+					<input type="text" class="form-control" name="userName"
+						placeholder="Username" pattern="[a-z]{1,15}"
+						title="Username should only contain lowercase letters.
+						required="required">
 				</div>
 				<div class="form-group">
-					<input type="password" class="form-control" name="userPassword" placeholder="Password" required="required">
+					<input type="password"
+						pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+						title="Must contain at least one number and one uppercase and
+						lowercase letter, and at least 8 or more characters"
+						class="form-control" name="userPassword" placeholder="Password"
+						required="required">
+
 				</div>
 
 				<div class="form-group row">
-					
+
 					<div class="col-md-12 col-sm-12">
 						<select class="security form-control" id="security1"
 							name="security1" required>
@@ -106,18 +116,27 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					
+
 					<div class="col-sm-12 col-md-12">
 						<input type="text" class="form-control" id="security_answer"
-							placeholder="Enter Security Answer" name="securityAnswer">
+							placeholder="Enter Security Answer" name="securityAnswer" required = "required">
 					</div>
-					</div><br>
-					<div class="justify-content-center form-group">
-					
-						<button type="submit" class="btn btn-outline-dark m-3 " href="index.jsp"  id="signUp">Register</button>
-						
-						<button class="btn btn-outline-danger" type="reset" id="btnCloseIt" data-dismiss="modal">Reset</button>
-					</div>
+				</div>
+				<br>
+				<div class="form-group">
+					<label>PRIME USER: </label> <input type="radio"
+						class="form-control" value=true name="primeUser"> <label>REGULAR
+						USER: </label> <input type="radio" class="form-control" value=false
+						name="primeUser">
+				</div>
+				<div class="justify-content-center form-group">
+
+					<button type="submit" class="btn btn-outline-dark m-3 "
+						href="index.jsp" id="signUp">Register</button>
+
+					<button class="btn btn-outline-danger" type="reset" id="btnCloseIt"
+						data-dismiss="modal">Reset</button>
+				</div>
 			</form>
 			</form>
 		</div>

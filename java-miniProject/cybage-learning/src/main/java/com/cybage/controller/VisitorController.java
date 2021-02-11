@@ -14,6 +14,7 @@ import com.cybage.dao.UserDao;
 import com.cybage.dao.UserDaoImpl;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.PrimeUser;
 import com.cybage.model.User;
 import com.cybage.service.UserService;
 import com.cybage.service.UserServiceImpl;
@@ -67,8 +68,13 @@ public class VisitorController extends HttpServlet {
 			String password = request.getParameter("userPassword");
 			String securityQuestion = request.getParameter("security1");
 			String securityAnswer = request.getParameter("securityAnswer");
-
-			User user = new User(fullName, username, password,securityQuestion,securityAnswer);
+			String isPrime = request.getParameter("PrimeUser");
+			Boolean isUserPrime = false;
+			if(isPrime.equals("true"))
+			{
+				isUserPrime=true;
+			}
+			PrimeUser user = new PrimeUser(fullName, username, password,securityQuestion,securityAnswer,isUserPrime);
 			
 			try {
 				int success = userService.registerUser(user);

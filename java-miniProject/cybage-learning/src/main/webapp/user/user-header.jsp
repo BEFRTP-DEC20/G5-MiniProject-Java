@@ -51,21 +51,18 @@ body {
 			</div>
 			<!------------------------------drop down----------------------->
 			<div>
-				<ul class="navbar-nav mr-auto ">
-					<li class="nav-item">
-						<div class="dropdown">
-							<button class="btn btn-warning dropdown-toggle" type="button"
-								id="dropdownMenuButton" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="true"><%=request.getRemoteUser()%></button>
-							<div class="dropdown-menu dropdown-menu-right"
-								aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item fa fa-user" aria-hidden="true"
-									href="<%=request.getContextPath()%>/user/user-profile.jsp">
-									Profile</a>
-								<hr>
-								<a class="dropdown-item fa fa-sign-out" aria-hidden="true"
-									href="<%=request.getContextPath()%>/logout.jsp"> Logout</a>
-							</div>
+
+			<ul class="navbar-nav mr-auto ">
+				<li class="nav-item">
+					<div class="dropdown">
+						<button class="btn btn-warning dropdown-toggle" type="button"
+							id="dropdownMenuButton" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="true"><%=request.getRemoteUser() %></button>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item fa fa-user" aria-hidden="true" href="<%=request.getContextPath()%>/UserController/profileDisplay"> Profile</a> <hr>
+							<a class="dropdown-item fa fa-sign-out" aria-hidden="true" href="<%= request.getContextPath()%>/logout.jsp"> Logout</a> 
+
+
 						</div>
 
 					</li>
