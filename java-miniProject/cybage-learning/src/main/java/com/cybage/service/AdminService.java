@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+import com.cybage.model.SubCourse;
 
 public interface AdminService {
 
