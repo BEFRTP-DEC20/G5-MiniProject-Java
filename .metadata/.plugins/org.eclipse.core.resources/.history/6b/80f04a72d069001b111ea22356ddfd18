@@ -1,0 +1,22 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<servlet>
+		<servlet-name>AdminController</servlet-name>
+		<display-name>AdminController</display-name>
+		<description></description>
+		<servlet-class>com.cybage.controller.AdminController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminController</servlet-name>
+		<url-pattern>/AdminController/*</url-pattern>
+	</servlet-mapping>
+  
+	<welcome-file-list>
+		<welcome-file>listCategory.html</welcome-file>
+		<welcome-file>listCategory.htm</welcome-file>
+		<welcome-file>listCategory.jsp</welcome-file>
+	</welcome-file-list>  
+</web-app>

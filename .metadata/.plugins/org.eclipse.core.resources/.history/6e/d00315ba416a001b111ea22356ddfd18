@@ -1,0 +1,40 @@
+package com.cybage.model;
+
+public class Course {
+	String courseName, courseAuthor, courseDescription, imageUrl;
+	int courseId, categoryId, courseDuration, coursePrice;
+	
+	public Course() {
+		super();
+	}
+	
+	public Course(String courseName, String courseAuthor, String courseDescription, String imageUrl, int courseId,
+			int courseDuration, int coursePrice) {
+		super();
+		this.courseName = courseName;
+		this.courseAuthor = courseAuthor;
+		this.courseDescription = courseDescription;
+		this.imageUrl = imageUrl;
+		this.courseId = courseId;
+		this.categoryId = categoryId;
+		this.courseDuration = courseDuration;
+		this.coursePrice = coursePrice;
+	}
+	
+	public Course(String courseName, String courseAuthor, String courseDescription, String imageUrl, int courseId,
+			int categoryId, int courseDuration, int coursePrice) {
+		super();
+		this.courseName = courseName;
+		this.courseAuthor = courseAuthor;
+		this.courseDescription = courseDescription;
+		this.imageUrl = imageUrl;
+		this.courseId = courseId;
+		this.categoryId = categoryId;
+		this.courseDuration = courseDuration;
+		this.coursePrice = coursePrice;
+	}
+	
+	
+	
+	
+}

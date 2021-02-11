@@ -8,14 +8,22 @@
 <!--  custom css here -->
 <style>
 	.login-container{
+	border-radius: 30px;
     margin-top: 5%;
     margin-bottom: 5%;
+    background: rgb(255, 193, 7);
+	background: linear-gradient(90deg,rgba(23, 162, 184, 1)  30%,
+		rgba(255, 193, 7, 1) 63%);
 	}
 
 	.login-form-2{
+		border-radius: 20px;
 	    padding: 9%;  
-	    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+	    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.2), 10px 10px 10px  rgba(0, 0, 0, 0.19);
+	    background: rgb(255,193,7);
+		background: linear-gradient(90deg, rgba(255,193,7,1) 49%, rgba(23,162,184,1) 49%);
 	}	
+	
 
 </style>
 </head>
@@ -24,9 +32,9 @@
 <div class="container login-container ml-5">
             
                
-                <div class="col-md-6 login-form-2 bg-warning">
+                <div class="col-md-6 login-form-2">
                    <form method=post action="j_security_check">
-                    <h1>Login</h1>
+                    <h1 ><span style="color:#17a2b8;">Lo</span><span style="color:#ffc107;">gin</span> </h1>
                     <hr>
                         <div class="form-group mt-4">
                             <input type="text" class="form-control" name="j_username"
@@ -37,7 +45,7 @@
 					placeholder="Password" required="required" />
                         </div>
                         <div class="form-group">
-                            <input type="submit" class="mt-4 btn btn-outline-dark" value="Login" />
+                            <input type="submit" class="mt-4 btn btn-outline-dark" value="Login"/> 
                         </div>
                         <div class="form-group">
 

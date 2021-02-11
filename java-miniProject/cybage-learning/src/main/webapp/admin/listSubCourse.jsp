@@ -150,7 +150,9 @@ video {
 			<div class="col-lg-4 col-sm-12">
 				<div class="card">
 					<video controls>
-						<source src="${c.getVideoUrl()}" type="video/mp4" />
+						<source
+							src='<%=request.getContextPath() +"/"%>${c.getVideoUrl()}'
+							type="video/mp4" />
 					</video>
 					<div class="card-body">
 						<input type="hidden" id="subcourseId" name="subcourseId"
