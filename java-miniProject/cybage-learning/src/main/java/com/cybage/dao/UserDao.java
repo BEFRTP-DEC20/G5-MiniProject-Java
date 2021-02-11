@@ -35,4 +35,5 @@ public interface UserDao {
 
 	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException;
 	public List<String> gererateCertificate(int courseid, String username) throws SQLException;
+	public List<Course> findCompletedCourse(String userName) throws SQLException;
 }

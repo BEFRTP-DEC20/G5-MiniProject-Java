@@ -378,4 +378,30 @@ public class UserDaoImpl implements UserDao {
 		return Arrays.asList(fullName, categoryName, courseName);
 	}
 
+	@Override
+	public List<Course> findCompletedCourse(String userName) throws SQLException {
+		Connection con = DbUtil.getCon();
+		int userId = findUserId(userName);
+		String sql = "select * from course left join enrolled_course on course.course_id = enrolled_course.course_id where user_id = ? and enrolled_course.course_complete = true";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, userId);
+		ResultSet rs = ps.executeQuery();
+
+		List<Course> courses = new ArrayList<Course>();
+		while (rs.next()) {
+			Course course = new Course();
+			course.setCourseId(rs.getInt(1));
+			course.setCourseName(rs.getString(2));
+			course.setCoursePrice(rs.getInt(3));
+			course.setCourseDuration(rs.getInt(4));
+			course.setCourseAuthor(rs.getString(5));
+			course.setCourseDescription(rs.getString(6));
+			course.setImageUrl(rs.getString(7));
+			course.setTotalSubCourse(rs.getInt(8));
+
+			courses.add(course);
+		}
+		return courses;
+	}
+
 }

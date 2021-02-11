@@ -62,48 +62,54 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<SubCourse> findSubCourse(int userid) throws SQLException {
-		UserDao userDao = new UserDaoImpl();
+		
 		return userDao.findSubCourse(userid);
 	}
 
 	public int getCurrentVideo(int courseid) throws SQLException {
-		UserDao userDao = new UserDaoImpl();
+		
 		return userDao.getCurrentVideo(courseid);
 	}
 
 	public int updateCurrentVideo(CurrentVideo currentVideo) throws SQLException {
-		UserDao userDao = new UserDaoImpl();
+	
 		return userDao.updateCurrentVideo(currentVideo);
 	}
 
 	public List<Course> findEnrolledCoursesByCategory(String userName, int cat_id) throws SQLException {
-		UserDao userDao = new UserDaoImpl();
+	
 		return userDao.findEnrolledCoursesByCategory(userName, cat_id);
 	}
 
 	public boolean isPrime(String userName) {
-		UserDao userDao = new UserDaoImpl();
+	
 		return userDao.isPrime(userName);
 	}
 
 	public int enroll(EnrolledCourse ec) throws SQLException {
-		UserDao userDao = new UserDaoImpl();
+	
 		return userDao.enroll(ec);
 	}
 
 	public int findUserId(String userName) {
-		UserDao userDao = new UserDaoImpl();
+	
 		return userDao.findUserId(userName);
 	}
 
 	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException {
-		UserDao userDao = new UserDaoImpl();
+	
 		return userDao.updateCourseCompleteStatus(courseid, username);
 	}
 
 	public List<String> gererateCertificate(String username, int courseid) throws SQLException {
-		UserDao userDao = new UserDaoImpl();
+	
 		return userDao.gererateCertificate(courseid, username);
+	}
+
+	@Override
+	public List<Course> findCompletedCourse(String userName) throws SQLException {
+	
+		return userDao.findCompletedCourse(userName);
 	}
 
 }

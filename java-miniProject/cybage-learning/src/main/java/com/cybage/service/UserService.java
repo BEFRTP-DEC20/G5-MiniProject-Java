@@ -35,5 +35,6 @@ public interface UserService {
 
 	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException;
 	public List<String> gererateCertificate(String username, int courseid) throws SQLException;
+	public List<Course> findCompletedCourse(String userName) throws SQLException;
 
 }

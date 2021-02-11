@@ -2,6 +2,7 @@ package com.cybage.controller;
 
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -51,11 +52,14 @@ public class UserController extends HttpServlet {
 			try {
 
 				String userName = request.getRemoteUser();
-				List<Course> enrolledList = userService.findEnrolledCourses(userName);
+				List<Course> enrolledList = userService.findEnrolledCourses(userName).stream().sorted((o1, o2) -> (o1.getCourseName().compareTo(o2.getCourseName()))).collect(Collectors.toList());
+				List<Course> completedList = userService.findCompletedCourse(userName).stream().sorted((o1, o2) -> (o1.getCourseName().compareTo(o2.getCourseName()))).collect(Collectors.toList());
 				List<Category> categories = userService.findCategory();
-				boolean isPrime = userService.isPrime(userName);
+				enrolledList.removeAll(completedList);
+				boolean isPrime  = userService.isPrime(userName);
 				request.setAttribute("categoryList", categories);
 				request.setAttribute("enrolledList", enrolledList);
+				request.setAttribute("completedList", completedList);
 				request.setAttribute("isPrime", isPrime);
 				request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 
@@ -100,15 +104,15 @@ public class UserController extends HttpServlet {
 			System.out.println(cat_id);
 			try {
 				List<Course> courses = userService.findCourses(cat_id);
-				List<Course> enrolledList = userService.findEnrolledCoursesByCategory(userName, cat_id);
+				List<Course> enrolledList = userService.findEnrolledCoursesByCategory(userName,cat_id);
+				List<Course> completedList = userService.findCompletedCourse(userName).stream().sorted((o1, o2) -> (o1.getCourseName().compareTo(o2.getCourseName()))).collect(Collectors.toList());
 				boolean isPrime = userService.isPrime(userName);
-				if (courses.removeAll(enrolledList)) {
-					System.out.println(courses);
-					System.out.println(enrolledList);
-				}
+				courses.removeAll(enrolledList);
+				enrolledList.removeAll(completedList);
 				request.setAttribute("courseList", courses);
 				request.setAttribute("enrolledList", enrolledList);
-				request.setAttribute("isPrime", isPrime);
+				request.setAttribute("isPrime",isPrime);
+				request.setAttribute("completedList", completedList);
 				request.getRequestDispatcher("/user/user-courses.jsp").forward(request, response);
 
 			} catch (Exception e) {
