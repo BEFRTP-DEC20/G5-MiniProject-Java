@@ -9,12 +9,19 @@ import java.util.ArrayList;
 
 import com.cybage.model.Category;
 import com.cybage.model.Course;
+
+import com.cybage.model.PrimeUser;
+
 import com.cybage.model.CurrentVideo;
 import com.cybage.model.SubCourse;
+
 import com.cybage.model.User;
 import com.cybage.util.DbUtil;
 
 public class UserDaoImpl implements UserDao {
+
+
+//----------------------------display category-----------------------------------------	
 
 	public List<Category> findCategory() throws Exception {
 		Connection con = DbUtil.getCon();
@@ -35,8 +42,9 @@ public class UserDaoImpl implements UserDao {
 		return categories;
 	}
 
-	// -----------------search
-	// category-----------------------------------------------------------
+
+//------------------------------search category----------------------------------------
+
 	public List<Category> searchByCategory(String searchString) throws SQLException {
 
 		Connection connection = DbUtil.getCon();
@@ -57,8 +65,9 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-	// -----------------------------search
-	// course--------------------------------------------------------
+
+//-----------------------------search course--------------------------------------------------------
+
 	public List<Course> searchByCourse(String searchString) throws SQLException {
 		Connection connection = DbUtil.getCon();
 		String sql = "select * from course where course_name LIKE ?";
@@ -83,13 +92,14 @@ public class UserDaoImpl implements UserDao {
 	}
 
 //-----------------------------User Registration--------------------------------
-	public int registerUser(User registerUser) throws SQLException {
+
+	public int registerUser(PrimeUser registerUser) throws SQLException {
 		Connection connection = DbUtil.getCon();
-		String sql = "insert into user(full_name, user_name, user_password, user_role, user_security_question, user_security_answer)"
-				+ "values( ? , ? , ? , ?, ? , ?)";
+		String sql = "insert into user(full_name, user_name, user_password, user_role, user_security_question, user_security_answer, is_prime_user)"
+				+ "values( ? , ? , ? , ?, ? , ? , ?)";
 		PreparedStatement ps = connection.prepareStatement(sql);
 		registerUser.setUserId((int) Math.random());
-//			ps.setInt(1, registerUser.getUserId());
+
 		ps.setString(1, registerUser.getFullName());
 		ps.setString(2, registerUser.getUserName());
 		ps.setString(3, registerUser.getPassword());
@@ -97,11 +107,13 @@ public class UserDaoImpl implements UserDao {
 		System.out.println(registerUser);
 		ps.setString(5, registerUser.getUserSecurityQuestion());
 		ps.setString(6, registerUser.getUserSecurityAnswer());
+
+		ps.setBoolean(7, registerUser.isIs_prime_user());
 		return ps.executeUpdate(); // throw an exception if result set is less then 0
 
 	}
 
-//--------------------------------------FIND ALL COURSES OF CATEGORY-------------------------------
+//-----------------------------------------------------------------------------
 	public List<Course> findCourses(int categoryId) throws Exception {
 		Connection con = DbUtil.getCon();
 
@@ -127,7 +139,7 @@ public class UserDaoImpl implements UserDao {
 		return courses;
 	}
 
-//---------------------Find User ID by UserName----------------------------------
+//---------------------------Find User ID by UserName----------------------------------
 	public int findUserId(String userName) {
 		int user_id = 0;
 		try {
@@ -141,13 +153,13 @@ public class UserDaoImpl implements UserDao {
 				user_id = rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return user_id;
 	}
 
-//---------------------------ENROLLED COURSES---------------------------------------------------------------
+//---------------------------ENROLLED COURSES--------------------------------------------
 	public List<Course> findEnrolledCourses(String userName) throws SQLException {
 		Connection con = DbUtil.getCon();
 		int userId = findUserId(userName);
@@ -172,6 +184,75 @@ public class UserDaoImpl implements UserDao {
 		}
 		return courses;
 	}
+//----------------------------------display profile------------------------------------
+
+	public PrimeUser displayProfile(String userName) throws SQLException {
+		Connection con = DbUtil.getCon();
+		String sql = "select * from user where user_name = ?";
+		PreparedStatement ps;
+		ps = con.prepareStatement(sql);
+		ps.setString(1, userName);
+		ResultSet rs = ps.executeQuery();
+		PrimeUser user = new PrimeUser();
+			while (rs.next()) {
+				user.setUserId(rs.getInt(1));
+				user.setFullName(rs.getString(2));
+				user.setUserName(rs.getString(3));
+				System.out.println(rs.getString(4));
+				user.setPassword(rs.getString(4));
+				user.setRole(rs.getString(5));
+				System.out.println(rs.getString(5));
+				user.setUserSecurityQuestion(rs.getString(6));
+				System.out.println(rs.getString(6));
+				user.setUserSecurityAnswer(rs.getString(7));
+				System.out.println(rs.getString(7));
+				user.setIs_prime_user(rs.getBoolean(8));
+				System.out.println(rs.getBoolean(8));
+			}
+			System.out.println(user);
+			return user;
+		}
+
+	
+
+	// ----------------------------------Update profile------------------------------------
+
+	
+	
+	public int updateProfile(PrimeUser user) throws SQLException {
+		Connection con = DbUtil.getCon();
+		System.out.println(user.getUserName());
+		String sql2 = "update user set full_name=?,user_password=? , is_prime_user=? where user_name = ?";
+		PreparedStatement ps;
+		ps = con.prepareStatement(sql2);
+		ps.setString(1, user.getFullName());
+		
+		ps.setString(2, user.getPassword());
+		ps.setBoolean(3,user.isIs_prime_user());
+		ps.setString(4, user.getUserName());
+		return ps.executeUpdate();
+
+	}
+
+	public boolean isPrime(String userName) {
+		boolean user_prime = false;
+		try {
+			Connection con = DbUtil.getCon();
+			String sql2 = "select is_user_prime from user where user_name = ?";
+			PreparedStatement ps;
+			ps = con.prepareStatement(sql2);
+			ps.setString(1, userName);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				user_prime = rs.getBoolean(1);
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return user_prime;
+
+
 
 	public List<SubCourse> findSubCourse(int courseid) throws SQLException {
 		Connection con = DbUtil.getCon();
@@ -221,6 +302,7 @@ public class UserDaoImpl implements UserDao {
 		ps.setInt(3, currentVideo.getCourseId());
 		System.out.println("in dao" + currentVideo.getCurrentVideoInDb());
 		return ps.executeUpdate();
+
 	}
 
 }
