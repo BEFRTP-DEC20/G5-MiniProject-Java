@@ -1,0 +1,7 @@
+package com.cybage.dao;
+
+import com.cybage.model.Category;
+
+public interface AdminDao {
+	public int addCategory(Category category);
+}

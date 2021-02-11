@@ -90,11 +90,11 @@
 %>
 </div>
 <%
-   out.print("<a class='btn btn-warning' href='"+request.getContextPath()+"/AppController'>USER HOME PAGE</a>");
+   out.print("<a class='btn btn-info' href='"+request.getContextPath()+"/AppController'>USER HOME PAGE</a>");
 %>
 	
 	<%  if((request.getAttribute("categoryList"))==null){
-		out.print("<a class='btn btn-warning' href='"+request.getContextPath()+"/VisitorController/list'>Load Categories</a>");
+		out.print("<a class='btn btn-info' href='"+request.getContextPath()+"/VisitorController/list'>Load Categories</a>");
 	}%>
 </div>
 

@@ -1,0 +1,34 @@
+package com.cybage.service;
+
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
+
+import com.cybage.dao.AdminDao;
+import com.cybage.model.Category;
+
+public class AdminServiceImpl implements AdminService{
+	private AdminDao adminDao;
+
+	public AdminServiceImpl(AdminDao adminDao) {
+		super();
+		this.adminDao = adminDao;
+	}
+	public int addCategory(Category category) throws SQLException{
+		return adminDao.addCategory(category);
+	}
+	
+	public Category getCategoryById(int catId) throws SQLException{
+		return adminDao.getCategoryById(catId);
+	}
+	
+	public List<Category> listCategory() throws SQLException{
+		List<Category> newList = adminDao.listCategory();
+		Collections.reverse(newList);
+		return adminDao.listCategory();
+	}
+
+	public int deleteCategory(int catId) throws SQLException{
+		return adminDao.deleteCategory(catId);
+	}
+}

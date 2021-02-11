@@ -24,11 +24,19 @@
 body {
 	font-family: 'Varela Round', sans-serif;
 }
+
+.main-header, body {
+	background: rgb(255, 193, 7);
+	background: linear-gradient(90deg, rgba(255, 193, 7, 1) 30%,
+		rgba(23, 162, 184, 1) 63%);
+}
 </style>
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-warning ">
-		<a class="navbar-brand" href="<%=request.getContextPath()%>/VisitorController/list">Cybage Learning</a>
+	<nav class="navbar navbar-expand-lg navbar-light main-header">
+		<a class="navbar-brand"
+			href="<%=request.getContextPath()%>/VisitorController/list">Cybage
+			Learning</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -44,7 +52,7 @@ body {
 					method="post">
 					<input class="form-control mr-sm-2" type="search"
 						placeholder="Search" aria-label="Search" name="search">
-					<button class="btn btn-outline-dark my-2 my-sm-0 fa fa-search"
+					<button class="btn btn-outline-info my-2 my-sm-0 fa fa-search"
 						aria-hidden="true" type="submit"></button>
 				</form>
 			</div>
@@ -52,8 +60,9 @@ body {
 				<ul class="navbar-nav mr-auto ">
 					<li class="nav-item"><a
 						href="<%=request.getContextPath()%>/AppController"
-						class="btn btn-outline-dark">Login</a> <a href="registration.jsp"
-						class="btn btn-outline-primary">Register</a></li>
+						class="btn btn-outline-warning">Login</a> <a
+						href="<%=request.getContextPath()%>/registration.jsp"
+						class="btn btn-outline-warning">Register</a></li>
 				</ul>
 			</div>
 		</div>

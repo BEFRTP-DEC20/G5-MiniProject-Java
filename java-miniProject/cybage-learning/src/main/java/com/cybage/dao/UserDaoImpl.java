@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Arrays;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
@@ -17,11 +16,10 @@ import com.cybage.model.CurrentVideo;
 import com.cybage.model.EnrolledCourse;
 import com.cybage.model.SubCourse;
 
-import com.cybage.model.User;
+
 import com.cybage.util.DbUtil;
 
 public class UserDaoImpl implements UserDao {
-
 
 //----------------------------display category-----------------------------------------	
 
@@ -44,7 +42,6 @@ public class UserDaoImpl implements UserDao {
 		return categories;
 	}
 
-
 //------------------------------search category----------------------------------------
 
 	public List<Category> searchByCategory(String searchString) throws SQLException {
@@ -66,7 +63,6 @@ public class UserDaoImpl implements UserDao {
 		return categoryList;
 
 	}
-
 
 //-----------------------------search course--------------------------------------------------------
 
@@ -196,31 +192,28 @@ public class UserDaoImpl implements UserDao {
 		ps.setString(1, userName);
 		ResultSet rs = ps.executeQuery();
 		PrimeUser user = new PrimeUser();
-			while (rs.next()) {
-				user.setUserId(rs.getInt(1));
-				user.setFullName(rs.getString(2));
-				user.setUserName(rs.getString(3));
-				System.out.println(rs.getString(4));
-				user.setPassword(rs.getString(4));
-				user.setRole(rs.getString(5));
-				System.out.println(rs.getString(5));
-				user.setUserSecurityQuestion(rs.getString(6));
-				System.out.println(rs.getString(6));
-				user.setUserSecurityAnswer(rs.getString(7));
-				System.out.println(rs.getString(7));
-				user.setIs_prime_user(rs.getBoolean(8));
-				System.out.println(rs.getBoolean(8));
-			}
-			System.out.println(user);
-			return user;
+		while (rs.next()) {
+			user.setUserId(rs.getInt(1));
+			user.setFullName(rs.getString(2));
+			user.setUserName(rs.getString(3));
+			System.out.println(rs.getString(4));
+			user.setPassword(rs.getString(4));
+			user.setRole(rs.getString(5));
+			System.out.println(rs.getString(5));
+			user.setUserSecurityQuestion(rs.getString(6));
+			System.out.println(rs.getString(6));
+			user.setUserSecurityAnswer(rs.getString(7));
+			System.out.println(rs.getString(7));
+			user.setIs_prime_user(rs.getBoolean(8));
+			System.out.println(rs.getBoolean(8));
 		}
+		System.out.println(user);
+		return user;
+	}
 
-	
+	// ----------------------------------Update
+	// profile------------------------------------
 
-	// ----------------------------------Update profile------------------------------------
-
-	
-	
 	public int updateProfile(PrimeUser user) throws SQLException {
 		Connection con = DbUtil.getCon();
 		System.out.println(user.getUserName());
@@ -228,9 +221,9 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement ps;
 		ps = con.prepareStatement(sql2);
 		ps.setString(1, user.getFullName());
-		
+
 		ps.setString(2, user.getPassword());
-		ps.setBoolean(3,user.isIs_prime_user());
+		ps.setBoolean(3, user.isIs_prime_user());
 		ps.setString(4, user.getUserName());
 		return ps.executeUpdate();
 
@@ -307,7 +300,6 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-
 	public List<Course> findEnrolledCoursesByCategory(String userName, int cat_id) throws SQLException {
 		Connection con = DbUtil.getCon();
 		int userId = findUserId(userName);
@@ -340,18 +332,18 @@ public class UserDaoImpl implements UserDao {
 		String sql = "insert into enrolled_course values(? , ? , ? , ? , ? , ? , ? , ? )";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, ec.getEnrollmentId());
-		ps.setString(2,ec.getPurchaseDate());
-		ps.setInt(3,ec.getCoursePrice());
+		ps.setString(2, ec.getPurchaseDate());
+		ps.setInt(3, ec.getCoursePrice());
 		ps.setInt(4, ec.getCurrentVideo());
-		ps.setBoolean(5,ec.isCourseComplete());
+		ps.setBoolean(5, ec.isCourseComplete());
 		ps.setInt(6, ec.getCourseId());
 		ps.setInt(7, ec.getUserId());
 		ps.setString(8, ec.getCertificateUrl());
-		
-		
-		return ps.executeUpdate(); 
-		
-public int updateCourseCompleteStatus(int courseid, String username) throws SQLException {
+
+		return ps.executeUpdate();
+	}
+
+	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException {
 		String sql = "update enrolled_course set course_complete = 1 where user_id = ? and course_id = ? ";
 
 		Connection con = DbUtil.getCon();
@@ -362,7 +354,7 @@ public int updateCourseCompleteStatus(int courseid, String username) throws SQLE
 		return ps.executeUpdate();
 	}
 
-	public List<String>  gererateCertificate(int courseid, String username) throws SQLException {
+	public List<String> gererateCertificate(int courseid, String username) throws SQLException {
 		String sqlFullName = "select full_name from user where user_id = ?";
 
 		Connection con = DbUtil.getCon();
@@ -370,20 +362,20 @@ public int updateCourseCompleteStatus(int courseid, String username) throws SQLE
 		ps.setInt(1, findUserId(username));
 		ResultSet rs = ps.executeQuery();
 		rs.next();
-		String fullName =  rs.getString(1);
-		
+		String fullName = rs.getString(1);
+
 		String sqlCourseDetails = "select course_name, category_name from course INNER JOIN category On category.category_id = course.category_id INNER JOIN enrolled_course ON course.course_id = enrolled_course.course_id where enrolled_course.course_complete =1 and enrolled_course.user_id = ? and enrolled_course.course_id = ?";
-		
+
 		ps = con.prepareStatement(sqlCourseDetails);
 		ps.setInt(1, findUserId(username));
 		ps.setInt(2, courseid);
 		ResultSet rs1 = ps.executeQuery();
 		rs1.next();
-		String courseName =  rs1.getString(1);
-		String categoryName =  rs1.getString(2);
-		
+		String courseName = rs1.getString(1);
+		String categoryName = rs1.getString(2);
+
 		ps.close();
-		return Arrays.asList(fullName,categoryName,courseName);
+		return Arrays.asList(fullName, categoryName, courseName);
 	}
 
 }

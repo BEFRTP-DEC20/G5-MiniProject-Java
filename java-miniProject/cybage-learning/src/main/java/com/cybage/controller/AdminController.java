@@ -219,7 +219,7 @@ public class AdminController extends HttpServlet {
 						}
 					}
 
-//For listing all the Subcourses on admin page.
+				//For listing all the Subcourses on admin page.
 				if (path.equals("/listSubCourse")) {
 					System.out.println("Inside list of Subcourses");
 					try {
