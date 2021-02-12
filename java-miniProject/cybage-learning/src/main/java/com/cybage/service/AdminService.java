@@ -19,7 +19,7 @@ public interface AdminService {
 	public int deleteCourse(int courseId) throws SQLException;
 	public List<Course> listCourse(int catogoryId) throws SQLException;
 	
-public int addSubCourse(SubCourse subcourse) throws SQLException;
+	public int addSubCourse(SubCourse subcourse) throws SQLException;
 	public int updateSubCourse(SubCourse subcourse) throws SQLException;
 	public int deleteSubCourse(int subcourseId) throws SQLException;
 	public List<SubCourse> listSubCourse(int courseId) throws SQLException;

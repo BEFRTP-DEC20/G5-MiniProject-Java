@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.cybage.dao.UserDao;
 import com.cybage.dao.UserDaoImpl;
 import com.cybage.model.Category;
@@ -27,7 +30,8 @@ public class VisitorController extends HttpServlet {
 
 	private UserService userService = new UserServiceImpl(userDao);
 
-  
+	public static final Logger log =  LogManager.getLogger(VisitorController.class);
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = request.getPathInfo();
 		
@@ -39,10 +43,10 @@ public class VisitorController extends HttpServlet {
 				request.getRequestDispatcher("list").forward(request, response);
 
 			} catch (Exception e) {
-				System.out.println("error occurred: " + e.getMessage());
+				log.error("exception occurred... " + e.getLocalizedMessage());
 			}
 		}
-		
+//---------------------------------------category list-----------------------------------------------------	
 		if (path.equals("/list")) {
 			try {
 				List<Category> categoryList = userService.findCategory();
@@ -51,10 +55,10 @@ public class VisitorController extends HttpServlet {
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 
 			} catch (Exception e) {
-				System.out.println("error occurred: " + e.getMessage());
+				log.error("exception occurred... " + e.getLocalizedMessage());
 			}
 		}
-		
+//---------------------------------------search-----------------------------------------------------		
 		if(path.equals("/search")) {
 			String search_string = request.getParameter("search");
 			List<Category> categoryList = new ArrayList<Category>();
@@ -62,10 +66,10 @@ public class VisitorController extends HttpServlet {
 			try {
 				categoryList = userService.searchByCategory(search_string);
 				courseList = userService.searchByCourse(search_string);
-				System.out.println(categoryList);
-				System.out.println(courseList);
+				log.debug("Category : " +categoryList);
+				log.debug("Course : "+courseList);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				log.error("exception occurred... " + e.getLocalizedMessage());
 			}
 			request.setAttribute("categoryList",categoryList);	
 			request.setAttribute("courseList", courseList);
@@ -73,7 +77,7 @@ public class VisitorController extends HttpServlet {
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 			
 		}
-		//---------------------------------------registration-----------------------------------------------------
+//---------------------------------------registration-----------------------------------------------------
 		if (path.equals("/registration")) {
 			String fullName = request.getParameter("fullName");
 			String username = request.getParameter("userName");
@@ -81,7 +85,7 @@ public class VisitorController extends HttpServlet {
 			String securityQuestion = request.getParameter("security1");
 			String securityAnswer = request.getParameter("securityAnswer");
 			String isPrime = request.getParameter("primeUser");
-			System.out.println(isPrime);
+			log.debug("Prime User" +isPrime);
 			Boolean isUserPrime = false;
 			if(isPrime.equals("true"))
 			{
@@ -95,12 +99,12 @@ public class VisitorController extends HttpServlet {
 					response.sendRedirect(request.getContextPath()+"/VisitorController/list");
 
 			} catch (Exception e) {
-				System.out.println("error occurred: " + e.getMessage());
+				log.error("exception occurred... " + e.getLocalizedMessage());
 			}
 		}
 		
+//---------------------------------------course-----------------------------------------------------		
 		if (path.equals("/course")) {
-			System.out.println("inside course method....");
 			int cat_id = (Integer.parseInt(request.getParameter("id")));
 			System.out.println(cat_id);
 			try {
@@ -109,7 +113,7 @@ public class VisitorController extends HttpServlet {
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 
 			} catch (Exception e) {
-				System.out.println("error occurred: " + e.getMessage());
+				log.error("exception occurred... " + e.getLocalizedMessage());
 			}
 		}
 	}

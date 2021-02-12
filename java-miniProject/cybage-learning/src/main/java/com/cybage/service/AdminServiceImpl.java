@@ -4,14 +4,19 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.cybage.dao.AdminDao;
+import com.cybage.dao.UserDaoImpl;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
 import com.cybage.model.SubCourse;
 
 public class AdminServiceImpl implements AdminService{
 	private AdminDao adminDao;
-
+	public static final Logger log =  LogManager.getLogger(AdminServiceImpl.class);
+	
 	public AdminServiceImpl(AdminDao adminDao) {
 		super();
 		this.adminDao = adminDao;

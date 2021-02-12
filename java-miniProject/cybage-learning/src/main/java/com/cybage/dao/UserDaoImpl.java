@@ -1,6 +1,10 @@
 package com.cybage.dao;
 
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,13 +24,15 @@ import com.cybage.model.SubCourse;
 import com.cybage.util.DbUtil;
 
 public class UserDaoImpl implements UserDao {
+	
+	public static final Logger log =  LogManager.getLogger(UserDaoImpl.class);
 
 //----------------------------display category-----------------------------------------	
 
 	public List<Category> findCategory() throws Exception {
 		Connection con = DbUtil.getCon();
-
 		String sql = "select category_id, category_name, image_url from category";
+		log.debug(" data retrieved from category table ");
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 
@@ -48,6 +54,7 @@ public class UserDaoImpl implements UserDao {
 
 		Connection connection = DbUtil.getCon();
 		String sql = "select * from category where category_name LIKE ?";
+		log.debug(" data retrieved from category table ");
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setString(1, "%" + searchString + "%");
 		ResultSet rs = ps.executeQuery(); // throw an exception if result set is less then 0
@@ -69,6 +76,7 @@ public class UserDaoImpl implements UserDao {
 	public List<Course> searchByCourse(String searchString) throws SQLException {
 		Connection connection = DbUtil.getCon();
 		String sql = "select * from course where course_name LIKE ?";
+		log.debug(" data retrieved from course table ");
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setString(1, "%" + searchString + "%");
 		ResultSet rs = ps.executeQuery(); // throw an exception if result set is less then 0
@@ -95,6 +103,7 @@ public class UserDaoImpl implements UserDao {
 		Connection connection = DbUtil.getCon();
 		String sql = "insert into user(full_name, user_name, user_password, user_role, user_security_question, user_security_answer, is_prime_user)"
 				+ "values( ? , ? , ? , ?, ? , ? , ?)";
+		log.debug(" data inserted in user table ");
 		PreparedStatement ps = connection.prepareStatement(sql);
 		registerUser.setUserId((int) Math.random());
 
@@ -111,11 +120,11 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-//-------------------------------FIND ALL COURSES----------------------------------------------
+//-------------------------------find all courses----------------------------------------------
 	public List<Course> findCourses(int categoryId) throws Exception {
 		Connection con = DbUtil.getCon();
-
 		String sql = "select course_id,course_name,course_price,course_duration,course_author,course_description,image_url,total_sub_course from course where category_id = ?";
+		log.debug(" data retrieved from course table ");
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, categoryId);
 		ResultSet rs = ps.executeQuery();
@@ -137,12 +146,13 @@ public class UserDaoImpl implements UserDao {
 		return courses;
 	}
 
-//---------------------------Find User ID by UserName----------------------------------
+//---------------------------find user_id from user_name----------------------------------
 	public int findUserId(String userName) {
 		int user_id = 0;
 		try {
 			Connection con = DbUtil.getCon();
 			String sql2 = "select user_id from user where user_name = ?";
+			log.debug(" data retrieved from user table ");
 			PreparedStatement ps;
 			ps = con.prepareStatement(sql2);
 			ps.setString(1, userName);
@@ -157,11 +167,12 @@ public class UserDaoImpl implements UserDao {
 		return user_id;
 	}
 
-//---------------------------ENROLLED COURSES--------------------------------------------
+//---------------------------enrolled courses--------------------------------------------
 	public List<Course> findEnrolledCourses(String userName) throws SQLException {
 		Connection con = DbUtil.getCon();
 		int userId = findUserId(userName);
 		String sql = "select * from course left join enrolled_course on course.course_id = enrolled_course.course_id where user_id = ?";
+		log.debug(" data retrieved from enrolled_course table ");
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, userId);
 		ResultSet rs = ps.executeQuery();
@@ -187,6 +198,7 @@ public class UserDaoImpl implements UserDao {
 	public PrimeUser displayProfile(String userName) throws SQLException {
 		Connection con = DbUtil.getCon();
 		String sql = "select * from user where user_name = ?";
+		log.debug(" data retrieved from user table ");
 		PreparedStatement ps;
 		ps = con.prepareStatement(sql);
 		ps.setString(1, userName);
@@ -211,13 +223,13 @@ public class UserDaoImpl implements UserDao {
 		return user;
 	}
 
-	// ----------------------------------Update
-	// profile------------------------------------
+	// ----------------------------------Update profile------------------------------------
 
 	public int updateProfile(PrimeUser user) throws SQLException {
 		Connection con = DbUtil.getCon();
 		System.out.println(user.getUserName());
 		String sql2 = "update user set full_name=?,user_password=? , is_prime_user=? where user_name = ?";
+		log.debug(" data updated in user table ");
 		PreparedStatement ps;
 		ps = con.prepareStatement(sql2);
 		ps.setString(1, user.getFullName());
@@ -228,12 +240,13 @@ public class UserDaoImpl implements UserDao {
 		return ps.executeUpdate();
 
 	}
-
+//----------------------------isPrime functionality-----------------------------------------	
 	public boolean isPrime(String userName) {
 		boolean user_prime = false;
 		try {
 			Connection con = DbUtil.getCon();
 			String sql2 = "select is_prime_user from user where user_name = ?";
+			log.debug(" data retrieved from user table ");
 			PreparedStatement ps;
 			ps = con.prepareStatement(sql2);
 			ps.setString(1, userName);
@@ -248,11 +261,12 @@ public class UserDaoImpl implements UserDao {
 		return user_prime;
 
 	}
-
+//----------------------------find subCourse-----------------------------------------	
 	public List<SubCourse> findSubCourse(int courseid) throws SQLException {
 		Connection con = DbUtil.getCon();
 
 		String sql = "select sub_course_id, sub_course_name, sub_course_duration, sub_course_description, video_url, video_sequence, course_id from sub_course where course_id = ?";
+		log.debug(" data retrieved from sub_course table ");
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, courseid);
 		ResultSet rs = ps.executeQuery();
@@ -274,21 +288,22 @@ public class UserDaoImpl implements UserDao {
 		}
 		return subCourses;
 	}
-
+//----------------------------get current video-----------------------------------------	
 	public int getCurrentVideo(int courseid) throws SQLException {
 		Connection con = DbUtil.getCon();
 
 		String sql = "select current_video from enrolled_course where course_id = ?";
+		log.debug(" data retrieved from enrolled_course table ");
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, courseid);
 		ResultSet rs = ps.executeQuery();
 		rs.next();
 		return rs.getInt(1);
 	}
-
+//---------------------------update current video-----------------------------------------	
 	public int updateCurrentVideo(CurrentVideo currentVideo) throws SQLException {
 		String sql = "update enrolled_course set current_video = ? where user_id = ? and course_id = ? ";
-
+		log.debug(" data updated in enrolled_course table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 
@@ -299,11 +314,12 @@ public class UserDaoImpl implements UserDao {
 		return ps.executeUpdate();
 
 	}
-
+//----------------------------find enrolled course by category-----------------------------------------	
 	public List<Course> findEnrolledCoursesByCategory(String userName, int cat_id) throws SQLException {
 		Connection con = DbUtil.getCon();
 		int userId = findUserId(userName);
 		String sql = "select * from course left join enrolled_course on course.course_id = enrolled_course.course_id where user_id = ? and category_id = ?";
+		log.debug(" data retrieved from course and enrolled_course table ");
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, userId);
 		ps.setInt(2, cat_id);
@@ -330,6 +346,7 @@ public class UserDaoImpl implements UserDao {
 	public int enroll(EnrolledCourse ec) throws SQLException {
 		Connection con = DbUtil.getCon();
 		String sql = "insert into enrolled_course values(? , ? , ? , ? , ? , ? , ? , ? )";
+		log.debug(" data inserted in enrolled_course table ");
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, ec.getEnrollmentId());
 		ps.setString(2, ec.getPurchaseDate());
@@ -342,10 +359,10 @@ public class UserDaoImpl implements UserDao {
 
 		return ps.executeUpdate();
 	}
-
+//----------------------------updated course complete status-----------------------------------------	
 	public int updateCourseCompleteStatus(int courseid, String username) throws SQLException {
 		String sql = "update enrolled_course set course_complete = 1 where user_id = ? and course_id = ? ";
-
+		log.debug(" data updated in enrolled_course table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 
@@ -353,10 +370,10 @@ public class UserDaoImpl implements UserDao {
 		ps.setInt(2, courseid);
 		return ps.executeUpdate();
 	}
-
+	//----------------------------generate certificate----------------------------------------	
 	public List<String> gererateCertificate(int courseid, String username) throws SQLException {
 		String sqlFullName = "select full_name from user where user_id = ?";
-
+		log.debug(" data retrieved from user table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sqlFullName);
 		ps.setInt(1, findUserId(username));
@@ -365,7 +382,7 @@ public class UserDaoImpl implements UserDao {
 		String fullName = rs.getString(1);
 
 		String sqlCourseDetails = "select course_name, category_name from course INNER JOIN category On category.category_id = course.category_id INNER JOIN enrolled_course ON course.course_id = enrolled_course.course_id where enrolled_course.course_complete =1 and enrolled_course.user_id = ? and enrolled_course.course_id = ?";
-
+		log.debug(" data retrieved from course and category table ");
 		ps = con.prepareStatement(sqlCourseDetails);
 		ps.setInt(1, findUserId(username));
 		ps.setInt(2, courseid);
@@ -377,12 +394,13 @@ public class UserDaoImpl implements UserDao {
 		ps.close();
 		return Arrays.asList(fullName, categoryName, courseName);
 	}
-
+//----------------------------find complete course-----------------------------------------	
 	@Override
 	public List<Course> findCompletedCourse(String userName) throws SQLException {
 		Connection con = DbUtil.getCon();
 		int userId = findUserId(userName);
 		String sql = "select * from course left join enrolled_course on course.course_id = enrolled_course.course_id where user_id = ? and enrolled_course.course_complete = true";
+		log.debug(" data retrieved from course and enrolled table ");
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, userId);
 		ResultSet rs = ps.executeQuery();
