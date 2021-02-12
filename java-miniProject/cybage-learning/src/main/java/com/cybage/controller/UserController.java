@@ -290,6 +290,7 @@ public class UserController extends HttpServlet {
 			String search_string = request.getParameter("search");
 			List<Category> categoryList = new ArrayList<Category>();
 			List<Course> courseList = new ArrayList<Course>();
+			
 			try {
 				categoryList = userService.searchByCategory(search_string);
 				courseList = userService.searchByCourse(search_string);
@@ -300,7 +301,7 @@ public class UserController extends HttpServlet {
 			}
 			request.setAttribute("categoryList", categoryList);
 			request.setAttribute("courseList", courseList);
-
+			
 			request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 		}
 
