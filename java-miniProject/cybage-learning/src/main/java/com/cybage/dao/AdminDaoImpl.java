@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.cybage.controller.UserController;
 import com.cybage.model.Category;
 import com.cybage.model.Course;
 import com.cybage.model.SubCourse;
@@ -14,17 +18,22 @@ import com.cybage.util.DbUtil;
 
 
 public class AdminDaoImpl implements AdminDao{
+	
+	public static final Logger log =  LogManager.getLogger(AdminDaoImpl.class);
+//-----------------------------------------------add category------------------------------------------------------------------
 	public int addCategory(Category category) throws SQLException {
 		String sql = "insert into category(category_name, image_url) values(?, ?)";
+		log.debug(" data inserted in category table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1,category.getCategoryName());
 		ps.setString(2,category.getImageUrl());
 		return ps.executeUpdate();
 	}
-
+//-----------------------------------------------get category by id------------------------------------------------------------------
 	public Category getCategoryById(int catId) throws SQLException {
 		String sql = "select * from category where category_id = ?";
+		log.debug(" data retrieved from category table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, catId);
@@ -36,10 +45,11 @@ public class AdminDaoImpl implements AdminDao{
 		category.setImageUrl(rs.getString(3));
 		return category;
 	}
-	
+//-----------------------------------------------list category------------------------------------------------------------------	
 	public List<Category> listCategory() throws SQLException{
 		
 		String sql = "select category_id, category_name, image_url from category";
+		log.debug(" data retrieved from category table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -55,17 +65,19 @@ public class AdminDaoImpl implements AdminDao{
 		}
 		return categories;
 	}
-	
+//-----------------------------------------------delete category------------------------------------------------------------------	
 	public int deleteCategory(int catId) throws SQLException {
 		String sql = "delete from category where category_id = ?";
+		log.debug(" data deleted from category table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, catId);
 		return ps.executeUpdate();
 	}
-	
+//-----------------------------------------------update category------------------------------------------------------------------	
 	public int updateCategory(Category category) throws SQLException{
 		String sql = "update category set category_name = ? , image_url = ? where category_id = ?";
+		log.debug(" data updated in category table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, category.getCategoryName());
@@ -73,9 +85,10 @@ public class AdminDaoImpl implements AdminDao{
 		ps.setInt(3, category.getCategoryId());
 		return ps.executeUpdate();
 	}
-	
+//-----------------------------------------------list course------------------------------------------------------------------	
 	public List<Course> listCourse(int categoryId) throws SQLException{
 		String sql = "select course_id, course_name, course_price, course_duration, course_author, course_description, image_url from course where category_id = ?";
+		log.debug(" data retrieved from course table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, categoryId);
@@ -96,9 +109,10 @@ public class AdminDaoImpl implements AdminDao{
 		}
 		return courses;
 	}
-	
+//-----------------------------------------------add course------------------------------------------------------------------	
 	public int addCourse(Course course) throws SQLException{
 		String sql = "insert into course(course_name, course_price, course_duration, course_author, course_description, total_sub_course, image_url, category_id) values(?, ?, ?, ?, ?, ?, ?, ?)";
+		log.debug(" data inserted in course table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1,course.getCourseName());
@@ -111,9 +125,10 @@ public class AdminDaoImpl implements AdminDao{
 		ps.setInt(8,course.getCategoryId());
 		return ps.executeUpdate();
 	}
-	
+//-----------------------------------------------update course------------------------------------------------------------------	
 	public int updateCourse(Course course) throws SQLException{
 		String sql = "update course set course_name = ? , course_price = ?, course_duration = ?, course_author = ?, course_description = ?, total_sub_course = ?, image_url = ? where course_id = ?";
+		log.debug(" data updated in course table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1,course.getCourseName());
@@ -126,19 +141,21 @@ public class AdminDaoImpl implements AdminDao{
 		ps.setInt(8, course.getCourseId());
 		return ps.executeUpdate();
 	}
-	
+//-----------------------------------------------delete course------------------------------------------------------------------	
 	public int deleteCourse(int courseId) throws SQLException{
 		String sql = "delete from course where course_id = ?";
+		log.debug(" data deleted from course table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, courseId);
 		return ps.executeUpdate();
 	}
 
-//List Subcourses
+//-----------------------------------------------list subCourse------------------------------------------------------------------
 	
 	public List<SubCourse> listSubCourse(int courseId) throws SQLException{
 		String sql = "select sub_course_id, sub_course_name, sub_course_duration, sub_course_description, video_url, video_sequence, course_id from sub_course where course_id =?";
+		log.debug(" data retrieved from subCourse table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, courseId);
@@ -159,9 +176,10 @@ public class AdminDaoImpl implements AdminDao{
 		}
 		return subcourses;
 	}
-	
+//-----------------------------------------------add subCourse------------------------------------------------------------------	
 	public int addSubCourse(SubCourse subcourse) throws SQLException{
 		String sql = "insert into sub_course(sub_course_name, sub_course_duration, sub_course_description, video_url, video_sequence, course_id) values(?, ?, ?, ?, ?, ?)";
+		log.debug(" data inserted in subCourse table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1,subcourse.getSubCourseName());
@@ -173,16 +191,19 @@ public class AdminDaoImpl implements AdminDao{
 	
 		return ps.executeUpdate();
 	}
-	
+//-----------------------------------------------delete subCourse------------------------------------------------------------------	
 	public int deleteSubCourse(int subcourseId) throws SQLException{
 		String sql = "delete from sub_course where sub_course_id = ?";
+		log.debug(" data deleted from subCourse table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, subcourseId);
 		return ps.executeUpdate();
 	}
+//-----------------------------------------------update subCourse------------------------------------------------------------------
 	public int updateSubCourse(SubCourse subcourse) throws SQLException{
 		String sql = "update sub_course set sub_course_name = ? , sub_course_duration = ?, sub_course_description = ?, video_url = ?, video_sequence = ? where sub_course_id = ?";
+		log.debug(" data updated in subCourse table ");
 		Connection con = DbUtil.getCon();
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1,subcourse.getSubCourseName());

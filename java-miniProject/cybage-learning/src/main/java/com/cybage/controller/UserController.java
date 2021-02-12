@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.cybage.dao.UserDao;
 import com.cybage.dao.UserDaoImpl;
 import com.cybage.exception.UserException;
@@ -36,18 +39,20 @@ public class UserController extends HttpServlet {
 	private UserService userService = new UserServiceImpl(userDao);
 
 	private static final long serialVersionUID = 1L;
-
+	
+	public static final Logger log =  LogManager.getLogger(UserController.class);
+	
 	public UserController() {
 		super();
 	}
-
+	//---------------------------------------------GET METHOD-------------------------------------------------------------------
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		String path = request.getPathInfo();
-		System.out.println(path);
+		
 
-//----------------------------HOME USER LIST--------------------------------------
+//------------------------------------------------------------HOME USER LIST-------------------------------------------------------------------
 		if (path.equals("/list")) {
 			try {
 
@@ -64,15 +69,15 @@ public class UserController extends HttpServlet {
 				request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 
 			} catch (Exception e) {
-				System.out.println("error occurred: " + e.getMessage());
+				log.error("exception occurred... " + e.getLocalizedMessage());
 			}
 		}
-
+//------------------------------------------------SEARCH OPERATION---------------------------------------------------------------------
 		if (path.equals("/search")) {
 			String userName = request.getRemoteUser();
 			String search_string = request.getParameter("search");
 			boolean isPrime = userService.isPrime(userName);
-			System.out.println(search_string);
+			log.info(userName+" has searched for "+ search_string);
 			if (search_string == null) {
 				request.setAttribute("isPrime", isPrime);
 				request.getRequestDispatcher("/list").forward(request, response);
@@ -82,10 +87,10 @@ public class UserController extends HttpServlet {
 				try {
 					categoryList = userService.searchByCategory(search_string);
 					courseList = userService.searchByCourse(search_string);
-					System.out.println(categoryList);
-					System.out.println(courseList);
+					log.debug("search result category"+categoryList);
+					log.debug("search result course"+courseList);
 				} catch (SQLException e) {
-					e.printStackTrace();
+					log.error("error occurred: " + e.getMessage());
 				}
 				request.setAttribute("categoryList", categoryList);
 				request.setAttribute("courseList", courseList);
@@ -95,13 +100,12 @@ public class UserController extends HttpServlet {
 			}
 		}
 
-//-------------------------------------Course--------------------------------------------
+//-----------------------------------------------------------------COURSE--------------------------------------------------------
 
 		if (path.equals("/course")) {
-			System.out.println("inside course method....");
 			int cat_id = (Integer.parseInt(request.getParameter("id")));
 			String userName = request.getRemoteUser();
-			System.out.println(cat_id);
+			log.debug("Selected category : "+cat_id);
 			try {
 				List<Course> courses = userService.findCourses(cat_id);
 				List<Course> enrolledList = userService.findEnrolledCoursesByCategory(userName,cat_id);
@@ -116,29 +120,27 @@ public class UserController extends HttpServlet {
 				request.getRequestDispatcher("/user/user-courses.jsp").forward(request, response);
 
 			} catch (Exception e) {
-				System.out.println("error occurred: " + e.getMessage());
+				log.error("error occurred: " + e.getMessage());
 			}
 		}
 
 		// -----------------------START COURSE------------------------------------------
 
 		if (path.equals("/start-course")) {
-			System.out.println("inside start course");
-			System.out.println(path.indexOf("/start-course"));
-			// int currentVideo = Integer.parseInt(path.substring(14,1));
-			int currentVideo = Integer.parseInt(request.getParameter("vid"));
 
-			// int currentVideo =1;
-			System.out.println(currentVideo);
+			int currentVideo = Integer.parseInt(request.getParameter("vid"));
+			log.info("Starting Course");
+			log.debug("Current Video : "+currentVideo);
 			int courseid = Integer.parseInt(request.getParameter("id"));
+			log.info("Starting Course : "+courseid);
 			String username = request.getRemoteUser();
 			List<SubCourse> subcourses = null;
 			try {
 				subcourses = userService.findSubCourse(courseid);
 
 				int current_videoInDb = userService.getCurrentVideo(courseid);
-				System.out.println("currentVideo:" + currentVideo);
-				System.out.println("From database" + current_videoInDb);
+				log.debug("currentVideo:" + currentVideo);
+				log.debug("From database" + current_videoInDb);
 
 				if (currentVideo == 0) {
 					if (current_videoInDb > 0) {
@@ -148,22 +150,17 @@ public class UserController extends HttpServlet {
 					}
 				}
 				current_videoInDb = currentVideo;
-				// now update current_video count in db
 				int status = userService.updateCurrentVideo(new CurrentVideo(username, courseid, current_videoInDb));
-				System.out.println("status:" + status);
+				log.debug("status:" + status);
 				request.getSession().setAttribute("video_count", subcourses.size());
 				request.getSession().setAttribute("current_video", currentVideo);
-				// System.out.println("size of subcourses" + subcourses.size());
 				if (subcourses.size() == 0) {
 					try {
 						throw new UserException("No SubCourse found in database...");
 					} catch (UserException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						log.error("error occurred: " + e.getMessage());
 					}
 				}
-				// System.out.println(subcourses.get(currentVideo-1));
-
 				request.getSession().setAttribute("subcourse_id", subcourses.get(currentVideo - 1).getSubCourseId());
 				request.getSession().setAttribute("subcourse_title",
 						subcourses.get(currentVideo - 1).getSubCourseName());
@@ -171,42 +168,38 @@ public class UserController extends HttpServlet {
 						subcourses.get(currentVideo - 1).getSubCourseDescription());
 				request.getSession().setAttribute("subcourse_url", subcourses.get(currentVideo - 1).getVideoUrl());
 				request.getSession().setAttribute("course_id", courseid);
-				System.out.println("course id passes: " + courseid);
+				log.debug("course id passes: " + courseid);
 				response.sendRedirect(request.getContextPath() + "/user/start-course.jsp");
 
 			} catch (SQLException e) {
-				// log.error("could not get Subcourse: " + e.getMessage());
-				System.out.println("Error in Subcourse");
+				log.error("error occurred: " + e.getMessage());
 			}
 
 		}
-		// ------------------------------user
-		// profile----------------------------------------
+		// -------------------------------------------------USER PROFILE----------------------------------------------------
 		if (path.equals("/profileDisplay")) {
 			try {
 				String userName = request.getRemoteUser();
-				System.out.println("in profile display");
-
 				PrimeUser user = userService.displayProfile(userName);
 				if (user == null) {
 					throw new UserException("could not find user");
 				}
 				request.setAttribute("user", user);
-				System.out.println(user.isIs_prime_user());
+				log.debug("prime user"+user.isIs_prime_user());
 				request.setAttribute("isPrime", user.isIs_prime_user());
-				System.out.println(user);
 				request.getRequestDispatcher("/user/user-profile.jsp").forward(request, response);
 			}
 
 			catch (Exception e) {
-				System.out.println("error occurred: " + e.getMessage());
+				log.error("error occurred: " + e.getMessage());
 			}
 		}
-
+		
+//------------------------------------------------ENROLLING COURSE----------------------------------------------------------
 		if (path.equals("/enroll-course")) {
 			int courseId = Integer.parseInt(request.getParameter("id"));
 			String userName = request.getRemoteUser();
-
+			log.info("enrolling course");
 			int userId = userService.findUserId(userName);
 			Date dt = new java.util.Date();
 
@@ -218,22 +211,20 @@ public class UserController extends HttpServlet {
 			EnrolledCourse enrolledCourse = new EnrolledCourse(courseId, userId, coursePrice, purchaseDate);
 			try {
 				int success = userService.enroll(enrolledCourse);
-
+				log.debug("Success" + success);
 				response.sendRedirect(
 						request.getContextPath() + "/UserController/start-course?id=" + courseId + "&vid=0");
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("error occurred: " + e.getMessage());
 			}
 		}
 
+//--------------------------------------------------GET CERTIFICATE---------------------------------------------------------
 		if (path.equals("/get-certificate")) {
-			System.out.println("Into get certifcate method");
 			int courseid = Integer.parseInt(request.getParameter("id"));
-			System.out.println("course id:" + courseid);
+			log.debug("course id:" + courseid);
 
 			String username = request.getRemoteUser();
-			System.out.println("username :" + username);
 
 			List<String> certificateData = null;
 
@@ -241,14 +232,13 @@ public class UserController extends HttpServlet {
 			int status = 0;
 			try {
 				status = userService.updateCourseCompleteStatus(courseid, username);
-
+				
 				// 2. fetch user full_name, category_name and course_name,
 				certificateData = userService.gererateCertificate(username, courseid);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				log.error("error occurred: " + e.getMessage());
 			}
 
-			System.out.println("Status:" + status);
 
 			for (String data : certificateData) {
 				System.out.println(data);
@@ -257,9 +247,9 @@ public class UserController extends HttpServlet {
 			request.setAttribute("category_name", certificateData.get(1));
 			request.setAttribute("course_name", certificateData.get(2));
 
-			System.out.println("in usercontroller:" + certificateData.get(0));
-			System.out.println("in usercontroller:" + certificateData.get(1));
-			System.out.println("in usercontroller:" + certificateData.get(2));
+			log.debug(" fullnamein usercontroller:" + certificateData.get(0));
+			log.debug(" category name in usercontroller:" + certificateData.get(1));
+			log.debug(" course name in usercontroller:" + certificateData.get(2));
 
 			if (status > 0) {
 				request.getRequestDispatcher("/user/certificate.jsp").forward(request, response);
@@ -269,7 +259,10 @@ public class UserController extends HttpServlet {
 
 		}
 	}
-
+	
+	
+	
+//---------------------------------------------POST METHOD-------------------------------------------------------------------
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -294,10 +287,10 @@ public class UserController extends HttpServlet {
 			try {
 				categoryList = userService.searchByCategory(search_string);
 				courseList = userService.searchByCourse(search_string);
-				System.out.println(categoryList);
-				System.out.println(courseList);
+				log.debug("Category : " +categoryList);
+				log.debug("Course : "+courseList);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				log.error("error occurred: " + e.getMessage());
 			}
 			request.setAttribute("categoryList", categoryList);
 			request.setAttribute("courseList", courseList);
@@ -314,16 +307,16 @@ public class UserController extends HttpServlet {
 				user.setPassword(request.getParameter("oldPassword").toString());
 
 				if ((request.getParameter("newPassword").toString()).equals("")) {
-					System.out.println(user.getPassword());
+					log.debug("Password : "+user.getPassword());
 
 				} else {
-					System.out.println("new password updated");
+					log.info("new password updated");
 					user.setPassword(request.getParameter("newPassword"));
 				}
-				System.out.println(user.getFullName());
-				System.out.println(user.getUserName());
-				System.out.println(user.getPassword());
-				System.out.println(request.getParameter("primeUser"));
+				log.debug(" get fullName "+user.getFullName());
+				log.debug("get user name " + user.getUserName());
+				log.debug("get password " +user.getPassword());
+				
 				if (request.getParameter("primeUser").equals("true")) {
 					user.setIs_prime_user(true);
 				} else {
@@ -333,7 +326,7 @@ public class UserController extends HttpServlet {
 				userService.updateProfile(user);
 				request.getRequestDispatcher("/UserController/list").forward(request, response);
 			} catch (Exception e) {
-				System.out.println("error occurred: " + e.getMessage());
+				log.error("error occurred: " + e.getMessage());
 			}
 		}
 	}
