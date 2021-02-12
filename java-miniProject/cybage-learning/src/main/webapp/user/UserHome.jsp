@@ -20,6 +20,7 @@
 	background-color: 60c7c1;
 }
 </style>
+
 	<%
 				if ((request.getAttribute("completedList")) != null) {
 					out.print("<hr>");
@@ -41,7 +42,7 @@
 						out.print("</div>");
 						out.print("</div>");
 						out.print("</div>");
-						out.print("</div>");
+					
 						
 					}
 					out.print("</div>");
@@ -50,12 +51,12 @@
 			%>
 	<hr>
 	<h1>Enrolled Courses</h1>
+	<hr>
 	<div class="contrainer-fluid">
 		<div class="row text-center">
 
 			<%
 				if ((request.getAttribute("enrolledList")) != null) {
-					out.print("<hr>");
 					List<Course> course = (List) request.getAttribute("enrolledList");
 					for (Course c : course) {
 						out.print("<div class='col-md-3  col-sm-3'>");
@@ -65,7 +66,7 @@
 						out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>");
 						out.print("<p class='card-text'>" + c.getCourseDescription() + "</p>");
 						out.print("<div class='text-center'>");
-						out.print("<a href="+request.getContextPath()+"/UserController/start-course?id=" + c.getCourseId()
+						out.print("<a href='"+request.getContextPath()+"/UserController/start-course?id=" + c.getCourseId()
 								+ "&amp;vid=0' class='btn btn-warning '>Continue to Course</a>");
 						out.print("</div>");
 						out.print("</div>");
@@ -79,7 +80,7 @@
 			%>
 	<hr>
 	<h1>Categories</h1>
-
+	<hr>
 	<div class="contrainer-fluid">
 		<div class="row text-center">
 

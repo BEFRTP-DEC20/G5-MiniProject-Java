@@ -42,11 +42,11 @@
 		<!-- Wrapper for carousel items -->
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img src="images/banner.png" alt="First Slide">
+				<img src="<%=request.getContextPath()%>/images/banner.png" alt="First Slide">
 				<div class="carousel-caption d-none d-md-block"></div>
 			</div>
 			<div class="carousel-item">
-				<img src="images/banners.png" alt="Second Slide">
+				<img src="<%=request.getContextPath()%>/images/banners.png" alt="Second Slide">
 				<div class="carousel-caption d-none d-md-block"></div>
 			</div>
 
@@ -92,7 +92,7 @@
 					out.print("<div class='card-body'>");
 					out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>'");
 
-					out.print("<a href='"+request.getContextPath()+"/UserController/courses?id=" + c.getCourseId()
+					out.print("<a href='"+request.getContextPath()+"/UserController/course?id=" + c.getCourseId()
 							+ "' class='btn btn-primary'>Start Courses</a>");
 					out.print("</div>");
 					out.print("</div>");
@@ -101,20 +101,7 @@
 			}
 		%>
 	</div>
-	<%
-		out.print("<a class='btn btn-warning' href='" + request.getContextPath()
-				+ "/AppController'>USER HOME PAGE</a>");
-	%>
-
-	<%
-		if ((request.getAttribute("categoryList")) == null) {
-			out.print("<a class='btn btn-warning' href='" + request.getContextPath()
-					+ "/VisitorController/list'>Load Categories</a>");
-		}
 	
-	
-		
-%>
 </div>
 <%
 	out.print(

@@ -19,6 +19,7 @@
 	integrity="sha512-EaaldggZt4DPKMYBa143vxXQqLq5LE29DG/0OoVenoyxDrAScYrcYcHIuxYO9YNTIQMgD8c8gIUU8FQw7WpXSQ=="
 	crossorigin="anonymous" />
 <!----------------------  custom css here ---------------------------->
+<link href="${request.getContextPath}/cybage-learning/user/scss/footer.css" rel="stylesheet" ></link>
 <link rel="stylesheet" href="scss/start-course.css">
 <link rel="stylesheet" href="scss/footer.css">
 <link rel="stylesheet" href="user/scss/footer.css" />

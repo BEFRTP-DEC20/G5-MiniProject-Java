@@ -63,10 +63,9 @@
 							name="security1" required>
 							<option value="0">Select security Question</option>
 							<option value="first School">What was the name of your
-								first School?</option>
+first School?</option>
 							<option value="Fav Color">What is your favorite color?</option>
-							<option value="Mother's Maiden Name">What is your
-								mother's maiden name?</option>
+							<option value="Mother's Maiden Name">What is your mother's maiden name?</option>
 						</select>
 					</div>
 				</div>

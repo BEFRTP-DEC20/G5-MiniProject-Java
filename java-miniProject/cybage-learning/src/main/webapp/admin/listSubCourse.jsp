@@ -13,6 +13,7 @@
 	margin-bottom: 5%;
 	margin-left: 5%;
 	margin-right: 5%;
+	box-shadow: 0 6px 10px 0 rgba(0 , 0 , 0 , 0.8);
 }
 
 .btn {
@@ -39,14 +40,13 @@
 .jumbotron {
 	background-color: 60c7c1;
 }
-
 #headerTag {
 	color: #3c3b37;
-	display: table-cell;
-	text-align: center;
-	width: 100rem;
-	height: 20px;
-	padding-top: 0.5%;
+    display: table-cell;
+    text-align: center;    
+    width: 100rem;
+    height: 20px;
+    padding-top: 0.5%;
 }
 
 video {
@@ -238,4 +238,5 @@ video {
 		</div>
 	</div>
 </div>
+
 <jsp:include page="footer.jsp"></jsp:include>
