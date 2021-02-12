@@ -32,8 +32,8 @@
 						out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>");
 						out.print("<p class='card-text'>" + c.getCourseDescription() + "</p>");
 						out.print("<div class='text-center'>");
-						out.print("<a href='UserController/start-course?id=" + c.getCourseId()
-								+ "&amp;vid=0' class='btn btn-warning '>Generate Certificate(LINK)</a>");
+						out.print("<a href='"+request.getContextPath()+"/UserController/get-certificate?id=" + c.getCourseId()
+								+ "' class='btn btn-warning '>Generate Certificate(LINK)</a>");
 						out.print("</div>");
 						out.print("</div>");
 						out.print("</div>");
@@ -61,7 +61,7 @@
 						out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>");
 						out.print("<p class='card-text'>" + c.getCourseDescription() + "</p>");
 						out.print("<div class='text-center'>");
-						out.print("<a href='/UserController/start-course?id=" + c.getCourseId()
+						out.print("<a href='"+request.getContextPath()+"/UserController/start-course?id=" + c.getCourseId()
 								+ "&amp;vid=0' class='btn btn-warning'>Continue to Course</a>");
 						out.print("</div>");
 						out.print("</div>");
@@ -87,10 +87,18 @@
 			out.print("<div class='card-body'>");
 			out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>");
 			out.print("<p class='card-text'>ABOUT COURSE:<br>" + c.getCourseDescription() + "</p>");
-			out.print("<p class='card-text'>COURSE PRICE: " + c.getCoursePrice() + "&#8377</p>");
+			if(prime=="true")
+			{
+				c.setCoursePrice(c.getCoursePrice()-(c.getCoursePrice()/10));
+				out.print("<p class='card-text'>COURSE PRICE: " + c.getCoursePrice() + "&#8377 10% OFF</p>");
+			}
+			else
+			{
+				out.print("<p class='card-text'>COURSE PRICE: " + c.getCoursePrice() + "&#8377</p>");
+			}
 				out.print("<div class='text-center'>");
-				out.print("<a href='UserController/start-course?id=" + c.getCourseId()
-						+ "&amp;vid=0' class='btn btn-warning'>Start Courses</a>");
+				out.print("<a href='"+request.getContextPath()+"/UserController/enroll-course?id=" + c.getCourseId()
+						+ "&amp;price="+c.getCoursePrice()+"' class='btn btn-warning'>Start Courses</a>");
 				out.print("</div>");
 				out.print("</div>");
 				out.print("</div>");

@@ -36,8 +36,8 @@
 						out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>");
 						out.print("<p class='card-text'>" + c.getCourseDescription() + "</p>");
 						out.print("<div class='text-center'>");
-						out.print("<a href='UserController/start-course?id=" + c.getCourseId()
-								+ "&amp;vid=0' class='btn btn-warning '>Generate Certificate(LINK)</a>");
+						out.print("<a href='"+request.getContextPath()+"/UserController/get-certificate?id=" + c.getCourseId()
+								+"' class='btn btn-warning '>Generate Certificate(LINK)</a>");
 						out.print("</div>");
 						out.print("</div>");
 						out.print("</div>");
@@ -56,10 +56,6 @@
 			<%
 				if ((request.getAttribute("enrolledList")) != null) {
 					out.print("<hr>");
-					out.print("<h1>Enrolled Courses</h1>");
-					out.print("<hr>");
-				    out.print("<div class='contrainer-fluid'>");
-				    out.print("<div class='row text-center'>");
 					List<Course> course = (List) request.getAttribute("enrolledList");
 					for (Course c : course) {
 						out.print("<div class='col-md-3  col-sm-3'>");
@@ -69,7 +65,7 @@
 						out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>");
 						out.print("<p class='card-text'>" + c.getCourseDescription() + "</p>");
 						out.print("<div class='text-center'>");
-						out.print("<a href='UserController/start-course?id=" + c.getCourseId()
+						out.print("<a href="+request.getContextPath()+"/UserController/start-course?id=" + c.getCourseId()
 								+ "&amp;vid=0' class='btn btn-warning '>Continue to Course</a>");
 						out.print("</div>");
 						out.print("</div>");
@@ -97,7 +93,7 @@
 						out.print("<div class='card-body'>");
 						out.print("<h3 class='card-title'>'" + c.getCategoryName() + "'</h3>");
 						out.print("<div class='text-center'>");
-						out.print("<a href='UserController/course?id=" + c.getCategoryId()
+						out.print("<a href='"+request.getContextPath()+"/UserController/course?id=" + c.getCategoryId()
 								+ "' class='btn btn-warning '>View Courses</a>");
 						out.print("</div>");
 						out.print("</div>");
@@ -111,6 +107,7 @@
 				if ((request.getAttribute("courseList")) != null) {
 					out.print("<h1>COURSES</h1>");
 					List<Course> course = (List) request.getAttribute("courseList");
+					String prime = request.getAttribute("isPrime").toString();
 					for (Course c : course) {
 						out.print("<div class='col-md-3  col-sm-3'>");
 						out.print("<div class='card' >");
@@ -118,8 +115,17 @@
 						out.print("<div class='card-body'>");
 						out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>'");
 						out.print("<div class='text-center'>");
-						out.print("<a href='user-courses.jsp?id=" + c.getCourseId()
-								+ "&amp;vid=0' class='btn btn-primary'>Start Courses (ADD THE VIDEO PAGE LINK)</a>");
+						if(prime=="true")
+						{
+							c.setCoursePrice(c.getCoursePrice()-(c.getCoursePrice()/10));
+							out.print("<p class='card-text'>COURSE PRICE: " + c.getCoursePrice() + "&#8377 10% OFF</p>");
+						}
+						else
+						{
+							out.print("<p class='card-text'>COURSE PRICE: " + c.getCoursePrice() + "&#8377</p>");
+						}
+						out.print("<a href='"+request.getContextPath()+"/UserController/course?id=" + c.getCourseId()
+								+ "&amp;vid=0' class='btn btn-warning'>Start Courses (ADD THE VIDEO PAGE LINK)</a>");
 						out.print("</div>");
 						out.print("</div>");
 						out.print("</div>");

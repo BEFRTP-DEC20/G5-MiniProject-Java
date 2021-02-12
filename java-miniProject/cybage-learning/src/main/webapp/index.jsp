@@ -76,8 +76,8 @@
 					out.print("<div class='card-body'>");
 					out.print("<h3 class='card-title'>'" + c.getCategoryName() + "'</h3>'");
 
-					out.print("<a href='courses.jsp?id=" + c.getCategoryId()
-							+ "' class='btn btn-primary'>View Courses</a>");
+					out.print("<a href='"+request.getContextPath()+"/VisitorController/course?id=" + c.getCategoryId()
+					+ "' class='btn btn-primary'>View Courses</a>");
 					out.print("</div>");
 					out.print("</div>");
 					out.print("</div>");
@@ -92,7 +92,7 @@
 					out.print("<div class='card-body'>");
 					out.print("<h3 class='card-title'>'" + c.getCourseName() + "'</h3>'");
 
-					out.print("<a href='courses.jsp?id=" + c.getCourseId()
+					out.print("<a href='"+request.getContextPath()+"/UserController/courses?id=" + c.getCourseId()
 							+ "' class='btn btn-primary'>Start Courses</a>");
 					out.print("</div>");
 					out.print("</div>");

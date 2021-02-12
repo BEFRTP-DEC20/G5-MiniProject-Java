@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -92,6 +93,20 @@ public class VisitorController extends HttpServlet {
 				int success = userService.registerUser(user);
 				if(success==1)
 					response.sendRedirect(request.getContextPath()+"/VisitorController/list");
+
+			} catch (Exception e) {
+				System.out.println("error occurred: " + e.getMessage());
+			}
+		}
+		
+		if (path.equals("/course")) {
+			System.out.println("inside course method....");
+			int cat_id = (Integer.parseInt(request.getParameter("id")));
+			System.out.println(cat_id);
+			try {
+				List<Course> courses = userService.findCourses(cat_id);
+				request.setAttribute("courseList", courses);
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
 
 			} catch (Exception e) {
 				System.out.println("error occurred: " + e.getMessage());
