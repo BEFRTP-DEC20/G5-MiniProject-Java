@@ -294,7 +294,7 @@ public class UserController extends HttpServlet {
 			}
 			request.setAttribute("categoryList", categoryList);
 			request.setAttribute("courseList", courseList);
-			
+			request.setAttribute("completedList",null);
 			request.getRequestDispatcher("/user/UserHome.jsp").forward(request, response);
 		}
 
